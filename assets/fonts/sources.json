@@ -1,0 +1,21 @@
+{
+  "distribution": "Fontsource Variable",
+  "version": "5.3.0",
+  "families": [
+    {
+      "name": "Inter",
+      "upstream": "https://github.com/rsms/inter",
+      "package": "@fontsource-variable/inter",
+      "stylesheet": "standard.css",
+      "license": "LICENSE-inter.txt"
+    },
+    {
+      "name": "Noto Sans JP",
+      "upstream": "https://github.com/notofonts/noto-cjk",
+      "package": "@fontsource-variable/noto-sans-jp",
+      "stylesheet": "wght.css",
+      "license": "LICENSE-noto-sans-jp.txt"
+    }
+  ],
+  "notes": "WOFF2 files are unmodified. Font face source paths use same-origin URLs; Unicode ranges and variable axes are retained. Browsers request the subsets needed for displayed characters."
+}
