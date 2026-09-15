@@ -57,8 +57,7 @@ svg path { stroke: currentColor; stroke-width: 1.4; fill: none; stroke-linecap: 
 .hero-copy { position: relative; z-index: 2; text-align: center; margin: 0 auto; max-width: 830px; animation: intro-fade 350ms var(--ease) both; }
 h1, h2, p { margin-top: 0; }
 h1 { font-size: clamp(44px, 5.2vw, 68px); font-weight: var(--weight-heading); line-height: 1.14; letter-spacing: -.035em; text-wrap: balance; line-break: strict; margin: 0 auto 26px; }
-.heading-line { display: inline-block; }
-.hero-description { font-size: 16px; line-height: 1.8; letter-spacing: 0; color: var(--muted); margin: 0 auto 24px; max-width: 42ch; }
+.hero-description { font-size: 16px; line-height: 1.8; letter-spacing: 0; color: var(--muted); margin: 0 auto 24px; max-width: 42ch; white-space: pre-line; }
 .text-link { display: inline-flex; gap: 13px; align-items: center; font-size: 12px; min-height: 44px; }
 .hero-link { padding: 0 0 4px; border-bottom: 1px solid #8a81735c; min-height: 44px; font-size: 12px; letter-spacing: .01em; }
 .text-link svg, .text-link > span:last-child { transition: transform 150ms var(--ease); }
@@ -93,51 +92,32 @@ h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.0
 .app-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 36px 30px; }
 .app-grid > li { min-width: 0; }
 .case-frame {
-  padding: 6px;
-  border: 1px solid #ded8ce;
-  border-radius: var(--case-radius);
-  background: linear-gradient(145deg, #fdfbf6, #ece6dc 78%, #f8f5ee);
-  box-shadow: inset 0 1px 1px #ffffffd9, inset 0 -1px 1px #b8ad9d26, 0 2px 3px -2px #6b604c40, 0 9px 18px -16px #6b604c66;
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border-radius: 8.5%;
+  background-color: var(--surface);
+  /* Reuse the storefront's middle case: a 320 × 320 window at (495, 726)
+     in kiosk-warm.png (1309 × 1201). Update this crop if the art changes.
+     Size = image / window; position = crop origin / (image - window). */
+  background-image: url("./assets/kiosk-warm.png");
+  background-repeat: no-repeat;
+  background-size: 409.0625% 375.3125%;
+  background-position: 50.050556% 82.406356%;
 }
 .glass-pane {
-  position: relative;
+  position: absolute;
+  inset: 9%;
   isolation: isolate;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 1;
-  border: 1px solid #bdb7ad;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #e9e3d8, #f4f0e7 58%, #eee8de);
-  box-shadow: inset 0 8px 11px -9px #5c554880, inset 2px 0 7px -5px #766a5840, inset 0 -1px 2px #fffdf8cc, 0 0 0 1px #fffdf8;
-}
-.glass-pane::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  border-radius: inherit;
-  background: radial-gradient(ellipse 62% 48% at 50% 0%, #fff9e8c2, transparent 84%), linear-gradient(135deg, #ffffff33, transparent 44%, #ffffff14);
-  pointer-events: none;
-}
-.glass-pane::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  bottom: 1px;
-  left: 1px;
-  right: 1px;
-  height: 15px;
-  border-radius: 0 0 7px 7px;
-  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 100%, 0 100%);
-  background: linear-gradient(#c4b9a738, #faf7efa8 85%);
-  pointer-events: none;
+  border-radius: 2px;
 }
 .empty-note { padding: 39px 16px 0; text-align: center; }
 .empty-note p { color: var(--muted); font-size: 13px; letter-spacing: .01em; margin: 0; }
 .app-button { display: block; width: 100%; text-align: center; padding: 0; border: 1px solid #e8e0d699; border-radius: var(--case-radius); background: #fcf9f480; box-shadow: 0 12px 24px -22px #715d4745; }
-.app-button .case-frame { border-color: transparent; box-shadow: inset 0 2px 1px #ffffffc9; }
 .app-button:focus-visible { border-radius: var(--case-radius); }
 .app-icon { position: relative; display: grid; place-items: center; width: 43%; aspect-ratio: 1; border-radius: 23%; background: #eae1d2; font-size: clamp(22px, 4vw, 38px); font-weight: var(--weight-brand); box-shadow: 0 8px 15px -4px #715d4733; transition: transform 150ms var(--ease), box-shadow 150ms var(--ease); overflow: hidden; }
 .app-icon img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
@@ -171,7 +151,6 @@ h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.0
 .primary-link { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; background: var(--ink); color: var(--white); font-size: 15px; padding: 15px 19px; border-radius: 8px; }
 .primary-link:hover { background: #4b4138; }
 [hidden] { display: none !important; }
-html[lang="ja"] h1 { font-size: clamp(32px, 4.3vw, 48px); line-height: 1.4; letter-spacing: -.02em; }
 html[lang="ja"] h2 { font-size: clamp(25px, 2.5vw, 30px); line-height: 1.45; letter-spacing: -.015em; }
 html[lang="ja"] .about-section h2 { font-size: clamp(22px, 2.2vw, 26px); font-weight: var(--weight-body); letter-spacing: 0; }
 html[lang="ja"] .hero-description { letter-spacing: .01em; }
@@ -215,8 +194,6 @@ html[data-reduced-motion="true"] .will-reveal { opacity: 1; transform: none; }
   .site-footer { display: block; padding: 28px 0 18px; }
   .footer-actions { margin-top: 18px; justify-content: space-between; }
   .dialog-description { font-size: 15px; }
-  html[lang="ja"] h1 { font-size: clamp(30px, 8.2vw, 34px); line-height: 1.45; }
-  html[lang="ja"] .heading-line { display: block; }
   html[lang="ja"] .hero-description { max-width: 30em; }
   html[lang="ja"] .about-section { gap: 28px; }
 }
@@ -227,6 +204,6 @@ html[data-reduced-motion="true"] .will-reveal { opacity: 1; transform: none; }
 }
 @media (prefers-contrast: more) {
   :root { --muted: #4c4237; }
-  .glass-pane, .case-frame, .app-button { border-color: #8d7b65; }
+  .app-button { border-color: #8d7b65; }
   .kiosk-wordmark { mix-blend-mode: normal; }
 }
