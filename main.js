@@ -16,8 +16,49 @@ let userReduced = readPreference("vanilla-motion") === "off";
 let activeApp = null;
 let activeTrigger = null;
 let signHasPlayed = false;
+let shelfInView = !("IntersectionObserver" in window);
+const copyAnimations = new Set();
 const text = (key) => copy[language][key] ?? copy.en[key] ?? key;
 const reduced = () => motionQuery.matches || userReduced;
+
+function stableCopy(element, values, animate = false) {
+  let stack = element.querySelector(".copy-stack");
+  if (!stack) {
+    stack = document.createElement("span");
+    stack.className = "copy-stack";
+    for (const locale of ["en", "ja"]) {
+      const variant = document.createElement("span");
+      variant.className = "copy-variant";
+      variant.lang = locale;
+      variant.textContent = values[locale];
+      stack.append(variant);
+    }
+    element.replaceChildren(stack);
+  }
+  for (const variant of stack.children) {
+    const current = variant.lang === language;
+    variant.classList.toggle("is-current", current);
+    variant.setAttribute("aria-hidden", String(!current));
+    if (current && animate && !reduced() && variant.animate) {
+      const style = getComputedStyle(document.documentElement);
+      const animation = variant.animate([{ opacity: .65 }, { opacity: 1 }], {
+        duration: parseFloat(style.getPropertyValue("--motion-press")),
+        easing: style.getPropertyValue("--ease").trim()
+      });
+      copyAnimations.add(animation);
+      animation.finished.catch(() => {}).finally(() => copyAnimations.delete(animation));
+    }
+  }
+}
+
+function stopCopyAnimations() {
+  for (const animation of copyAnimations) animation.cancel();
+  copyAnimations.clear();
+}
+
+function updateAir() {
+  grid.dataset.airActive = String(shelfInView && !document.hidden && !reduced());
+}
 
 function makeIcon(app) {
   const shell = document.createElement("span");
@@ -59,9 +100,9 @@ function renderGallery() {
     const meta = document.createElement("div");
     meta.className = "app-meta";
     const name = document.createElement("h3");
-    name.textContent = localized(app.name, language);
+    stableCopy(name, { en: localized(app.name, "en"), ja: localized(app.name, "ja") });
     const description = document.createElement("p");
-    description.textContent = localized(app.tagline, language);
+    stableCopy(description, { en: localized(app.tagline, "en"), ja: localized(app.tagline, "ja") });
     const detail = document.createElement("span");
     detail.className = "app-detail-label";
     detail.textContent = text("app.details") + " ↗";
@@ -110,12 +151,18 @@ function openApp(app, trigger) {
   dialog.style.setProperty("--detail-origin", `${x}% ${y}%`);
 }
 
-function translate() {
+function translate(animate = false) {
+  stopCopyAnimations();
   document.documentElement.lang = language;
   document.title = text("page.title");
   document.querySelector('meta[name="description"]').content = text("page.description");
   document.querySelectorAll("[data-i18n]").forEach((element) => {
-    element.textContent = text(element.dataset.i18n);
+    const key = element.dataset.i18n;
+    if (element.hasAttribute("data-copy-stable")) {
+      stableCopy(element, { en: copy.en[key] ?? key, ja: copy.ja[key] ?? copy.en[key] ?? key }, animate);
+    } else {
+      element.textContent = text(key);
+    }
   });
   document.querySelectorAll("[data-i18n-aria]").forEach((element) => {
     element.setAttribute("aria-label", text(element.dataset.i18nAria));
@@ -138,17 +185,20 @@ function updateMotion() {
   document.querySelector("#motion-state").textContent = text(isReduced ? "motion.off" : "motion.on");
   if (isReduced) {
     document.querySelector(".hanging-sign").classList.remove("sign-enter");
+    stopCopyAnimations();
   }
+  updateAir();
 }
 
 document.querySelectorAll("[data-language]").forEach((button) => {
   button.addEventListener("click", () => {
+    if (language === button.dataset.language) return;
     language = button.dataset.language;
     savePreference("vanilla-language", language);
     const url = new URL(location.href);
     url.searchParams.set("lang", language);
     history.replaceState(history.state, "", url);
-    translate();
+    translate(true);
   });
 });
 
@@ -158,6 +208,7 @@ document.querySelector("#motion-toggle").addEventListener("click", () => {
   updateMotion();
 });
 motionQuery.addEventListener("change", updateMotion);
+document.addEventListener("visibilitychange", updateAir);
 
 document.querySelector(".dialog-close").addEventListener("click", () => dialog.close());
 dialog.addEventListener("click", (event) => {
@@ -176,6 +227,14 @@ dialog.addEventListener("close", () => {
 
 document.querySelector("#year").textContent = String(new Date().getFullYear());
 translate();
+
+if ("IntersectionObserver" in window) {
+  const shelfObserver = new IntersectionObserver((entries) => {
+    shelfInView = entries.some((entry) => entry.isIntersecting);
+    updateAir();
+  });
+  shelfObserver.observe(grid);
+}
 
 const sign = document.querySelector(".hanging-sign");
 if ("IntersectionObserver" in window) {
