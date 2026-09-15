@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f3ed">
-  <meta name="description" content="Apps that feel good from the start, with room to make them your own. VANILLA ISN'T BAD.">
-  <title>VANILLA ISN'T BAD. — Good as it is.</title>
+  <meta name="description" content="Apps that feel good from the start, with room to make them your own. VANILLA ISN’T BAD.">
+  <title>VANILLA ISN’T BAD. — Good as it is.</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="./assets/kiosk-warm.png" as="image" fetchpriority="high">
   <link rel="preload" href="./assets/fonts/inter/inter-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -16,7 +16,7 @@
 <body id="top">
   <a class="skip-link" href="#apps" data-i18n="nav.skip">Skip to the apps</a>
   <header class="site-header">
-    <a href="#top" class="header-brand" aria-label="VANILLA ISN'T BAD. home">VANILLA ISN'T BAD.</a>
+    <a href="#top" class="header-brand" aria-label="VANILLA ISN’T BAD. home"><img src="./assets/wordmark-small.svg" class="brand-mark" width="150" height="12" alt="VANILLA ISN’T BAD." fetchpriority="high"></a>
     <nav class="header-nav" aria-label="Main navigation">
       <a href="#apps" data-i18n="nav.apps">Apps</a>
       <a href="#about" data-i18n="nav.about">Our take</a>
@@ -32,7 +32,7 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="sky" aria-hidden="true"></div>
       <div class="hero-copy">
-        <h1 id="hero-title" data-i18n="hero.title">Good as it is.</h1>
+        <h1 id="hero-title" data-i18n="hero.title" data-wrap-lines>Good as it is.</h1>
         <p class="hero-description" data-i18n="hero.description">Make it yours, only as needed.</p>
         <a class="text-link hero-link" href="#apps">
           <span data-i18n="hero.cta">Explore the apps</span>
@@ -58,7 +58,10 @@
             </defs>
             <image href="./assets/kiosk-warm.png" width="1309" height="1201" clip-path="url(#kiosk-silhouette)"/>
           </svg>
-          <div class="kiosk-wordmark" aria-hidden="true">VANILLA ISN'T BAD.</div>
+          <picture class="kiosk-wordmark" aria-hidden="true">
+            <source media="(max-width: 680px)" srcset="./assets/wordmark-small.svg">
+            <img src="./assets/wordmark-display.svg" width="440" height="36" alt="">
+          </picture>
           <a class="hanging-sign" href="#apps" data-i18n-aria="kiosk.link" aria-label="Explore the apps">
             <span class="sign-plate"><span class="sign-label">APPS</span></span>
           </a>
@@ -70,7 +73,6 @@
     <section class="apps-section section-width" id="apps" aria-labelledby="apps-title">
       <div class="section-heading">
         <div>
-          <p class="eyebrow" data-i18n="gallery.eyebrow">ON THE SHELF</p>
           <h2 id="apps-title" data-i18n="gallery.title">Apps</h2>
         </div>
       </div>
@@ -88,7 +90,6 @@
     </section>
 
     <section class="about-section section-width" id="about" aria-labelledby="about-title">
-      <p class="eyebrow" data-i18n="about.eyebrow">OUR TAKE</p>
       <h2 id="about-title" data-i18n="about.title">Start with how it feels.</h2>
       <p class="about-copy" data-i18n="about.description">Like vanilla, good on its own.
 We make apps that feel right from the start, with room to make them yours.</p>
@@ -97,8 +98,8 @@ We make apps that feel right from the start, with room to make them yours.</p>
 
   <footer class="site-footer section-width">
     <div>
-      <a class="footer-brand" href="#top">VANILLA ISN'T BAD.</a>
-      <small>© <span id="year">2026</span> VANILLA ISN'T BAD.</small>
+      <a class="footer-brand" href="#top"><img src="./assets/wordmark-small.svg" class="brand-mark" width="150" height="12" alt="VANILLA ISN’T BAD." loading="lazy"></a>
+      <small>© <span id="year">2026</span> VANILLA ISN’T BAD.</small>
     </div>
     <div class="footer-actions">
       <button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="true">
