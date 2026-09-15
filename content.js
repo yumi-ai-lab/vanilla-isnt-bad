@@ -10,7 +10,6 @@ export const copy = {
     "nav.skip": "Skip to the apps",
     "nav.apps": "Apps",
     "nav.about": "Our take",
-    "hero.title": "Good as it is.",
     "hero.description": "Make it yours, only as needed.",
     "hero.cta": "Explore the apps",
     "kiosk.caption": "Our little storefront, with a vanilla-striped awning and room for apps.",
@@ -29,13 +28,12 @@ export const copy = {
     "motion.off": "Off"
   },
   ja: {
-    "page.title": "VANILLA ISN’T BAD. — そのままで、ちゃんといい。",
+    "page.title": "VANILLA ISN’T BAD. — Good as it is.",
     "page.description": "そのままで、ちゃんといい。必要な分だけ、自分好みに。VANILLA ISN’T BAD. は、基本の使い心地を大切にするアプリをつくります。",
     "nav.skip": "アプリ一覧へ",
     "nav.apps": "アプリ",
     "nav.about": "私たちの考え",
-    "hero.title": "そのままで、\nちゃんといい。",
-    "hero.description": "必要な分だけ、自分好みに。",
+    "hero.description": "そのままで、ちゃんといい。\n必要な分だけ、自分好みに。",
     "hero.cta": "アプリを見る",
     "kiosk.caption": "バニラ色の日よけと、アプリを並べる棚のある小さなお店。",
     "kiosk.link": "アプリ一覧を見る",

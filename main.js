@@ -99,17 +99,7 @@ function translate() {
   document.title = text("page.title");
   document.querySelector('meta[name="description"]').content = text("page.description");
   document.querySelectorAll("[data-i18n]").forEach((element) => {
-    const value = text(element.dataset.i18n);
-    if (element.hasAttribute("data-wrap-lines")) {
-      element.replaceChildren(...value.split("\n").map((line) => {
-        const span = document.createElement("span");
-        span.className = "heading-line";
-        span.textContent = line;
-        return span;
-      }));
-    } else {
-      element.textContent = value;
-    }
+    element.textContent = text(element.dataset.i18n);
   });
   document.querySelectorAll("[data-i18n-aria]").forEach((element) => {
     element.setAttribute("aria-label", text(element.dataset.i18nAria));
