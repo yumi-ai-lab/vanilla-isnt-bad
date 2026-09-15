@@ -128,20 +128,6 @@ function translate() {
   updateMotion();
 }
 
-const revealObserver = "IntersectionObserver" in window ? new IntersectionObserver((entries) => {
-  for (const entry of entries) {
-    if (!entry.isIntersecting) continue;
-    entry.target.classList.add("is-visible");
-    revealObserver.unobserve(entry.target);
-  }
-}, { threshold: 0.12, rootMargin: "0px 0px 16px 0px" }) : null;
-
-function observeReveal(element) {
-  if (reduced() || !revealObserver || element.getBoundingClientRect().top < innerHeight) return;
-  element.classList.add("will-reveal");
-  revealObserver.observe(element);
-}
-
 function updateMotion() {
   const isReduced = reduced();
   document.documentElement.dataset.reducedMotion = String(isReduced);
@@ -152,10 +138,6 @@ function updateMotion() {
   document.querySelector("#motion-state").textContent = text(isReduced ? "motion.off" : "motion.on");
   if (isReduced) {
     document.querySelector(".hanging-sign").classList.remove("sign-enter");
-    document.querySelectorAll(".will-reveal").forEach((element) => {
-      element.classList.add("is-visible");
-      revealObserver?.unobserve(element);
-    });
   }
 }
 
@@ -194,7 +176,6 @@ dialog.addEventListener("close", () => {
 
 document.querySelector("#year").textContent = String(new Date().getFullYear());
 translate();
-observeReveal(document.querySelector(".about-section"));
 
 const sign = document.querySelector(".hanging-sign");
 if ("IntersectionObserver" in window) {
