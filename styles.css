@@ -41,8 +41,8 @@ svg path { stroke: currentColor; stroke-width: 1.4; fill: none; stroke-linecap: 
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 .skip-link { position: fixed; z-index: 10; top: 12px; left: 12px; padding: 14px 20px; background: var(--ink); color: white; transform: translateY(-160%); }
 .skip-link:focus { transform: translateY(0); }
-.site-header { position: absolute; inset: 0 0 auto; z-index: 5; width: min(980px, calc(100% - 112px)); margin-inline: auto; padding: 26px 0; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
-.header-brand, .footer-brand { display: inline-flex; align-items: center; width: 156px; min-height: 44px; flex-shrink: 0; }
+.site-header { position: absolute; inset: 0 0 auto; z-index: 5; width: min(980px, calc(100% - 112px)); margin-inline: auto; padding: 26px 0; display: flex; align-items: center; justify-content: flex-end; }
+.footer-brand { display: inline-flex; align-items: center; width: 156px; min-height: 44px; flex-shrink: 0; }
 .brand-mark { display: block; width: 100%; height: auto; aspect-ratio: 13.438 / 1; }
 .header-nav { display: flex; gap: 28px; align-items: center; font-size: 13px; font-weight: var(--weight-body); letter-spacing: 0; }
 .header-nav > a, .language-switch button { min-height: 44px; display: inline-flex; align-items: center; position: relative; }
@@ -105,9 +105,7 @@ h1 { font-size: clamp(44px, 5.2vw, 68px); font-weight: var(--weight-heading); li
   box-shadow: inset 1px 0 #fffdf8, inset -1px 0 #fffdf8;
 }
 .apps-section::before { content: ""; position: absolute; top: -2px; left: -4px; right: -4px; height: 4px; background: linear-gradient(#f8f5ee, #b9b2a6); box-shadow: 0 2px 4px #6855401a; }
-.section-heading { display: flex; justify-content: center; margin-bottom: 20px; }
 h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.025em; font-weight: var(--weight-heading); margin: 0; }
-.section-heading h2 { padding: 7px 12px; border: 1px solid #d6cec0; border-radius: 3px; font-size: 12px; line-height: 1; letter-spacing: .1em; background: #f7f3ec; box-shadow: inset 0 1px #fffdf8, 0 1px 2px #68554012; }
 .app-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 24px 18px; }
 .app-grid > li { min-width: 0; }
 .case-frame {
@@ -151,9 +149,7 @@ h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.0
 .app-meta h3 { margin: 0 0 6px; font-size: 16px; font-weight: var(--weight-heading); letter-spacing: -.01em; }
 .app-meta p { font-size: 14px; color: var(--muted); line-height: 1.65; margin: 0; text-wrap: pretty; }
 .app-meta .app-detail-label { display: inline-block; font-size: 12px; margin-top: 12px; border-bottom: 1px solid #cbbba8; padding-bottom: 4px; }
-.will-reveal { opacity: 0; transform: translateY(4px); }
-.will-reveal.is-visible { opacity: 1; transform: none; transition: opacity 280ms var(--ease), transform 280ms var(--ease); }
-.about-section { text-align: left; display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: start; margin-top: 112px; padding: 76px 0 90px; border-top: 1px solid var(--line); }
+.about-section { text-align: left; display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: start; margin-top: 64px; padding: 40px 0 64px; border-top: 1px solid var(--line); }
 .about-section h2 { margin-bottom: 0; }
 .about-copy { max-width: 44ch; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.8; letter-spacing: 0; text-wrap: pretty; white-space: pre-line; }
 .site-footer { border-top: 1px solid var(--line); display: flex; align-items: flex-end; justify-content: space-between; padding: 38px 0 32px; gap: 35px; }
@@ -181,7 +177,6 @@ html[lang="ja"] .hero-description { display: block; letter-spacing: .01em; }
 html[lang="ja"] .about-copy { line-height: 1.85; letter-spacing: .01em; max-width: 28em; line-break: strict; }
 html[data-reduced-motion="true"] { scroll-behavior: auto; }
 html[data-reduced-motion="true"] *, html[data-reduced-motion="true"] *::before, html[data-reduced-motion="true"] *::after { animation: none !important; transition: none !important; }
-html[data-reduced-motion="true"] .will-reveal { opacity: 1; transform: none; }
 @keyframes intro-fade { from { opacity: .65; } to { opacity: 1; } }
 @keyframes detail-enter { from { opacity: 0; transform: translateY(8px) scale(.985); } to { opacity: 1; transform: none; } }
 @keyframes detail-enter-mobile { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
@@ -192,8 +187,7 @@ html[data-reduced-motion="true"] .will-reveal { opacity: 1; transform: none; }
   .section-width { width: calc(100% - 72px); }
 }
 @media (max-width: 680px) {
-  .site-header { width: calc(100% - 44px); padding-block: 15px; gap: 12px; }
-  .header-brand { width: 150px; }
+  .site-header { width: calc(100% - 44px); padding-block: 15px; }
   .header-nav { gap: 0; }
   .header-nav > a { display: none; }
   .language-switch { gap: 2px; font-size: 12px; }
@@ -208,7 +202,6 @@ html[data-reduced-motion="true"] .will-reveal { opacity: 1; transform: none; }
   .sign-plate { font-size: 9px; }
   .section-width { width: calc(100% - 44px); }
   .apps-section { padding-top: 16px; padding-bottom: 18px; }
-  .section-heading { margin-bottom: 14px; }
   .app-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px 10px; }
   .empty-card:nth-child(n+5) { display: none; }
   .app-meta { padding-top: 10px; }
@@ -216,7 +209,7 @@ html[data-reduced-motion="true"] .will-reveal { opacity: 1; transform: none; }
   .app-meta p { font-size: 13px; }
   .app-icon { font-size: 26px; }
   .empty-note { padding-top: 18px; }
-  .about-section { grid-template-columns: minmax(0, 1fr); gap: 22px; margin-top: 80px; padding: 54px 0 62px; }
+  .about-section { grid-template-columns: minmax(0, 1fr); gap: 22px; margin-top: 48px; padding: 32px 0 48px; }
   .about-copy { font-size: 15px; }
   .site-footer { display: block; padding: 28px 0 18px; }
   .footer-actions { margin-top: 18px; justify-content: space-between; }
@@ -229,7 +222,6 @@ html[data-reduced-motion="true"] .will-reveal { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .will-reveal { opacity: 1; transform: none; }
 }
 @media (prefers-contrast: more) {
   :root { --muted: #4c4237; }
