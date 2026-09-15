@@ -58,7 +58,7 @@ test("local preview serves routes and rejects non-static or malformed requests",
   try {
     const page = await fetch(base);
     assert.equal(page.status, 200);
-    assert.match(await page.text(), /VANILLA ISN'T BAD/);
+    assert.match(await page.text(), /VANILLA ISN[’']T BAD/);
     assert.match((await fetch(base + "/main.js")).headers.get("content-type"), /javascript/);
     assert.equal((await fetch(base + "/assets/kiosk.png", {method:"HEAD"})).status, 200);
     assert.equal((await fetch(base + "/missing.png")).status, 404);
