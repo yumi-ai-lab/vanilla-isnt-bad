@@ -18,6 +18,7 @@ let activeTrigger = null;
 let signHasPlayed = false;
 let shelfInView = !("IntersectionObserver" in window);
 const copyAnimations = new Set();
+const sceneAnimations = new Set();
 const text = (key) => copy[language][key] ?? copy.en[key] ?? key;
 const reduced = () => motionQuery.matches || userReduced;
 
@@ -54,6 +55,64 @@ function stableCopy(element, values, animate = false) {
 function stopCopyAnimations() {
   for (const animation of copyAnimations) animation.cancel();
   copyAnimations.clear();
+}
+
+function playScene(element, keyframes, options = {}) {
+  if (reduced() || !element?.animate) return;
+  const animation = element.animate(keyframes, {
+    duration: 1000,
+    easing: "cubic-bezier(.22,.61,.36,1)",
+    fill: "backwards",
+    ...options
+  });
+  sceneAnimations.add(animation);
+  animation.finished.catch(() => {}).finally(() => sceneAnimations.delete(animation));
+}
+
+function revealHero() {
+  const parts = [
+    ["#hero-title", 52, 7, 1120, 0],
+    [".hero-subtitle", 38, 4, 1040, 100],
+    [".hero-description", 32, 3, 960, 220],
+    [".hero-link", 18, 2, 800, 300]
+  ];
+  for (const [selector, distance, blur, duration, delay] of parts) {
+    playScene(document.querySelector(selector), [
+      { opacity: 0, transform: `translateY(${distance}px)`, filter: `blur(${blur}px)` },
+      { opacity: 1, transform: "translateY(0)", filter: "blur(0)" }
+    ], { duration, delay });
+  }
+}
+
+function openShop() {
+  document.querySelector(".kiosk-wrap").classList.add("is-open");
+  for (const [selector, direction] of [[".window-glass-left", -1], [".window-glass-right", 1]]) {
+    playScene(document.querySelector(selector), [
+      { transform: "translateX(0)", opacity: 1 },
+      { transform: `translateX(${direction * 98}%)`, opacity: .65 }
+    ], { duration: 1200, delay: 100 });
+  }
+}
+
+function revealAbout() {
+  for (const [selector, delay] of [["#about-title", 0], [".about-copy", 120]]) {
+    playScene(document.querySelector(selector), [
+      { opacity: .08, transform: "translateX(calc(-1 * var(--copy-travel)))", filter: "blur(3px)" },
+      { opacity: 1, transform: "translateX(0)", filter: "blur(0)" }
+    ], { duration: 900, delay });
+  }
+}
+
+function observeEntrance(element, reveal) {
+  // Content stays visible until a real intersection starts a finite animation.
+  // A missing or silent observer must never leave a blank section behind.
+  if (!("IntersectionObserver" in window)) return;
+  const observer = new IntersectionObserver((entries) => {
+    if (!entries.some(entry => entry.isIntersecting)) return;
+    reveal();
+    observer.disconnect();
+  }, { threshold: .14 });
+  observer.observe(element);
 }
 
 function updateAir() {
@@ -186,6 +245,8 @@ function updateMotion() {
   if (isReduced) {
     document.querySelector(".hanging-sign").classList.remove("sign-enter");
     stopCopyAnimations();
+    for (const animation of sceneAnimations) animation.cancel();
+    sceneAnimations.clear();
   }
   updateAir();
 }
@@ -227,6 +288,9 @@ dialog.addEventListener("close", () => {
 
 document.querySelector("#year").textContent = String(new Date().getFullYear());
 translate();
+revealHero();
+observeEntrance(document.querySelector(".serving-window"), openShop);
+observeEntrance(document.querySelector(".about-section"), revealAbout);
 
 if ("IntersectionObserver" in window) {
   const shelfObserver = new IntersectionObserver((entries) => {
