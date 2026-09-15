@@ -15,7 +15,7 @@ const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 let userReduced = readPreference("vanilla-motion") === "off";
 let activeApp = null;
 let signHasPlayed = false;
-const text = (key) => copy[language][key] || copy.en[key] || key;
+const text = (key) => copy[language][key] ?? copy.en[key] ?? key;
 const reduced = () => motionQuery.matches || userReduced;
 
 function makeIcon(app) {
