@@ -1,0 +1,8 @@
+dist/
+node_modules/
+.preview/
+.DS_Store
+.env
+.env.*
+assets/art-direction.png
+assets/*.prompt.txt
