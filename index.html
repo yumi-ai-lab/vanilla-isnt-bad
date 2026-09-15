@@ -41,52 +41,50 @@
         </a>
       </div>
 
-      <figure class="kiosk-scene" aria-labelledby="kiosk-caption">
-        <div class="kiosk-shadow" aria-hidden="true"></div>
-        <div class="kiosk-wrap">
-          <svg class="kiosk-art" viewBox="0 0 1309 1201" aria-hidden="true">
-            <defs>
-              <clipPath id="kiosk-silhouette">
-                <path d="M109 245V223C109 148 163 84 239 84H1075C1152 84 1199 139 1199 230V1059Q1195 1076 1162 1077H151Q111 1074 110 1058Z"/>
-                <path d="M590 85V63Q652 39 718 62V85Z"/>
-                <rect x="153" y="1064" width="42" height="43" rx="5"/>
-                <rect x="1116" y="1064" width="43" height="43" rx="5"/>
-                <rect x="98" y="290" width="30" height="32" rx="8"/>
-                <rect x="99" y="612" width="26" height="75" rx="8"/>
-                <rect x="1182" y="290" width="28" height="33" rx="8"/>
-                <rect x="1186" y="610" width="17" height="29" rx="3"/>
-              </clipPath>
-            </defs>
-            <image href="./assets/kiosk-warm.png" width="1309" height="1201" clip-path="url(#kiosk-silhouette)"/>
-          </svg>
-          <picture class="kiosk-wordmark" aria-hidden="true">
-            <source media="(max-width: 680px)" srcset="./assets/wordmark-small.svg">
-            <img src="./assets/wordmark-display.svg" width="440" height="36" alt="">
-          </picture>
-          <a class="hanging-sign" href="#apps" data-i18n-aria="kiosk.link" aria-label="Explore the apps">
-            <span class="sign-plate"><span class="sign-label">APPS</span></span>
-          </a>
-        </div>
-        <figcaption class="sr-only" id="kiosk-caption" data-i18n="kiosk.caption">Our little storefront, with a vanilla-striped awning and room for apps.</figcaption>
-      </figure>
-    </section>
+      <div class="storefront">
+        <figure class="kiosk-scene" aria-labelledby="kiosk-caption">
+          <div class="kiosk-wrap">
+            <svg class="kiosk-art" viewBox="0 40 1309 680" aria-hidden="true">
+              <defs>
+                <clipPath id="kiosk-silhouette">
+                  <path d="M109 245V223C109 148 163 84 239 84H1075C1152 84 1199 139 1199 230V720H109Z"/>
+                  <path d="M590 85V63Q652 39 718 62V85Z"/>
+                  <rect x="98" y="290" width="30" height="32" rx="8"/>
+                  <rect x="99" y="612" width="26" height="75" rx="8"/>
+                  <rect x="1182" y="290" width="28" height="33" rx="8"/>
+                  <rect x="1186" y="610" width="17" height="29" rx="3"/>
+                </clipPath>
+              </defs>
+              <image href="./assets/kiosk-warm.png" width="1309" height="1201" clip-path="url(#kiosk-silhouette)"/>
+            </svg>
+            <picture class="kiosk-wordmark" aria-hidden="true">
+              <source media="(max-width: 680px)" srcset="./assets/wordmark-small.svg">
+              <img src="./assets/wordmark-display.svg" width="440" height="36" alt="">
+            </picture>
+            <a class="hanging-sign" href="#apps" data-i18n-aria="kiosk.link" aria-label="Explore the apps">
+              <span class="sign-plate"><span class="sign-label">APPS</span></span>
+            </a>
+          </div>
+          <figcaption class="sr-only" id="kiosk-caption" data-i18n="kiosk.caption">Our little storefront, with a vanilla-striped awning and an app shelf below the counter.</figcaption>
+        </figure>
 
-    <section class="apps-section section-width" id="apps" aria-labelledby="apps-title">
-      <div class="section-heading">
-        <div>
-          <h2 id="apps-title" lang="en" data-i18n="gallery.title">APPS</h2>
-        </div>
-      </div>
-      <ul class="app-grid" id="app-grid" aria-hidden="true">
-        <li class="empty-card" aria-hidden="true"><div class="case-frame"><div class="glass-pane"></div></div></li>
-        <li class="empty-card" aria-hidden="true"><div class="case-frame"><div class="glass-pane"></div></div></li>
-        <li class="empty-card" aria-hidden="true"><div class="case-frame"><div class="glass-pane"></div></div></li>
-        <li class="empty-card" aria-hidden="true"><div class="case-frame"><div class="glass-pane"></div></div></li>
-        <li class="empty-card" aria-hidden="true"><div class="case-frame"><div class="glass-pane"></div></div></li>
-        <li class="empty-card" aria-hidden="true"><div class="case-frame"><div class="glass-pane"></div></div></li>
-      </ul>
-      <div class="empty-note" id="empty-note">
-        <p data-i18n="gallery.empty">In the making.</p>
+        <section class="apps-section" id="apps" aria-labelledby="apps-title" tabindex="-1">
+          <div class="section-heading">
+            <h2 id="apps-title" lang="en" data-i18n="gallery.title">APPS</h2>
+          </div>
+          <ul class="app-grid" id="app-grid" aria-hidden="true">
+            <li class="empty-card" aria-hidden="true"><div class="case-frame"><div class="glass-pane"></div></div></li>
+            <li class="empty-card" aria-hidden="true"><div class="case-frame"><div class="glass-pane"></div></div></li>
+            <li class="empty-card" aria-hidden="true"><div class="case-frame"><div class="glass-pane"></div></div></li>
+            <li class="empty-card" aria-hidden="true"><div class="case-frame"><div class="glass-pane"></div></div></li>
+            <li class="empty-card" aria-hidden="true"><div class="case-frame"><div class="glass-pane"></div></div></li>
+            <li class="empty-card" aria-hidden="true"><div class="case-frame"><div class="glass-pane"></div></div></li>
+          </ul>
+          <div class="empty-note" id="empty-note">
+            <p data-i18n="gallery.empty">In the making.</p>
+          </div>
+        </section>
+        <div class="storefront-base" aria-hidden="true"></div>
       </div>
     </section>
 
@@ -112,7 +110,7 @@ We make apps that feel right from the start, with room to make them yours.</p>
   </footer>
 
   <dialog id="app-dialog" class="app-dialog" aria-labelledby="dialog-title">
-    <button type="button" class="dialog-close" data-i18n-aria="dialog.close" aria-label="Close app details">
+    <button type="button" class="dialog-close" data-i18n-aria="dialog.close" aria-label="Close app details" autofocus>
       <svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20"><path d="m5 5 10 10M15 5 5 15"/></svg>
     </button>
     <div id="dialog-icon" class="dialog-icon"></div>

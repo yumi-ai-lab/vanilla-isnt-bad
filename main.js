@@ -14,6 +14,7 @@ const dialog = document.querySelector("#app-dialog");
 const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 let userReduced = readPreference("vanilla-motion") === "off";
 let activeApp = null;
+let activeTrigger = null;
 let signHasPlayed = false;
 const text = (key) => copy[language][key] ?? copy.en[key] ?? key;
 const reduced = () => motionQuery.matches || userReduced;
@@ -46,6 +47,9 @@ function renderGallery() {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "app-button";
+    button.dataset.appId = app.id;
+    button.setAttribute("aria-haspopup", "dialog");
+    button.setAttribute("aria-controls", "app-dialog");
     const frame = document.createElement("div");
     frame.className = "case-frame";
     const pane = document.createElement("div");
@@ -63,10 +67,13 @@ function renderGallery() {
     detail.textContent = text("app.details") + " ↗";
     meta.append(name, description, detail);
     button.append(frame, meta);
-    button.addEventListener("click", () => openApp(app));
+    button.addEventListener("click", () => openApp(app, button));
     item.append(button);
     grid.append(item);
-    observeReveal(meta);
+    if (dialog.open && activeApp?.id === app.id) {
+      activeTrigger = button;
+      button.classList.add("is-selected");
+    }
   }
 }
 
@@ -88,10 +95,19 @@ function fillDialog(app) {
   else link.removeAttribute("href");
 }
 
-function openApp(app) {
+function openApp(app, trigger) {
   activeApp = app;
+  activeTrigger?.classList.remove("is-selected");
+  activeTrigger = trigger;
+  activeTrigger.classList.add("is-selected");
+  const source = trigger.getBoundingClientRect();
   fillDialog(app);
   if (!dialog.open) dialog.showModal();
+  const target = dialog.getBoundingClientRect();
+  const origin = (center, start, size) => Math.max(0, Math.min(100, (center - start) / Math.max(size, 1) * 100));
+  const x = origin(source.left + source.width / 2, target.left, target.width);
+  const y = origin(source.top + source.height / 2, target.top, target.height);
+  dialog.style.setProperty("--detail-origin", `${x}% ${y}%`);
 }
 
 function translate() {
@@ -167,7 +183,14 @@ dialog.addEventListener("click", (event) => {
   const box = dialog.getBoundingClientRect();
   if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) dialog.close();
 });
-dialog.addEventListener("close", () => { activeApp = null; });
+dialog.addEventListener("close", () => {
+  activeTrigger?.classList.remove("is-selected");
+  const returnTarget = activeTrigger?.isConnected ? activeTrigger : document.querySelector("#apps");
+  returnTarget.focus({ preventScroll: true });
+  activeTrigger = null;
+  activeApp = null;
+  dialog.style.removeProperty("--detail-origin");
+});
 
 document.querySelector("#year").textContent = String(new Date().getFullYear());
 translate();
