@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f3ed">
+  <meta name="description" content="Apps that feel good from the start, with room to make them your own. VANILLA ISN’T BAD.">
+  <title>All flavors. — VANILLA ISN’T BAD.</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="./assets/fonts/inter/inter-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="./assets/fonts/fonts.css">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./showcase.css">
+  <script type="module" src="./main.js"></script>
+</head>
+<body id="top" data-page="showcase">
+  <a class="skip-link" href="#app-grid" data-i18n="nav.skip">Skip to the apps</a>
+  <header class="showcase-header section-width">
+    <a class="back-link" data-store-return href="./#shop"><span aria-hidden="true">←</span><span data-i18n="showcase.back" data-copy-stable>Back to the shop</span></a>
+    <div class="language-switch" role="group" aria-label="Language">
+      <button type="button" data-language="en" aria-pressed="true">EN</button><span aria-hidden="true">/</span><button type="button" data-language="ja" aria-pressed="false">JA</button>
+    </div>
+  </header>
+  <main class="showcase-main section-width">
+    <div class="showcase-intro">
+      <div><h1 lang="en" data-i18n="showcase.title">All flavors.</h1><p data-i18n="showcase.subtitle" data-copy-stable>A little something for your everyday.</p></div>
+      <span id="app-count" class="app-count"></span>
+    </div>
+    <ul class="showcase-grid" id="app-grid" tabindex="-1" data-i18n-aria="shelf.label" aria-label="App shelf">
+      <li>Focus</li><li>Notes</li><li>Trip</li><li>Tasks</li><li>Budget</li><li>Journal</li>
+    </ul>
+    <p class="preview-note showcase-note" data-preview-note data-i18n="gallery.preview" data-copy-stable>Sample apps for this preview.</p>
+    <noscript><p>アプリの詳細を見るにはJavaScriptを有効にしてください。</p></noscript>
+  </main>
+  <footer class="site-footer section-width">
+    <div>
+      <a class="footer-brand" href="./"><img src="./assets/wordmark-small.svg" class="brand-mark" width="150" height="12" alt="VANILLA ISN’T BAD." loading="lazy"></a>
+      <small>© <span id="year">2026</span> VANILLA ISN’T BAD.</small>
+    </div>
+    <div class="footer-actions">
+      <button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="true">
+        <span data-i18n="motion.label" data-copy-stable>Motion</span>
+        <span id="motion-state">On</span>
+      </button>
+      <a class="text-link" href="#top"><span data-i18n="footer.pageTop" data-copy-stable>Back to top</span><span aria-hidden="true">↑</span></a>
+    </div>
+  </footer>
+
+  <dialog id="app-dialog" class="app-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-tagline">
+    <button type="button" class="dialog-close" data-i18n-aria="dialog.close" aria-label="Close app details" autofocus>
+      <svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20"><path d="m5 5 10 10M15 5 5 15"/></svg>
+    </button>
+    <div class="dialog-layout">
+      <div id="dialog-preview" class="dialog-preview"></div>
+      <div class="dialog-copy">
+        <div class="dialog-heading"><div id="dialog-icon" hidden></div><h2 id="dialog-title" lang="en"></h2></div>
+        <p class="dialog-tagline" id="dialog-tagline"></p>
+        <div class="platforms" id="dialog-platforms"></div>
+        <p class="dialog-description" id="dialog-description"></p>
+        <h3 class="features-heading" id="dialog-features-heading" data-i18n="dialog.features">A few simple things</h3>
+        <ul id="dialog-features" class="dialog-features"></ul>
+        <p id="dialog-status" class="preview-note"></p>
+        <a class="primary-link" id="dialog-link" target="_blank" rel="noopener noreferrer" hidden><span data-i18n="dialog.open" data-copy-stable>Open app</span><span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </dialog>
+</body>
+</html>

@@ -7,17 +7,18 @@
   <meta name="description" content="Apps that feel good from the start, with room to make them your own. VANILLA ISN’T BAD.">
   <title>VANILLA ISN’T BAD. — Good as it is.</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="./assets/storefront-complete-v5.png" as="image" fetchpriority="high">
+  <link rel="preload" href="./assets/storefront-blank-placards-v6.png" as="image" fetchpriority="high">
   <link rel="preload" href="./assets/fonts/inter/inter-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./assets/fonts/fonts.css">
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./showcase.css">
   <script type="module" src="./main.js"></script>
 </head>
-<body id="top">
+<body id="top" data-page="shop">
   <a class="skip-link" href="#apps" data-i18n="nav.skip">Skip to the apps</a>
   <header class="site-header">
     <nav class="header-nav" aria-label="Main navigation">
-      <a href="#apps" data-i18n="nav.apps" data-copy-stable>Apps</a>
+      <a href="./apps.html" data-showcase-link id="nav-apps" data-i18n="nav.apps" data-copy-stable>Apps</a>
       <a href="#about" data-i18n="nav.about" data-copy-stable>Our take</a>
       <div class="language-switch" role="group" aria-label="Language">
         <button type="button" data-language="en" aria-pressed="true">EN</button>
@@ -40,11 +41,11 @@
         </a>
       </div>
 
-      <div class="storefront" data-mode="preview">
+      <div class="storefront">
         <figure class="kiosk-scene" id="shop" aria-labelledby="kiosk-caption" tabindex="-1">
           <div class="kiosk-wrap">
             <picture class="kiosk-artwork">
-              <img class="kiosk-art" src="./assets/storefront-complete-v5.png" width="1254" height="1254" alt="" decoding="async" fetchpriority="high">
+              <img class="kiosk-art" src="./assets/storefront-blank-placards-v6.png" width="1254" height="1254" alt="" decoding="async" fetchpriority="high">
             </picture>
             <div class="serving-window" aria-hidden="true">
               <span class="window-glass window-glass-left"></span>
@@ -56,42 +57,19 @@
             </div>
             <div class="glass-pane cabinet-atmosphere" aria-hidden="true"></div>
           </div>
-          <a class="hanging-sign" href="#apps" data-i18n-aria="kiosk.link" aria-label="Explore the apps">
+          <a class="hanging-sign" id="sign-apps" data-showcase-link href="./apps.html" data-i18n-aria="kiosk.link" aria-label="Explore the apps">
             <span class="sr-only sign-label">APPS</span>
           </a>
           <figcaption class="sr-only" id="kiosk-caption" data-i18n="kiosk.caption">VANILLA ISN’T BAD. — a little ice-cream shop in the park, with cones, cups and three vanilla trays beneath the serving window.</figcaption>
         </figure>
 
-        <section class="apps-section" id="apps" aria-labelledby="apps-title" tabindex="-1">
-          <h2 class="sr-only" id="apps-title" lang="en" data-i18n="gallery.title">APPS</h2>
-          <p class="sr-only" id="shelf-help" data-i18n="shelf.help" hidden>Swipe horizontally, or use the arrow keys to browse the shelf.</p>
-          <div class="shelf-housing">
-          <ul class="app-grid" id="app-grid" data-preview="storefront-scene" data-i18n-aria="shelf.label" aria-label="App shelf" aria-describedby="empty-note">
-            <li class="empty-card preview-card">
-              <div class="case-placard"><h3 lang="en">Focus</h3><p data-i18n="preview.focus" data-copy-stable>Focus timer</p></div>
-            </li>
-            <li class="empty-card preview-card">
-              <div class="case-placard"><h3 lang="en">Notes</h3><p data-i18n="preview.notes" data-copy-stable>Keep a note</p></div>
-            </li>
-            <li class="empty-card preview-card">
-              <div class="case-placard"><h3 lang="en">Trip</h3><p data-i18n="preview.trip" data-copy-stable>Plan a trip</p></div>
-            </li>
+        <section class="featured-section" id="apps" aria-labelledby="apps-title" tabindex="-1">
+          <h2 class="sr-only" id="apps-title" lang="en">APPS</h2>
+          <ul class="featured-list" id="app-grid" tabindex="-1" data-i18n-aria="shelf.label" aria-label="App shelf">
+            <li>Focus</li><li>Notes</li><li>Trip</li>
           </ul>
-          </div>
-          <div class="shelf-footer">
-          <div class="empty-note" id="empty-note">
-            <p data-i18n="gallery.preview" data-copy-stable>Sample apps for this preview.</p>
-          </div>
-          <div class="shelf-controls" hidden>
-            <span class="shelf-position" id="shelf-position" role="status" aria-live="polite" aria-atomic="true"></span>
-            <button class="shelf-arrow" id="shelf-prev" type="button" aria-controls="app-grid" data-i18n-aria="shelf.previous" aria-label="Previous apps">
-              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20"><path d="M16 10H4m5-5-5 5 5 5"/></svg>
-            </button>
-            <button class="shelf-arrow" id="shelf-next" type="button" aria-controls="app-grid" data-i18n-aria="shelf.next" aria-label="Next apps">
-              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20"><path d="M4 10h12m-5-5 5 5-5 5"/></svg>
-            </button>
-          </div>
-          </div>
+          <a class="all-apps-link" id="all-apps-link" data-showcase-link href="./apps.html"><span data-i18n="gallery.all" data-copy-stable>All apps</span><span aria-hidden="true">→</span></a>
+          <p class="preview-note" data-preview-note data-i18n="gallery.preview" data-copy-stable>Sample apps for this preview.</p>
         </section>
       </div>
     </section>
@@ -117,16 +95,23 @@ We make apps that feel right from the start, with room to make them yours.</p>
     </div>
   </footer>
 
-  <dialog id="app-dialog" class="app-dialog" aria-labelledby="dialog-title">
+  <dialog id="app-dialog" class="app-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-tagline">
     <button type="button" class="dialog-close" data-i18n-aria="dialog.close" aria-label="Close app details" autofocus>
       <svg aria-hidden="true" viewBox="0 0 20 20" width="20" height="20"><path d="m5 5 10 10M15 5 5 15"/></svg>
     </button>
-    <div id="dialog-icon" class="dialog-icon"></div>
-    <h2 id="dialog-title"></h2>
-    <p class="dialog-tagline" id="dialog-tagline"></p>
-    <div class="platforms" id="dialog-platforms"></div>
-    <p class="dialog-description" id="dialog-description"></p>
-    <a class="primary-link" id="dialog-link" target="_blank" rel="noopener noreferrer"><span data-i18n="dialog.open" data-copy-stable>Open app</span><span aria-hidden="true">↗</span></a>
+    <div class="dialog-layout">
+      <div id="dialog-preview" class="dialog-preview"></div>
+      <div class="dialog-copy">
+        <div class="dialog-heading"><div id="dialog-icon" hidden></div><h2 id="dialog-title" lang="en"></h2></div>
+        <p class="dialog-tagline" id="dialog-tagline"></p>
+        <div class="platforms" id="dialog-platforms"></div>
+        <p class="dialog-description" id="dialog-description"></p>
+        <h3 class="features-heading" id="dialog-features-heading" data-i18n="dialog.features">A few simple things</h3>
+        <ul id="dialog-features" class="dialog-features"></ul>
+        <p id="dialog-status" class="preview-note"></p>
+        <a class="primary-link" id="dialog-link" target="_blank" rel="noopener noreferrer" hidden><span data-i18n="dialog.open" data-copy-stable>Open app</span><span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
   </dialog>
 </body>
 </html>

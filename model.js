@@ -40,9 +40,28 @@ export function normalizeApps(records) {
       description: record.description || record.tagline || "",
       icon: imageUrl(record.icon),
       url: externalUrl(record.url),
+      sample: record.sample === true,
+      flavor: Number.isInteger(record.flavor) && record.flavor >= 0 && record.flavor < 6 ? record.flavor : 0,
+      featured: ["new", "picked", "seasonal"].includes(record.featured) ? record.featured : "",
+      features: Array.isArray(record.features) ? record.features.filter(x => localized(x).trim()).slice(0, 5) : [],
+      screenshots: Array.isArray(record.screenshots) ? record.screenshots.flatMap(x => x && imageUrl(x.src) ? [{src:imageUrl(x.src), alt:x.alt || ""}] : []).slice(0, 4) : [],
       platforms: Array.isArray(record.platforms) ? record.platforms.filter((x) => typeof x === "string").slice(0, 4) : []
     }];
   });
+}
+
+// Three genuinely available apps, never three copies or empty category doors.
+export function featuredApps(records) {
+  const selected = [];
+  for (const slot of ["new", "picked", "seasonal"]) {
+    const app = records.find(item => item.featured === slot && !selected.includes(item));
+    if (app) selected.push(app);
+  }
+  for (const app of records) {
+    if (selected.length >= 3) break;
+    if (!selected.includes(app)) selected.push(app);
+  }
+  return selected;
 }
 
 export function resolveLanguage({query, saved, browser = "en"} = {}) {

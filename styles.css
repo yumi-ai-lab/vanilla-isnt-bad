@@ -120,82 +120,7 @@ h1 { font-size: clamp(44px, 5.2vw, 68px); font-weight: var(--weight-heading); li
 .hanging-sign { position: absolute; z-index: 3; left: 90.5%; top: 29.8%; width: 7.7%; height: 7.7%; border-radius: 8px; }
 .hanging-sign::after { content: ""; position: absolute; inset: -12px -1px -12px -21px; }
 .section-width { width: min(980px, calc(100% - 112px)); margin-inline: auto; }
-.apps-section {
-  position: relative;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  scroll-margin-top: 32px;
-  background: linear-gradient(#f5f3ec, #eeebe3);
-}
-/* This is a scroll destination, not an interactive control. Keep the visible
-   keyboard outlines on links and buttons, without boxing the whole cabinet. */
-.apps-section:focus-visible { outline: none; }
 h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.025em; font-weight: var(--weight-heading); margin: 0; }
-.shelf-housing { position: relative; padding-block: 2px 11px; background: linear-gradient(#bab7ac, #eeece3 2px, #aaa99f 50%, #eceae2 calc(100% - 7px), #aaa99f calc(100% - 3px), #f7f5ef); box-shadow: 0 5px 10px #6c655a12; }
-.app-grid {
-  position: relative;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: min(82%, clamp(300px, calc(250px + 14vw), 520px));
-  gap: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  cursor: grab;
-  user-select: none;
-}
-.app-grid::-webkit-scrollbar { display: none; }
-.app-grid:focus-visible { outline-offset: -3px; }
-.app-grid.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
-.app-grid.is-dragging * { cursor: grabbing; }
-.app-grid > li { position: relative; min-width: 0; scroll-snap-align: start; }
-/* Low, shared dividers keep the glass a continuous horizontal surface. */
-.app-grid > li::after { content: ""; position: absolute; z-index: 4; right: 0; top: 34%; bottom: 0; width: 3px; pointer-events: none; background: linear-gradient(90deg, #a4a99d, #f6f7f0 45%, #abb2a2); box-shadow: -1px 0 1px #343a2514; }
-.case-frame {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 7 / 4;
-  border-radius: 0;
-  background-color: var(--surface);
-  background-image: url("./assets/vanilla-counter-interior.png");
-  background-repeat: no-repeat;
-  /* Trim the side rails so neighboring bays share only one silver mullion. */
-  background-size: 112% auto;
-  background-position: center;
-}
-/* The interior fills the shared counter. Labels remain independent HTML glass. */
-.preview-card { position: relative; }
-.case-placard {
-  position: absolute;
-  z-index: 2;
-  left: 18%;
-  right: 18%;
-  bottom: 12.5%;
-  margin: 0;
-  padding: 12px 10px 17px;
-  border: 1px solid #ffffff9c;
-  border-right-color: #dbe2da8c;
-  border-bottom-color: #a9b0a680;
-  border-radius: 3px;
-  background: linear-gradient(115deg, #ffffff3d, #ffffff0a 38%, #fffdf326 72%, #ffffff17);
-  -webkit-backdrop-filter: blur(1px) saturate(.9);
-  backdrop-filter: blur(1px) saturate(.9);
-  box-shadow: inset 1px 1px 0 #fffdf866, inset -1px -1px 0 #939d9626, 0 1px 1px #73675029, 0 5px 6px -5px #4d493680;
-  text-align: center;
-}
-.case-placard::before { content: ""; position: absolute; inset: 2px; border-top: 1px solid #ffffff66; border-left: 1px solid #ffffff40; border-radius: 1px; pointer-events: none; }
-.case-placard::after { content: ""; position: absolute; left: 5%; right: 5%; bottom: -3px; height: 2px; background: linear-gradient(90deg, #eef3ec33, #ffffffb3 30%, #b8c1b899); border-bottom: 1px solid #8f978c66; transform: skewX(-18deg); box-shadow: 0 2px 2px #514a3933; pointer-events: none; }
-.case-placard h3 { margin: 0; color: var(--ink); font-size: clamp(18px, 1.65vw, 23px); line-height: 1.35; font-weight: var(--weight-heading); letter-spacing: -.01em; }
-.case-placard p { margin: 5px 0 0; color: #44423b; font-size: 14px; line-height: 1.5; font-weight: 400; letter-spacing: 0; white-space: nowrap; }
-/* Keep the shelf legible when real names are longer than the preview labels.
-   The complete name and purpose remain available in the app details. */
-.app-button .case-placard .copy-variant { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .glass-pane {
   position: absolute;
   inset: 0;
@@ -208,40 +133,11 @@ h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.0
 }
 .glass-pane::before { content: ""; position: absolute; inset: 0; z-index: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 14px -2px var(--shelf-glow); transition: box-shadow var(--motion-state) var(--ease); }
 .glass-pane::after { content: ""; position: absolute; z-index: 0; left: 0; right: 0; bottom: 0; height: 62%; pointer-events: none; background: radial-gradient(120% 90% at 50% 130%, var(--chill), transparent 68%); filter: blur(3px); opacity: .3; animation: case-air var(--motion-air) ease-in-out infinite paused; }
-.app-grid[data-air-active="true"] .glass-pane::after { animation-play-state: running; }
-.app-grid > li:nth-child(2n) .glass-pane::after { animation-delay: -4s; }
-.app-grid > li:nth-child(3n) .glass-pane::after { animation-delay: -8s; }
-.app-button:focus-visible .glass-pane::before, .case-frame:active .glass-pane::before, .app-button.is-selected .glass-pane::before { box-shadow: inset 0 14px 26px -10px var(--shelf-glow); }
-.shelf-footer { min-height: 80px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px clamp(22px, 5vw, 80px) 16px; background: linear-gradient(#f3f1eb, #f7f3ed); }
-.empty-note { min-width: 0; padding: 0; text-align: left; }
-.empty-note p { color: var(--muted); font-size: 12px; line-height: 1.6; letter-spacing: .01em; margin: 0; }
-.shelf-controls { display: flex; gap: 8px; align-items: center; margin-left: auto; flex-shrink: 0; }
-.shelf-position { min-width: 68px; text-align: center; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
-.shelf-arrow { display: grid; place-items: center; min-width: 44px; height: 44px; padding: 0; border: 1px solid #b6b7aa; border-radius: 50%; background: #f9f8f244; transition: background-color var(--motion-state) var(--ease), opacity var(--motion-state) var(--ease); }
 .cabinet-atmosphere { inset: auto; left: 15.7%; top: 61.5%; width: 68.4%; height: 18.2%; pointer-events: none; }
 .cabinet-atmosphere::before { box-shadow: none; }
 .cabinet-atmosphere::after { opacity: .06; animation-name: scene-air; }
 .cabinet-atmosphere[data-air-active="true"]::after { animation-play-state: running; }
 .kiosk-scene:hover .cabinet-atmosphere::before, .kiosk-scene:focus-within .cabinet-atmosphere::before { box-shadow: inset 0 9px 20px -12px #fff0d980; }
-/* The current artwork is a three-app atmosphere preview. Supply readable HTML
-   captions instead of adding another set of photographed cabinets below it. */
-.storefront[data-mode="preview"] .apps-section { width: min(600px, 100%); margin: -12px auto 0; padding-inline: 14px; background: none; }
-.storefront[data-mode="preview"] .shelf-housing { padding: 0; background: none; box-shadow: none; }
-.app-grid[data-preview="storefront-scene"] { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-columns: auto; gap: 10px; overflow: visible; cursor: auto; user-select: text; }
-.app-grid[data-preview="storefront-scene"] > li::after { display: none; }
-.app-grid[data-preview="storefront-scene"] .case-placard { position: static; padding: 0; border: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
-.app-grid[data-preview="storefront-scene"] .case-placard::before, .app-grid[data-preview="storefront-scene"] .case-placard::after { display: none; }
-.app-grid[data-preview="storefront-scene"] h3 { font-size: 17px; }
-.app-grid[data-preview="storefront-scene"] p { font-size: 13px; margin-top: 5px; color: var(--muted); }
-.storefront[data-mode="preview"] .shelf-footer { justify-content: center; min-height: 0; padding: 18px 0 0; background: none; }
-.storefront[data-mode="preview"] .empty-note { text-align: center; }
-.shelf-arrow:hover:not(:disabled), .shelf-arrow:focus-visible { background: #fffdf8; }
-.shelf-arrow:disabled { opacity: .3; }
-.app-button { position: relative; display: block; width: 100%; text-align: center; padding: 0; border: 0; border-radius: 0; background: transparent; }
-.app-button:focus-visible { outline-offset: -4px; border-radius: 0; }
-.app-icon { position: relative; z-index: 1; display: grid; place-items: center; width: 48%; min-width: 44px; max-width: 144px; aspect-ratio: 1; border-radius: 23%; background: #eae1d2; font-size: clamp(22px, 4vw, 38px); font-weight: var(--weight-brand); box-shadow: 0 8px 15px -4px #715d4733; transition: transform var(--motion-press) var(--ease), box-shadow var(--motion-state) var(--ease); overflow: hidden; }
-.app-icon img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.app-detail-label { position: absolute; right: 7%; top: 9%; color: #575b50; font-size: 16px; line-height: 1; }
 .about-section { text-align: left; display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: start; margin-top: 64px; padding: 40px 0 64px; border-top: 1px solid var(--line); }
 .about-section h2 { margin-bottom: 0; }
 .about-copy { max-width: 28em; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.8; letter-spacing: 0; text-wrap: pretty; white-space: pre-line; }
@@ -255,8 +151,6 @@ h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.0
 .app-dialog[open] { transform-origin: var(--detail-origin, 50% 50%); animation: detail-enter var(--motion-state) var(--ease); }
 .dialog-close { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 44px; height: 44px; border: 0; background: transparent; border-radius: 50%; }
 .dialog-close:hover { background: #eee6da; }
-.dialog-icon { width: 80px; margin-bottom: 25px; }
-.dialog-icon .app-icon { width: 100%; font-size: 32px; }
 .dialog-tagline { font-size: 15px; line-height: 1.7; margin: 14px 0; color: var(--muted); }
 .dialog-description { font-size: 16px; line-height: 1.8; white-space: pre-line; margin: 22px 0 28px; }
 .platforms { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -295,16 +189,6 @@ html[data-reduced-motion="true"] .glass-pane::after { opacity: 0; }
   .hero-description { font-size: 14px; line-height: 1.8; max-width: 32ch; margin-bottom: 20px; }
   .storefront { margin-top: 16px; }
   .section-width { width: calc(100% - 44px); }
-  .case-placard { left: 16%; right: 16%; padding: 9px 8px 12px; }
-  .case-placard h3 { font-size: 19px; }
-  .case-placard p { margin-top: 4px; font-size: 13px; }
-  .app-grid[data-preview="storefront-scene"] h3 { font-size: 16px; }
-  .app-grid[data-preview="storefront-scene"] p { font-size: 12px; }
-  .app-icon { font-size: 26px; }
-  .shelf-footer { gap: 8px; padding: 12px 18px; min-height: 80px; }
-  .empty-note p { font-size: 12px; }
-  .shelf-controls { gap: 4px; }
-  .shelf-position { min-width: 52px; font-size: 12px; }
   .about-section { grid-template-columns: minmax(0, 1fr); gap: 28px; margin-top: 48px; padding: 32px 0 48px; }
   .about-copy { font-size: 15px; }
   .site-footer { display: block; padding: 28px 0 18px; }
@@ -316,7 +200,6 @@ html[data-reduced-motion="true"] .glass-pane::after { opacity: 0; }
 @media (hover: hover) {
   .header-nav > a:hover::after, .hero-link:hover::after { transform: scaleX(1); }
   .hero-link:hover svg { transform: translateY(4px); }
-  .app-button:hover .glass-pane::before, .preview-card:hover .glass-pane::before { box-shadow: inset 0 14px 26px -10px var(--shelf-glow); }
   .kiosk-scene:hover .shop-lights { opacity: .18; }
 }
 @media (hover: none) {
@@ -329,5 +212,4 @@ html[data-reduced-motion="true"] .glass-pane::after { opacity: 0; }
 }
 @media (prefers-contrast: more) {
   :root { --muted: #4c4237; }
-  .app-button { outline: 1px solid #8d7b65; outline-offset: 3px; }
 }
