@@ -1,10 +1,75 @@
 # 自然光とケースの画像制作記録
 
-## 店舗上部の質感を強化したベース画像
+## 窓と一枚の受け渡し台を分けたベース画像（現在使用）
+
+保存先:
+
+- `assets/storefront-counter-v2.png`（1774×887、PC用）
+- `assets/storefront-counter-mobile-v2.png`（1086×1448、680px以下用）
+
+制作方法: 内蔵 `image_gen` による画像編集。CLI / APIでの生成は使用していません。元の `assets/storefront-rich-open-v1.png` を編集し、PC版を一度修正。そのPC版を参照してスマホ専用の縦構図を生成し、下端を一度修正しました。採用したPNGは加工せずコピーし、旧画像を保持しています。
+
+固定窓枠を画面内に残し、銀の段差を一枚の白い天板へ整理しました。天板の上面・前面・下の影を描き、棚はその直下につなぎます。画像内には正面ガラスや取っ手を描かず、HTMLで固定の側面ガラスと中央の引き戸を重ねます。左右の引き戸は固定ガラスに重なって停止し、天板の手前には出ません。スマホは横長画像の中央切り抜きではありません。
+
+最終プロンプトセット（下記の順に編集）:
+
+### 1. PC構図の構造整理
+
+```text
+Use case: precise-object-edit.
+Asset type: photorealistic upper storefront base for a responsive website, landscape 2:1, high resolution.
+Image 1 is the edit target. Preserve the recognizable warm white ice cream shop, pale butter-yellow and ivory woven scalloped awning, blank painted fascia, two subtle ceiling lights and front-facing level camera. Preserve the refined natural material texture and soft daylight.
+
+Correct the ARCHITECTURE so the visitor immediately understands an open serving window, a single handover counter in front, and space for a separate ice cream display below. No text and no products.
+
+Keep the outer facade extending off the left and right canvas edges. Place the LEFT and RIGHT fixed window jambs clearly INSIDE the image, at approximately 15% and 85% of image width. These two permanent narrow satin-silver frames must remain visible when the outer edges of this wide image are cropped by about 10%. Between them is one open serving aperture, with a quiet recessed ivory interior, subtly shaded side reveals, fine vertical painted wall panels and a simple ceiling. The fixed side jambs have realistic thickness and clear but soft contact shadows. No front glass, no center mullions, no handles: the separate glass mechanism will be added in HTML.
+
+Composition proportions: blank white fascia upper 23%; striped cloth awning from 23% to 43%; open serving window roughly 44% to 86%; one handover counter occupies the bottom 14%. Keep the single counter's top below the open aperture.
+
+Completely remove the confusing STACK of stainless horizontal ledges, backsplash bands, duplicate countertops and parallel chrome rails across the lower part of the reference. Replace them with ONE continuous warm ivory solid-surface handover countertop running edge to edge. The top plane is visibly horizontal and projects forward toward the viewer from the bottom of the window. Give it a softly rounded front edge, a clearly visible modest thickness, a quiet slightly darker ivory front face, and ONE natural soft shadow underneath. The top is a little brighter than the front face. This must read as a place to put and receive something, not a decorative metal stripe. At the back edge of this countertop, where the serving glass will meet it, include only ONE narrow satin silver sliding track. The fixed side jambs visibly terminate at this same track and countertop. The lower edge of the image ends immediately beneath the single countertop's front face and its shadow. The ice cream cases below are separate website elements and MUST NOT appear in this image.
+
+Inside the shop keep the back wall quiet and subtly darker than the front, with minimal unobtrusive ivory surfaces. No tall silver backsplash, no shiny broad metal bands and no second strongly outlined worktop inside. Show restrained architectural depth through the side reveals and lighting, not a stack of horizontal lines.
+
+No lower cabinet, feet, wheels, register, objects, food, cups, cones, signs, writing, logos, people, plants, exterior landscape, border or watermark. Fixed white paint, cloth and satin silver retain the reference's tactile realistic quality. Output only this corrected wide storefront base.
+```
+
+### 2. PC構図の固定枠を内側へ
+
+```text
+Use case: precise-object-edit.
+Image 1 is the edit target. Make exactly one structural correction: move BOTH permanent silver side jambs of the serving window inward, so the left jamb is at 15% of the whole image width and the right jamb is at 85%. Currently they are near the canvas edges. The open window must be only 70% as wide as the canvas, not almost full width. Fill the widened left and right exterior piers with the SAME warm white painted material as the fascia. Each side pier should clearly occupy approximately one seventh of the canvas width.
+Preserve EVERYTHING else from image 1: the 2:1 canvas, blank fascia, awning, its stripes and folds, two ceiling lights, quiet ivory panelled interior, the new single warm ivory countertop, its thickness and natural underside shadow, lighting, colour and photographic material detail. The countertop continues across the full canvas width. Do not add rail stacks, glass, doors, handles, text or objects. The framed opening remains entirely open and the side jambs end at the narrow rear track immediately above the single countertop. Output the complete revised 2:1 storefront.
+```
+
+### 3. スマホ専用の縦構図
+
+```text
+Use case: precise-object-edit.
+Asset type: portrait 3:4 responsive website storefront artwork.
+Image 1 is the corrected desktop storefront and is the design and material reference. Create its PORTRAIT MOBILE COMPOSITION, showing the same architecture and the same materials in a narrower storefront opening, not a center crop of the wide image. Straight-on level camera, no tilt.
+
+Both permanent satin-silver window jambs MUST be visible inside the portrait composition, near 8% and 92% of canvas width. The outer facade and full-width countertop continue off both sides of the canvas. The two side jambs remain clearly readable and enclose one fully open serving window. The window is not blocked by any front glass, moving pane, central divider or handle; these will be added separately in HTML.
+
+Composition: blank warm white painted fascia occupies the upper 19%; pale vanilla-yellow and ivory woven scalloped awning occupies the next 19% with about 6 or 7 broad stripes; the tall open serving aperture occupies approximately 39% to 88% of canvas height; ONE projecting warm ivory solid-surface countertop finishes the lower 12%. A quiet recessed ivory panelled interior with two faint ceiling lights, subtly darker back wall and visible side returns. No second worktop or stainless backsplash across the inside.
+
+Maintain the reference's SINGLE countertop: a clearly readable bright horizontal top, modest softly rounded front thickness, slightly darker ivory front face and one soft underside shadow. Only one very thin silver glass track at the rear edge, where both fixed jambs terminate. No stacked ledges, repeated chrome bands or multiple front edges. End the image immediately beneath the countertop's underside shadow. No lower ice cream display in this image, no cabinets, feet, wheels, objects, register, cups, plants, words, logo, APPS sign, people or scenery.
+Preserve fine painted texture, real woven fabric and satin silver details under soft neutral daylight. Airy premium white, restrained butter yellow, physically legible depth. Output only the portrait 3:4 storefront base, high resolution.
+```
+
+### 4. スマホ構図の天板下の余分な壁を除去
+
+```text
+Use case: precise-object-edit.
+Image 1 is the edit target. Keep the 3:4 canvas and preserve the fascia, awning, widths, window jamb positions, lighting and all materials exactly.
+One layout correction: REMOVE the large blank wall area BELOW the countertop. Move the same single countertop downward so its front edge and short underside shadow end at the very bottom of the canvas. Extend the open window and the two fixed side jambs downward to meet the relocated countertop. The top of the window and awning stay in exactly the same place. Extend the quiet ivory rear wall vertically, without new seams or objects.
+The result has a taller open serving aperture and no empty body panel underneath the counter. Keep the countertop's existing thickness and horizontal top plane; do not stretch its thickness. Its top begins around 88% of canvas height, its front edge around 95%, and its underside shadow ends at 100%. No extra shelves, metal bands, products, glass, text or props. Output the revised full portrait 3:4 image.
+```
+
+## 店舗上部の質感を強化した旧ベース画像（v1）
 
 保存先: `assets/storefront-rich-open-v1.png`（1774×887）。制作方法: 内蔵 `image_gen`。元の `assets/kiosk-warm.png` を編集対象、`assets/vanilla-counter-interior.png` を素材と照明の参照にして生成した、ユーザー承認済みの画像です。生成結果をそのままコピーし、旧画像と確認用の `output/imagegen/storefront-rich-open-v1.png` は保持しています。
 
-白い外装、織り目のある日よけ、固定の銀枠、奥行きのある店内、カウンターを一枚にまとめています。正面の可動ガラス、社名、APPS看板、アプリ棚は含めません。サイトでは画像の開いた窓に独立した2枚のガラスを重ね、左右へ開きます。照明の反応は画像の2灯に合わせ、棚へは5pxの継ぎ目で接続します。
+白い外装、織り目のある日よけ、固定の銀枠、奥行きのある店内、カウンターを一枚にまとめた旧版です。正面の可動ガラス、社名、APPS看板、アプリ棚は含めません。v1では独立した2枚のガラスが窓の外へ動き、棚へは5pxの継ぎ目で接続していました。現在は上記v2の構図と引き戸に置き換えています。
 
 最終プロンプト:
 
