@@ -152,13 +152,30 @@ h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.0
   background-size: 409.0625% 375.3125%;
   background-position: 50.050556% 82.406356%;
 }
-/* Temporary density study: the supplied image already contains its own case.
-   Remove data-preview from #app-grid to restore the empty display. */
-.app-grid[data-preview="vanilla-display"] .empty-card .case-frame {
-  background-image: url("./assets/vanilla-display-simple-preview.jpg");
+/* The supplied tray image includes its frame. Preserve its 5:4 proportions;
+   the separate HTML placard overlaps only the front edge of the case. */
+.app-grid[data-preview="vanilla-placards"] .preview-card .case-frame {
+  aspect-ratio: 5 / 4;
+  background-image: url("./assets/vanilla-tray-preview.jpg");
   background-size: 100% 100%;
   background-position: center;
 }
+.preview-card { position: relative; }
+.case-placard {
+  position: relative;
+  z-index: 2;
+  width: 90%;
+  margin: -24px auto 0;
+  padding: 14px 10px 13px;
+  border: 1px solid #bcb7ac;
+  border-radius: 10px;
+  background: linear-gradient(160deg, #fffdf8, #f2ece2);
+  box-shadow: inset 0 0 0 3px #faf7f1, inset 0 4px 6px #ffffffa6, 0 3px 5px #6855401c;
+  text-align: center;
+}
+.case-placard h3 { margin: 0; color: var(--ink); font-size: 16px; line-height: 1.35; font-weight: var(--weight-heading); letter-spacing: -.01em; }
+.case-placard p { margin: 5px 0 0; color: #5e5a53; font-size: 13px; line-height: 1.5; font-weight: 400; letter-spacing: 0; white-space: nowrap; }
+.app-grid[data-preview="vanilla-placards"] .preview-card .glass-pane { inset: 12% 8% 13%; }
 .glass-pane {
   position: absolute;
   inset: 9%;
@@ -256,6 +273,9 @@ html[data-reduced-motion="true"] .glass-pane::after, html[data-reduced-motion="t
   .apps-section { padding-top: 16px; padding-bottom: 18px; }
   .app-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px 10px; }
   .empty-card:nth-child(n+5) { display: none; }
+  .case-placard { width: 100%; margin-top: -12px; padding: 10px 5px 9px; border-radius: 8px; }
+  .case-placard h3 { font-size: 14px; }
+  .case-placard p { margin-top: 3px; font-size: 12px; }
   .app-meta { padding-top: 10px; }
   .app-meta h3 { font-size: 14px; }
   .app-meta p { font-size: 13px; }
