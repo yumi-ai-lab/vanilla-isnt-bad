@@ -152,6 +152,13 @@ h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.0
   background-size: 409.0625% 375.3125%;
   background-position: 50.050556% 82.406356%;
 }
+/* Temporary density study: the supplied image already contains its own case.
+   Remove data-preview from #app-grid to restore the empty display. */
+.app-grid[data-preview="vanilla-display"] .empty-card .case-frame {
+  background-image: url("./assets/vanilla-display-preview.jpg");
+  background-size: 100% 100%;
+  background-position: center;
+}
 .glass-pane {
   position: absolute;
   inset: 9%;
