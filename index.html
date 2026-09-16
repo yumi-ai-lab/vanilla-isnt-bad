@@ -7,7 +7,7 @@
   <meta name="description" content="Apps that feel good from the start, with room to make them your own. VANILLA ISN’T BAD.">
   <title>VANILLA ISN’T BAD. — Good as it is.</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="./assets/storefront-horizontal-v4.png" as="image" fetchpriority="high">
+  <link rel="preload" href="./assets/storefront-complete-v5.png" as="image" fetchpriority="high">
   <link rel="preload" href="./assets/fonts/inter/inter-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./assets/fonts/fonts.css">
   <link rel="stylesheet" href="./styles.css">
@@ -34,22 +34,19 @@
         <h1 id="hero-title" lang="en">Good as it is.</h1>
         <p class="hero-subtitle" lang="en">Yours if you want.</p>
         <p class="hero-description" data-i18n="hero.description" data-copy-stable></p>
-        <a class="text-link hero-link" href="#apps">
+        <a class="text-link hero-link" href="#shop">
           <span data-i18n="hero.cta" data-copy-stable>Explore the apps</span>
           <svg aria-hidden="true" width="16" height="16" viewBox="0 0 20 20"><path d="M10 3v13m-5-5 5 5 5-5" /></svg>
         </a>
       </div>
 
-      <div class="storefront">
-        <div class="park-atmosphere" aria-hidden="true"></div>
-        <figure class="kiosk-scene" aria-labelledby="kiosk-caption">
+      <div class="storefront" data-mode="preview">
+        <figure class="kiosk-scene" id="shop" aria-labelledby="kiosk-caption" tabindex="-1">
           <div class="kiosk-wrap">
             <picture class="kiosk-artwork">
-              <img class="kiosk-art" src="./assets/storefront-horizontal-v4.png" width="1942" height="809" alt="" decoding="async" fetchpriority="high">
+              <img class="kiosk-art" src="./assets/storefront-complete-v5.png" width="1254" height="1254" alt="" decoding="async" fetchpriority="high">
             </picture>
             <div class="serving-window" aria-hidden="true">
-              <span class="window-fixed window-fixed-left"></span>
-              <span class="window-fixed window-fixed-right"></span>
               <span class="window-glass window-glass-left"></span>
               <span class="window-glass window-glass-right"></span>
             </div>
@@ -57,45 +54,27 @@
               <span class="shop-light shop-light-left"></span>
               <span class="shop-light shop-light-right"></span>
             </div>
-            <picture class="kiosk-wordmark" aria-hidden="true">
-              <source media="(max-width: 680px)" srcset="./assets/wordmark-small.svg">
-              <img src="./assets/wordmark-display.svg" width="440" height="36" alt="">
-            </picture>
+            <div class="glass-pane cabinet-atmosphere" aria-hidden="true"></div>
           </div>
           <a class="hanging-sign" href="#apps" data-i18n-aria="kiosk.link" aria-label="Explore the apps">
-            <span class="sign-plate"><span class="sign-label">APPS</span></span>
+            <span class="sr-only sign-label">APPS</span>
           </a>
-          <figcaption class="sr-only" id="kiosk-caption" data-i18n="kiosk.caption">VANILLA ISN’T BAD. — a wide ice-cream counter, with a vanilla-striped awning and an app shelf below.</figcaption>
+          <figcaption class="sr-only" id="kiosk-caption" data-i18n="kiosk.caption">VANILLA ISN’T BAD. — a little ice-cream shop in the park, with cones, cups and three vanilla trays beneath the serving window.</figcaption>
         </figure>
 
         <section class="apps-section" id="apps" aria-labelledby="apps-title" tabindex="-1">
           <h2 class="sr-only" id="apps-title" lang="en" data-i18n="gallery.title">APPS</h2>
-          <p class="sr-only" id="shelf-help" data-i18n="shelf.help">Swipe horizontally, or use the arrow keys to browse the shelf.</p>
+          <p class="sr-only" id="shelf-help" data-i18n="shelf.help" hidden>Swipe horizontally, or use the arrow keys to browse the shelf.</p>
           <div class="shelf-housing">
-          <ul class="app-grid" id="app-grid" data-preview="vanilla-placards" tabindex="0" data-i18n-aria="shelf.label" aria-label="App shelf" aria-describedby="shelf-help empty-note">
+          <ul class="app-grid" id="app-grid" data-preview="storefront-scene" data-i18n-aria="shelf.label" aria-label="App shelf" aria-describedby="empty-note">
             <li class="empty-card preview-card">
-              <div class="case-frame" aria-hidden="true"><div class="glass-pane"></div></div>
               <div class="case-placard"><h3 lang="en">Focus</h3><p data-i18n="preview.focus" data-copy-stable>Focus timer</p></div>
             </li>
             <li class="empty-card preview-card">
-              <div class="case-frame" aria-hidden="true"><div class="glass-pane"></div></div>
               <div class="case-placard"><h3 lang="en">Notes</h3><p data-i18n="preview.notes" data-copy-stable>Keep a note</p></div>
             </li>
             <li class="empty-card preview-card">
-              <div class="case-frame" aria-hidden="true"><div class="glass-pane"></div></div>
               <div class="case-placard"><h3 lang="en">Trip</h3><p data-i18n="preview.trip" data-copy-stable>Plan a trip</p></div>
-            </li>
-            <li class="empty-card preview-card">
-              <div class="case-frame" aria-hidden="true"><div class="glass-pane"></div></div>
-              <div class="case-placard"><h3 lang="en">Tasks</h3><p data-i18n="preview.tasks" data-copy-stable>Sort tasks</p></div>
-            </li>
-            <li class="empty-card preview-card">
-              <div class="case-frame" aria-hidden="true"><div class="glass-pane"></div></div>
-              <div class="case-placard"><h3 lang="en">Budget</h3><p data-i18n="preview.budget" data-copy-stable>Track costs</p></div>
-            </li>
-            <li class="empty-card preview-card">
-              <div class="case-frame" aria-hidden="true"><div class="glass-pane"></div></div>
-              <div class="case-placard"><h3 lang="en">Journal</h3><p data-i18n="preview.journal" data-copy-stable>Save a day</p></div>
             </li>
           </ul>
           </div>

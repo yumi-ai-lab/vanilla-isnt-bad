@@ -1,6 +1,16 @@
 # 自然光とケースの画像制作記録
 
-## 横に広がる売り場（現在使用）
+## 店の全景と距離感（現在使用・v5）
+
+保存先: `assets/storefront-complete-v5.png`（1254×1254）。承認済みの `output/imagegen/storefront-distance-study-v1.png` をバイト単位でそのままコピーしています。今回のサイト反映で再生成・画像加工は行っていません。
+
+制作方法: 内蔵 `image_gen`。`assets/kiosk-warm.png` をシルエットの基準、`assets/vanilla-counter-interior.png` をアイスと金属の質感の基準として一枚に生成し、右奥の機器のみソフトクリーム機へ修正しました。CLI / API生成は使用していません。最終プロンプトセットは [storefront-complete-v5.prompt.txt](./assets/storefront-complete-v5.prompt.txt) に保存しています。
+
+丸い屋根、布の日よけ、店内のコーン・カップ・スクープ・機械、共通のガラスケース、短い足元、公園を一つの視点と光でまとめた構図です。PCもスマホも幅100%・最大900pxで全体を表示し、画角を寄せません。CSSの薄いガラス、追加光、棚の冷気だけを重ね、背景と地面の外縁をページ色へなじませます。
+
+ユーザーの「そのままサイトに反映」に合わせ、今回は画像内の社名・APPS看板・英語の三枚の札もそのまま使用します。構図制作時に記した「文字をSVG / HTMLへ分離」は今回行っていません。APPS看板にはHTMLリンク、画像の直下には三件の名前と用途をHTMLで添え、操作・日英切替・読み上げを補います。画像内の札は固定の構図確認用サンプルで、実アプリのデータとは連動しません。
+
+## 横に広がる売り場（旧v4）
 
 保存先: `assets/storefront-horizontal-v4.png`（1942×809）。内蔵 `image_gen` で `assets/storefront-balanced-v3.png` を編集し、生成PNGをそのまま保存しました。CLI / API生成は使用していません。旧画像は比較用に保持しています。
 

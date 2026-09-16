@@ -15,7 +15,6 @@ const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 let userReduced = readPreference("vanilla-motion") === "off";
 let activeApp = null;
 let activeTrigger = null;
-let signHasPlayed = false;
 let shelfInView = !("IntersectionObserver" in window);
 let fontsReady = false;
 let artworkReady = false;
@@ -208,7 +207,9 @@ function prepareEntrances() {
 }
 
 function updateAir() {
-  grid.dataset.airActive = String(shelfInView && !document.hidden && !reduced());
+  const active = String(shelfInView && !document.hidden && !reduced());
+  grid.dataset.airActive = active;
+  document.querySelector(".cabinet-atmosphere").dataset.airActive = active;
 }
 
 function readShelf() {
@@ -216,6 +217,10 @@ function readShelf() {
 }
 
 function updateShelf() {
+  if (records.length === 0) {
+    document.querySelector(".shelf-controls").hidden = true;
+    return;
+  }
   const state = readShelf();
   document.querySelector(".shelf-controls").hidden = state.max <= 1;
   document.querySelector("#shelf-prev").disabled = state.atStart;
@@ -231,6 +236,7 @@ function moveShelf(destination) {
 }
 
 function setupShelf() {
+  if (records.length === 0) return;
   let scrollFrame = 0;
   const schedule = () => {
     if (scrollFrame) return;
@@ -311,11 +317,14 @@ function makeIcon(app) {
 }
 
 function renderGallery() {
+  document.querySelector(".storefront").dataset.mode = records.length ? "catalog" : "preview";
+  document.querySelector("#shelf-help").hidden = records.length === 0;
   if (records.length === 0) return;
   const previousScroll = grid.scrollLeft;
   grid.replaceChildren();
   grid.removeAttribute("data-preview");
   grid.removeAttribute("aria-hidden");
+  grid.setAttribute("tabindex", "0");
   grid.setAttribute("aria-describedby", "shelf-help");
   document.querySelector("#empty-note").hidden = true;
   for (const app of records) {
@@ -425,7 +434,6 @@ function updateMotion() {
   toggle.title = motionQuery.matches ? (language === "ja" ? "端末の「動きを減らす」設定を使用しています" : "Following your device's reduced-motion setting") : "";
   document.querySelector("#motion-state").textContent = text(isReduced ? "motion.off" : "motion.on");
   if (isReduced) {
-    document.querySelector(".hanging-sign").classList.remove("sign-enter");
     stopCopyAnimations();
     stopScenes();
   }
@@ -498,16 +506,5 @@ if ("IntersectionObserver" in window) {
     shelfInView = entries.some((entry) => entry.isIntersecting);
     updateAir();
   });
-  shelfObserver.observe(grid);
-}
-
-const sign = document.querySelector(".hanging-sign");
-if ("IntersectionObserver" in window) {
-  const signObserver = new IntersectionObserver((entries) => {
-    if (!entries.some((entry) => entry.isIntersecting)) return;
-    if (!signHasPlayed && !reduced()) sign.classList.add("sign-enter");
-    signHasPlayed = true;
-    signObserver.disconnect();
-  }, { threshold: .9 });
-  signObserver.observe(sign);
+  shelfObserver.observe(records.length ? grid : document.querySelector(".kiosk-scene"));
 }
