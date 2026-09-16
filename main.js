@@ -17,8 +17,16 @@ let activeApp = null;
 let activeTrigger = null;
 let signHasPlayed = false;
 let shelfInView = !("IntersectionObserver" in window);
+let floorInView = !("IntersectionObserver" in window);
+let fontsReady = false;
+let artworkReady = false;
+let visualFrame = 0;
+let lastScrollAt = -Infinity;
+let scrollSettleTimer;
+let lastReduced = null;
+const entrances = [];
 const copyAnimations = new Set();
-const sceneAnimations = new Set();
+const sceneAnimations = new Map();
 const text = (key) => copy[language][key] ?? copy.en[key] ?? key;
 const reduced = () => motionQuery.matches || userReduced;
 
@@ -59,17 +67,27 @@ function stopCopyAnimations() {
 
 function playScene(element, keyframes, options = {}) {
   if (reduced() || !element?.animate) return;
+  const { group, ...timing } = options;
   const animation = element.animate(keyframes, {
     duration: 1000,
     easing: "cubic-bezier(.22,.61,.36,1)",
     fill: "backwards",
-    ...options
+    ...timing
   });
-  sceneAnimations.add(animation);
+  sceneAnimations.set(animation, group);
   animation.finished.catch(() => {}).finally(() => sceneAnimations.delete(animation));
 }
 
+function stopScenes(group) {
+  for (const [animation, owner] of sceneAnimations) {
+    if (group && owner !== group) continue;
+    animation.cancel();
+    sceneAnimations.delete(animation);
+  }
+}
+
 function revealHero() {
+  stopScenes("hero");
   const parts = [
     ["#hero-title", 52, 7, 1120, 0],
     [".hero-subtitle", 38, 4, 1040, 100],
@@ -80,17 +98,25 @@ function revealHero() {
     playScene(document.querySelector(selector), [
       { opacity: 0, transform: `translateY(${distance}px)`, filter: `blur(${blur}px)` },
       { opacity: 1, transform: "translateY(0)", filter: "blur(0)" }
-    ], { duration, delay });
+    ], { duration, delay: delay + 160, group: "hero" });
   }
 }
 
+function resetWindow() {
+  stopScenes("window");
+  document.querySelector(".serving-window").dataset.state = reduced() ? "open" : "closed";
+  document.querySelector(".kiosk-wrap").classList.toggle("is-open", reduced());
+}
+
 function openShop() {
+  stopScenes("window");
+  document.querySelector(".serving-window").dataset.state = "open";
   document.querySelector(".kiosk-wrap").classList.add("is-open");
   for (const [selector, direction] of [[".window-glass-left", -1], [".window-glass-right", 1]]) {
     playScene(document.querySelector(selector), [
       { transform: "translateX(0)", opacity: 1 },
-      { transform: `translateX(${direction * 98}%)`, opacity: .65 }
-    ], { duration: 1200, delay: 100 });
+      { transform: `translateX(${direction * 98}%)`, opacity: .35 }
+    ], { duration: 1600, delay: 240, group: "window" });
   }
 }
 
@@ -99,24 +125,89 @@ function revealAbout() {
     playScene(document.querySelector(selector), [
       { opacity: .08, transform: "translateX(calc(-1 * var(--copy-travel)))", filter: "blur(3px)" },
       { opacity: 1, transform: "translateX(0)", filter: "blur(0)" }
-    ], { duration: 900, delay });
+    ], { duration: 900, delay, group: "about" });
   }
 }
 
-function observeEntrance(element, reveal) {
-  // Content stays visible until a real intersection starts a finite animation.
-  // A missing or silent observer must never leave a blank section behind.
-  if (!("IntersectionObserver" in window)) return;
-  const observer = new IntersectionObserver((entries) => {
-    if (!entries.some(entry => entry.isIntersecting)) return;
-    reveal();
-    observer.disconnect();
-  }, { threshold: .14 });
-  observer.observe(element);
+function checkEntrances() {
+  const height = window.innerHeight;
+  for (const entrance of entrances) {
+    const box = entrance.element.getBoundingClientRect();
+    const outside = box.bottom <= 0 || box.top >= height;
+    if (document.hidden || outside) {
+      if (entrance.repeat && !entrance.armed) {
+        stopScenes(entrance.name);
+        entrance.armed = true;
+        entrance.reset?.();
+      }
+      continue;
+    }
+    if (reduced() || !entrance.armed || !entrance.ready()) continue;
+    // Let the eye arrive before playing; smooth anchor scrolling must not
+    // spend the entrance while the destination is still moving past.
+    if (performance.now() - lastScrollAt < 120) continue;
+    const visible = Math.max(0, Math.min(box.bottom, height) - Math.max(box.top, 0));
+    const ratio = visible / Math.max(1, Math.min(box.height, height));
+    if (ratio < entrance.threshold) continue;
+    entrance.armed = false;
+    entrance.playCount = (entrance.playCount ?? 0) + 1;
+    entrance.element.dataset.entranceCount = String(entrance.playCount);
+    entrance.reveal();
+  }
+}
+
+function updateSky() {
+  if (reduced()) {
+    document.body.style.removeProperty("background-color");
+    document.documentElement.style.setProperty("--sky-mix", "0");
+    return;
+  }
+  const progress = Math.max(0, Math.min(1, window.scrollY / Math.max(1, window.innerHeight * .6)));
+  const sky = [231, 237, 240];
+  const cream = [247, 243, 237];
+  const color = sky.map((value, index) => Math.round(value + (cream[index] - value) * progress));
+  document.body.style.backgroundColor = `rgb(${color.join(", ")})`;
+  document.documentElement.style.setProperty("--sky-mix", String(progress));
+}
+
+function scheduleVisuals() {
+  if (visualFrame) return;
+  visualFrame = requestAnimationFrame(() => {
+    visualFrame = 0;
+    updateSky();
+    checkEntrances();
+  });
+}
+
+function boundedReady(promise, milliseconds) {
+  let timer;
+  return Promise.race([
+    promise.catch(() => {}),
+    new Promise(resolve => { timer = setTimeout(resolve, milliseconds); })
+  ]).finally(() => clearTimeout(timer));
+}
+
+function prepareEntrances() {
+  entrances.push(
+    { name: "hero", element: document.querySelector(".hero-copy"), reveal: revealHero, threshold: .6, repeat: true, armed: true, ready: () => fontsReady },
+    { name: "window", element: document.querySelector(".serving-window"), reveal: openShop, reset: resetWindow, threshold: .65, repeat: true, armed: true, ready: () => artworkReady },
+    { name: "about", element: document.querySelector(".about-section"), reveal: revealAbout, threshold: .25, repeat: false, armed: true, ready: () => fontsReady }
+  );
+  boundedReady(document.fonts?.ready ?? Promise.resolve(), 1500).then(() => {
+    fontsReady = true;
+    scheduleVisuals();
+  });
+  const art = new Image();
+  art.src = document.querySelector(".kiosk-art image").getAttribute("href");
+  boundedReady(art.decode(), 4000).then(() => {
+    artworkReady = true;
+    scheduleVisuals();
+  });
 }
 
 function updateAir() {
   grid.dataset.airActive = String(shelfInView && !document.hidden && !reduced());
+  document.querySelector(".floor-mist").dataset.airActive = String(floorInView && !document.hidden && !reduced());
 }
 
 function makeIcon(app) {
@@ -245,10 +336,17 @@ function updateMotion() {
   if (isReduced) {
     document.querySelector(".hanging-sign").classList.remove("sign-enter");
     stopCopyAnimations();
-    for (const animation of sceneAnimations) animation.cancel();
-    sceneAnimations.clear();
+    stopScenes();
   }
+  if (lastReduced !== isReduced) {
+    resetWindow();
+    for (const entrance of entrances) {
+      if (entrance.repeat) entrance.armed = true;
+    }
+  }
+  lastReduced = isReduced;
   updateAir();
+  scheduleVisuals();
 }
 
 document.querySelectorAll("[data-language]").forEach((button) => {
@@ -269,7 +367,20 @@ document.querySelector("#motion-toggle").addEventListener("click", () => {
   updateMotion();
 });
 motionQuery.addEventListener("change", updateMotion);
-document.addEventListener("visibilitychange", updateAir);
+document.addEventListener("visibilitychange", () => {
+  updateAir();
+  // A hidden tab may suspend animation frames; re-arm immediately on hiding.
+  if (document.hidden) checkEntrances();
+  scheduleVisuals();
+});
+window.addEventListener("scroll", () => {
+  lastScrollAt = performance.now();
+  scheduleVisuals();
+  clearTimeout(scrollSettleTimer);
+  scrollSettleTimer = setTimeout(scheduleVisuals, 140);
+}, { passive: true });
+window.addEventListener("resize", scheduleVisuals);
+window.addEventListener("pageshow", scheduleVisuals);
 
 document.querySelector(".dialog-close").addEventListener("click", () => dialog.close());
 dialog.addEventListener("click", (event) => {
@@ -288,9 +399,7 @@ dialog.addEventListener("close", () => {
 
 document.querySelector("#year").textContent = String(new Date().getFullYear());
 translate();
-revealHero();
-observeEntrance(document.querySelector(".serving-window"), openShop);
-observeEntrance(document.querySelector(".about-section"), revealAbout);
+prepareEntrances();
 
 if ("IntersectionObserver" in window) {
   const shelfObserver = new IntersectionObserver((entries) => {
@@ -298,6 +407,11 @@ if ("IntersectionObserver" in window) {
     updateAir();
   });
   shelfObserver.observe(grid);
+  const floorObserver = new IntersectionObserver((entries) => {
+    floorInView = entries.some(entry => entry.isIntersecting);
+    updateAir();
+  });
+  floorObserver.observe(document.querySelector(".floor-mist"));
 }
 
 const sign = document.querySelector(".hanging-sign");
