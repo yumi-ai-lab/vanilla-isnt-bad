@@ -26,9 +26,17 @@
       <div><h1 lang="en" data-i18n="showcase.title">All flavors.</h1><p data-i18n="showcase.subtitle" data-copy-stable>A little something for your everyday.</p></div>
       <span id="app-count" class="app-count"></span>
     </div>
-    <ul class="showcase-grid" id="app-grid" tabindex="-1" data-i18n-aria="shelf.label" aria-label="App shelf">
-      <li>Focus</li><li>Notes</li><li>Trip</li><li>Tasks</li><li>Budget</li><li>Journal</li>
-    </ul>
+    <div class="display-cabinet">
+      <div class="cabinet-canopy" aria-hidden="true"></div>
+      <div class="cabinet-body">
+        <div class="cabinet-window">
+          <ul class="showcase-grid" id="app-grid" tabindex="-1" data-i18n-aria="shelf.label" aria-label="App shelf">
+            <li>Focus</li><li>Notes</li><li>Trip</li><li>Tasks</li><li>Budget</li><li>Journal</li>
+          </ul>
+        </div>
+      </div>
+      <div class="cabinet-base" aria-hidden="true"></div>
+    </div>
     <p class="preview-note showcase-note" data-preview-note data-i18n="gallery.preview" data-copy-stable>Sample apps for this preview.</p>
     <noscript><p>アプリの詳細を見るにはJavaScriptを有効にしてください。</p></noscript>
   </main>
