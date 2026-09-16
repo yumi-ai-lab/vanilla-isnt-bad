@@ -84,17 +84,23 @@ h1 { font-size: clamp(44px, 5.2vw, 68px); font-weight: var(--weight-heading); li
   margin: 34px auto 0;
   padding-bottom: 28px;
 }
-.storefront::after { content: ""; position: absolute; z-index: -1; bottom: 0; left: 15%; width: 70%; height: 9px; border-radius: 50%; background: #715d472e; filter: blur(7px); }
+.park-atmosphere { position: absolute; z-index: -2; top: -9%; bottom: 0; left: 50%; width: min(1600px, 160vw); transform: translateX(-50%); pointer-events: none; background: url("./assets/park-atmosphere.png") center bottom / cover no-repeat; opacity: .55; -webkit-mask-image: radial-gradient(ellipse 66% 58% at 50% 48%, #000 44%, transparent 96%); mask-image: radial-gradient(ellipse 66% 58% at 50% 48%, #000 44%, transparent 96%); }
+.storefront::before { content: ""; position: absolute; z-index: -1; bottom: 0; left: -20%; width: 140%; height: clamp(80px, 12vw, 140px); border-radius: 50%; background: radial-gradient(ellipse, #c3bba823, #e2dace0d 52%, transparent 72%); pointer-events: none; }
+.storefront::after { content: ""; position: absolute; z-index: -1; bottom: -1px; left: 14%; width: 72%; height: 18px; border-radius: 50%; background: radial-gradient(ellipse, #867c6947, #a2988321 48%, transparent 76%); filter: blur(6px); pointer-events: none; }
 .kiosk-scene { position: relative; margin: 0; }
 .kiosk-wrap { position: relative; container-type: inline-size; }
 .kiosk-art { width: 100%; height: auto; overflow: hidden; }
 /* Independent glass slides over the opening already visible in the source art. */
 .serving-window { position: absolute; left: 14.36%; top: 46.18%; width: 71.2%; height: 48.38%; overflow: hidden; border-radius: 0 0 3% 3%; pointer-events: none; }
-.window-glass { position: absolute; top: 0; bottom: 0; width: 27.25%; border: 1px solid #969f9ce0; background: linear-gradient(117deg, #f7fafad9 0%, #dce5e5a6 28%, #ffffffe0 29%, #ffffff66 34%, #e4ecec80 70%, #fffdf5bf 100%); box-shadow: inset 1px 0 1px #ffffffd9, 1px 0 3px #5d655a40; opacity: .35; }
-.window-glass-left { left: 22.75%; transform: translateX(-98%); }
-.window-glass-right { left: 50%; transform: translateX(98%); }
-.serving-window[data-state="closed"] .window-glass { transform: translateX(0); opacity: 1; }
-.window-glass::after { content: ""; position: absolute; top: 47%; width: 3px; height: 15%; border: 1px solid #938f84b3; border-radius: 3px; background: linear-gradient(90deg, #fffdf6, #b4b1a6); box-shadow: 1px 1px 2px #554f4226; }
+.serving-window::before, .serving-window::after { content: ""; position: absolute; z-index: 3; left: 0; right: 0; height: clamp(1px, .2cqw, 2px); background: linear-gradient(#e9ebe3b3, #929d924d, #ffffffb3); pointer-events: none; }
+.serving-window::before { top: 0; }
+.serving-window::after { bottom: 0; }
+.window-glass { position: absolute; top: 0; bottom: 0; width: 27.25%; border-inline: 1px solid #aeb8ae9c; background: linear-gradient(106deg, #eff4f226, #fffdf50d 44%, #d8e2df1a), linear-gradient(0deg, #c9d2cb24, transparent 30%, transparent 80%, #fffff529); box-shadow: inset 1px 0 #ffffff99, inset -1px 0 #8e9b9029, 1px 0 2px #5d655a1f; opacity: 1; }
+.window-glass-left { z-index: 2; left: 22.75%; transform: translateX(-98%); }
+.window-glass-right { z-index: 1; left: 50%; transform: translateX(98%); }
+.serving-window[data-state="closed"] .window-glass { transform: translateX(0); }
+.window-glass::before { content: ""; position: absolute; inset: 0; background: linear-gradient(108deg, transparent 12%, #fffdf538 24%, #ffffff12 31%, transparent 43%, transparent 68%, #dce8df21 82%, transparent); pointer-events: none; }
+.window-glass::after { content: ""; position: absolute; top: 47%; width: clamp(2px, .3cqw, 3.5px); height: 14%; border: 1px solid #a4aba080; border-radius: 2px; background: linear-gradient(90deg, #b4bcb1, #f7f7ed 48%, #c4cbbf); box-shadow: 1px 1px 1px #554f421f; }
 .window-glass-left::after { right: 6%; }
 .window-glass-right::after { left: 6%; }
 .shop-lights { position: absolute; inset: 0; overflow: hidden; opacity: .06; pointer-events: none; transition: opacity 650ms var(--ease); }
@@ -130,11 +136,14 @@ h1 { font-size: clamp(44px, 5.2vw, 68px); font-weight: var(--weight-heading); li
   margin: 0 auto;
   padding: 22px clamp(12px, 4.8%, 42px) 24px;
   scroll-margin-top: 32px;
-  border-inline: 2px solid #bdb6ab;
-  background: linear-gradient(90deg, #e9e3d9, #f8f5ee 2%, #f6f2eb 50%, #f8f5ee 98%, #e4dccf);
+  border-inline: 2px solid #c6c2b8;
+  background: radial-gradient(ellipse 140% 80% at 10% 0, #fffdf87a, transparent 72%), linear-gradient(90deg, #e7e5dc, #f8f6ef 3%, #f5f3ec 52%, #eeeade 97%, #dfdbd0);
   box-shadow: inset 1px 0 #fffdf8, inset -1px 0 #fffdf8;
 }
 .apps-section::before { content: ""; position: absolute; top: -2px; left: -4px; right: -4px; height: 4px; background: linear-gradient(#f8f5ee, #b9b2a6); box-shadow: 0 2px 4px #6855401a; }
+/* This is a scroll destination, not an interactive control. Keep the visible
+   keyboard outlines on links and buttons, without boxing the whole cabinet. */
+.apps-section:focus-visible { outline: none; }
 h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.025em; font-weight: var(--weight-heading); margin: 0; }
 .app-grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 24px 18px; }
 .app-grid > li { min-width: 0; }
@@ -156,7 +165,7 @@ h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.0
    placard sits behind the case rim, just above its interior floor. */
 .app-grid[data-preview="vanilla-placards"] .preview-card .case-frame {
   aspect-ratio: 5 / 4;
-  background-image: url("./assets/vanilla-tray-preview.jpg");
+  background-image: url("./assets/vanilla-tray-daylight.png");
   background-size: 100% 100%;
   background-position: center;
 }
@@ -275,6 +284,7 @@ html[data-reduced-motion="true"] .glass-pane::after, html[data-reduced-motion="t
   .hero-subtitle { font-size: 16px; }
   .hero-description { font-size: 14px; line-height: 1.8; max-width: 32ch; margin-bottom: 20px; }
   .storefront { width: calc(100% + 24px); margin-left: -12px; }
+  .park-atmosphere { top: -5%; bottom: 0; width: 180vw; opacity: .45; }
   .kiosk-wordmark { width: 57%; }
   .sign-plate { font-size: 9px; }
   .section-width { width: calc(100% - 44px); }

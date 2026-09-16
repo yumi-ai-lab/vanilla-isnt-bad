@@ -114,9 +114,9 @@ function openShop() {
   document.querySelector(".kiosk-wrap").classList.add("is-open");
   for (const [selector, direction] of [[".window-glass-left", -1], [".window-glass-right", 1]]) {
     playScene(document.querySelector(selector), [
-      { transform: "translateX(0)", opacity: 1 },
-      { transform: `translateX(${direction * 98}%)`, opacity: .35 }
-    ], { duration: 1600, delay: 240, group: "window" });
+      { transform: "translateX(0)" },
+      { transform: `translateX(${direction * 98}%)` }
+    ], { duration: 1600, delay: 240, easing: "cubic-bezier(.3,.05,.2,1)", group: "window" });
   }
 }
 
