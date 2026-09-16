@@ -1,6 +1,80 @@
 # 自然光とケースの画像制作記録
 
-## 窓と一枚の受け渡し台を分けたベース画像（現在使用）
+## 店舗と棚の比率を揃えた画像（現在使用）
+
+保存先:
+
+- `assets/storefront-balanced-v3.png`（1882×836、PC用）
+- `assets/storefront-balanced-mobile-v3.png`（1173×1341、680px以下用）
+- `assets/vanilla-counter-balanced-v2.png`（1484×1060、棚の一区画）
+
+制作方法: 内蔵 `image_gen`。CLI / APIによる生成は使用していません。店舗v2のPC・スマホ画像をそれぞれ編集し、窓の後壁の高さを抑えました。各初稿をさらに編集し、カウンター下に残った余白を除去しています。棚は `assets/vanilla-counter-interior.png` を編集し、トレーを細めの7:5にして見下ろしを弱めました。採用PNGは生成結果をそのまま保存しています。旧素材は保持しています。
+
+店舗は一枚の画像として自然な比率で表示し、縦方向に押しつぶしません。棚の幅は20%狭め、7:4から7:5に変えることで区画の高さを維持しました。札の左右余白を調整し、札そのものの幅と文字サイズを保っています。画像は固定の窓枠・天板・素材の陰影を担当し、ガラスの開閉・札・反応する光・横移動はHTML/CSS/JavaScriptで実装しています。
+
+最終プロンプトセット（スマホ・PCそれぞれ初稿の後に接続部分を修正）:
+
+### 1. スマホの受付窓を低くする
+
+```text
+Use case: precise-object-edit.
+Asset type: revised mobile storefront base for a website.
+Image 1 is the edit target. Preserve the same ivory shop, muted butter-yellow and white woven awning, blank fascia, permanent silver side jambs, subtle twin ceiling lights, and single ivory handover countertop. Same front-facing level camera, colour, lighting and fine material detail. No new objects.
+
+Fix only the vertical proportions: the serving opening is much too tall and looks like an empty room. SHORTEN THE OPEN WINDOW BY 30 PERCENT by removing a broad horizontal portion of the featureless vertical-panelled rear wall. Keep the opening's exact WIDTH and jamb x positions. Keep the blank fascia, fabric awning, ceiling depth and countertop at their original physical sizes relative to the image width. Move the countertop and bottom window track UP to meet the shortened side jambs. Do not add blank wall below the counter. The canvas itself becomes shorter, about 7:8 width-to-height rather than the reference's 3:4. Do not squash or stretch all the materials to fit.
+
+Target composition in the NEW 7:8 canvas: fascia from 0 to 22%, awning from 22 to 45%, open serving aperture from 45 to 85%, thin rear track about 85%, single projecting white countertop from 87% to the bottom. At the same width, the open aperture is approximately 70% of its former height. The top of the image and the awning keep their original relative widths. Maintain both permanent jambs clearly inside the canvas, the quiet recessed ivory interior and its believable side reveals. The image ends immediately beneath the countertop's front edge and small shadow.
+
+NO front glass, sliding doors, center divider, handles, lettering, logos, APPS sign, register, food, props, lower cabinets, ice cream shelf, wheels or feet. The movable glass and the separate shelf are added in HTML. Output only this corrected shorter 7:8 storefront image.
+```
+
+### 2. スマホの天板下の余白を除く
+
+```text
+Use case: precise-object-edit.
+Image 1 is the edit target. Keep the exact same 7:8 canvas, width, blank fascia, awning, two ceiling lights, lighting, materials and fixed side jamb x positions.
+Make ONE correction at the bottom: remove the empty ivory wall area below the projecting countertop. Move the existing countertop DOWN by about 55 pixels in this 1173 by 1341 image, so its front face ends near y=1323 and only its short natural underside shadow reaches the bottom at y=1341. Keep the countertop's existing thickness and depth exactly; do not stretch it.
+Extend the window's quiet rear wall and both fixed side jambs DOWNWARD by that same 55 pixels so they meet the relocated track and countertop. The awning and the top of the open window remain exactly in place. This makes the opening slightly taller than this input, while still much shorter than a doorway. The finished picture must end immediately under the countertop's lip, with NO blank body panel below it. Keep the window completely open, no front glass, center dividers or handles. No text, objects, products, extra ledges or decorations. Output the complete refined image.
+```
+
+### 3. PCの受付窓を低くする
+
+```text
+Use case: precise-object-edit.
+Asset type: revised wide storefront base for a website, landscape 9:4.
+Image 1 is the edit target. Preserve the exact same warm ivory storefront, woven vanilla-yellow striped awning, blank fascia, two subtle ceiling lights, permanent narrow silver jambs and single white projecting handover counter. Same front-facing level camera, lighting, width, textures and palette. No new objects.
+
+The serving window is too tall and the empty rear wall dominates. SHORTEN ONLY THE OPEN APERTURE BY ABOUT 25 PERCENT at the same image width. Remove a horizontal portion of the empty vertical-panelled rear wall. Shorten the side reveals and both permanent side jambs consistently. Bring the bottom track and single countertop upward to meet them. Keep the fascia height, awning height, ceiling depth and countertop thickness unchanged relative to the width. The overall canvas becomes shorter, approximately 9:4 rather than 2:1. Do NOT vertically squeeze the whole image, do NOT stretch the awning or thicken the countertop, and do NOT put a blank panel below the counter to fill the old height.
+
+Target coordinates in the NEW 9:4 canvas: blank fascia 0–25%; striped awning 25–49%; clear open window 49–83%; one thin rear track at 83%; single countertop from 85% to the bottom. Keep the inner left/right jambs at roughly 16.6% and 83.4% of the canvas width. They must remain visible when the outermost 10% of each side of the image is cropped on the website. The rest of the facade and the countertop continue beyond the side edges. Preserve subtly shaded side reveals and quiet recessed ivory rear panels; keep the interior empty. The aperture should feel like a low serving hatch, not a room or doorway.
+
+End the canvas directly below the countertop's front face and a narrow natural underside shadow: no blank wall or background band under it. No front glass, door handles, central mullions, text, logos, signs, props, register, food, ice cream cases, lower cabinet, wheels or feet. Glass and shelf will be added in HTML. Output only the corrected wide 9:4 storefront base.
+```
+
+### 4. PCの天板下の余白を除く
+
+```text
+Use case: precise-object-edit.
+Image 1 is the edit target. Keep the exact same 9:4 canvas, width, blank fascia, awning, two ceiling lights, all materials, lighting and permanent side-jamb x positions.
+Make ONE correction: remove the empty ivory wall band below the projecting countertop. Move the SAME countertop DOWN by about 52 pixels in this 1881 by 836 image, so its front face ends near y=820 and only a short natural underside shadow reaches y=836 at the bottom edge. Keep the countertop's exact existing thickness, depth and rounded edge; do not stretch it.
+Extend the open window's quiet rear wall and its two fixed side jambs DOWNWARD by the same amount, to meet the relocated track and countertop. Keep the awning and the TOP of the opening completely unchanged. This increases the opening's current height a little, while keeping it a low serving window. There must be NO blank body panel or background band below the countertop. The finished picture ends immediately under its front lip. Do not add front glass, handles, center dividers, text, objects, food or extra ledges. Output the complete refined wide image.
+```
+
+### 5. 細めのトレーと控えめな見下ろし角度
+
+```text
+Use case: precise-object-edit.
+Asset type: one narrower bay inside a continuous ice cream counter on a website, landscape 7:5.
+Image 1 is the edit target. Preserve the creamy vanilla ice cream with natural fine spatula swirls, quiet ivory interior, satin stainless steel, soft daylight, restrained silver reflections and realistic photographic material quality. Recompose the SAME tray and cabinet for a narrower 7:5 bay. This is the interior of a continuous counter, not a separate appliance or an isolated product shot.
+
+Correct scale and viewpoint: the reference looks like an enormous wide catering pan seen from high overhead. Make the tray a modest normal gelato pan, less wide, with believable depth. View the counter from a customer's standing position in front of the shop: a level, nearly frontal camera with only a GENTLE downward view of the ice cream surface, approximately 15–20 degrees, much shallower than the reference. Keep verticals vertical and the long horizontal rim straight. Show a naturally foreshortened ice cream surface and a low narrow silver front wall of the pan. Do not compensate by stretching the food or filling almost the whole image with the top surface.
+
+Composition in 7:5: a quiet ivory rear wall occupies about the upper 35%; the tray and vanilla occupy the middle and lower 50%, with the actual cream surface about 35–40% of total image height; a small clean neutral foreground lip occupies the bottom 15% for a separate HTML glass label. Center the tray with slight breathing room at its left and right edges; no deep isolated cubicle walls. Upper trim, if visible, is just one thin satin silver edge. Do not create a stack of shiny horizontal bands or dark black gaskets. No full outer enclosure, no thick white frame, no rounded perimeter corners, no front glass reflections. Left and right canvas edges should join smoothly to neighboring repeated bays under shared thin HTML mullions. The upper and lower tones should match the attached source so this connects under the existing ivory handover counter.
+
+Keep the ice cream appetising and tactile, pale neutral vanilla rather than orange/yellow. No scoop, cup, cone, label, text, logo, handles, props, people or decoration. No gold glow, broad glare or harsh black outlines. Output only this revised narrower bay interior, 7:5 ratio.
+```
+
+## 窓と一枚の受け渡し台を分けた旧ベース画像（v2）
 
 保存先:
 
