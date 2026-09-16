@@ -7,7 +7,8 @@
   <meta name="description" content="Apps that feel good from the start, with room to make them your own. VANILLA ISN’T BAD.">
   <title>VANILLA ISN’T BAD. — Good as it is.</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="./assets/storefront-rich-open-v1.png" as="image" fetchpriority="high">
+  <link rel="preload" href="./assets/storefront-counter-v2.png" as="image" media="(min-width: 681px)" fetchpriority="high">
+  <link rel="preload" href="./assets/storefront-counter-mobile-v2.png" as="image" media="(max-width: 680px)" fetchpriority="high">
   <link rel="preload" href="./assets/fonts/inter/inter-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./assets/fonts/fonts.css">
   <link rel="stylesheet" href="./styles.css">
@@ -44,8 +45,13 @@
         <div class="park-atmosphere" aria-hidden="true"></div>
         <figure class="kiosk-scene" aria-labelledby="kiosk-caption">
           <div class="kiosk-wrap">
-            <img class="kiosk-art" src="./assets/storefront-rich-open-v1.png" width="1774" height="887" alt="" decoding="async" fetchpriority="high">
+            <picture class="kiosk-artwork">
+              <source media="(max-width: 680px)" srcset="./assets/storefront-counter-mobile-v2.png" width="1086" height="1448">
+              <img class="kiosk-art" src="./assets/storefront-counter-v2.png" width="1774" height="887" alt="" decoding="async" fetchpriority="high">
+            </picture>
             <div class="serving-window" aria-hidden="true">
+              <span class="window-fixed window-fixed-left"></span>
+              <span class="window-fixed window-fixed-right"></span>
               <span class="window-glass window-glass-left"></span>
               <span class="window-glass window-glass-right"></span>
             </div>

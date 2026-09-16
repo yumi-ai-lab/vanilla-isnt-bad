@@ -48,7 +48,9 @@ test("shipping catalog contains only valid app records and both languages cover 
     assert.equal(typeof copy.en[key], "string", "English: " + key);
     assert.equal(typeof copy.ja[key], "string", "Japanese: " + key);
   }
-  assert.equal((await stat(new URL("../assets/storefront-rich-open-v1.png", import.meta.url))).size > 0, true);
+  for (const asset of ["storefront-counter-v2.png", "storefront-counter-mobile-v2.png"]) {
+    assert.equal((await stat(new URL(`../assets/${asset}`, import.meta.url))).size > 0, true);
+  }
 });
 
 test("local preview serves routes and rejects non-static or malformed requests", async () => {
@@ -60,7 +62,9 @@ test("local preview serves routes and rejects non-static or malformed requests",
     assert.equal(page.status, 200);
     assert.match(await page.text(), /VANILLA ISN[’']T BAD/);
     assert.match((await fetch(base + "/main.js")).headers.get("content-type"), /javascript/);
-    assert.equal((await fetch(base + "/assets/storefront-rich-open-v1.png", {method:"HEAD"})).status, 200);
+    for (const asset of ["storefront-counter-v2.png", "storefront-counter-mobile-v2.png"]) {
+      assert.equal((await fetch(base + `/assets/${asset}`, {method:"HEAD"})).status, 200);
+    }
     assert.equal((await fetch(base + "/missing.png")).status, 404);
     assert.equal((await fetch(base + "/package.json", {method:"POST"})).status, 405);
     assert.equal((await fetch(base + "/%00.png")).status, 400);
