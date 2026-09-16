@@ -133,7 +133,11 @@ function checkEntrances() {
   const height = window.innerHeight;
   for (const entrance of entrances) {
     const box = entrance.element.getBoundingClientRect();
-    const outside = box.bottom <= 0 || box.top >= height;
+    const visible = Math.max(0, Math.min(box.bottom, height) - Math.max(box.top, 0));
+    const ratio = visible / Math.max(1, Math.min(box.height, height));
+    // A few pixels left at the viewport edge should not prevent replay when
+    // the visitor returns to the sky, then scrolls back down to the window.
+    const outside = ratio < .03;
     if (document.hidden || outside) {
       if (entrance.repeat && !entrance.armed) {
         stopScenes(entrance.name);
@@ -146,8 +150,6 @@ function checkEntrances() {
     // Let the eye arrive before playing; smooth anchor scrolling must not
     // spend the entrance while the destination is still moving past.
     if (performance.now() - lastScrollAt < 120) continue;
-    const visible = Math.max(0, Math.min(box.bottom, height) - Math.max(box.top, 0));
-    const ratio = visible / Math.max(1, Math.min(box.height, height));
     if (ratio < entrance.threshold) continue;
     entrance.armed = false;
     entrance.playCount = (entrance.playCount ?? 0) + 1;
@@ -231,6 +233,7 @@ function makeIcon(app) {
 function renderGallery() {
   if (records.length === 0) return;
   grid.replaceChildren();
+  grid.removeAttribute("data-preview");
   grid.removeAttribute("aria-hidden");
   grid.removeAttribute("aria-describedby");
   document.querySelector("#empty-note").hidden = true;
@@ -244,21 +247,25 @@ function renderGallery() {
     button.setAttribute("aria-controls", "app-dialog");
     const frame = document.createElement("div");
     frame.className = "case-frame";
+    frame.setAttribute("aria-hidden", "true");
     const pane = document.createElement("div");
     pane.className = "glass-pane";
-    pane.append(makeIcon(app));
     frame.append(pane);
     const meta = document.createElement("div");
-    meta.className = "app-meta";
+    meta.className = "case-placard";
     const name = document.createElement("h3");
     stableCopy(name, { en: localized(app.name, "en"), ja: localized(app.name, "ja") });
     const description = document.createElement("p");
     stableCopy(description, { en: localized(app.tagline, "en"), ja: localized(app.tagline, "ja") });
     const detail = document.createElement("span");
     detail.className = "app-detail-label";
-    detail.textContent = text("app.details") + " ↗";
-    meta.append(name, description, detail);
-    button.append(frame, meta);
+    detail.textContent = "↗";
+    detail.setAttribute("aria-hidden", "true");
+    const action = document.createElement("span");
+    action.className = "sr-only";
+    action.textContent = text("app.details");
+    meta.append(name, description);
+    button.append(frame, meta, detail, action);
     button.addEventListener("click", () => openApp(app, button));
     item.append(button);
     grid.append(item);
