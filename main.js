@@ -232,6 +232,7 @@ function renderGallery() {
   if (records.length === 0) return;
   grid.replaceChildren();
   grid.removeAttribute("aria-hidden");
+  grid.removeAttribute("aria-describedby");
   document.querySelector("#empty-note").hidden = true;
   for (const app of records) {
     const item = document.createElement("li");
