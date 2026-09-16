@@ -1,6 +1,31 @@
 # 自然光とケースの画像制作記録
 
-## 店舗と棚の比率を揃えた画像（現在使用）
+## 横に広がる売り場（現在使用）
+
+保存先: `assets/storefront-horizontal-v4.png`（1942×809）。内蔵 `image_gen` で `assets/storefront-balanced-v3.png` を編集し、生成PNGをそのまま保存しました。CLI / API生成は使用していません。旧画像は比較用に保持しています。
+
+スマホ専用の縦長店舗を廃止し、PCとスマホで一枚の横長画像を共有します。横幅は最低760px・通常は表示幅の118%。画面の中央で左右を切り取り、店を縦長に作り替えません。窓の側壁と深い天井を除き、低い奥の作業台、カップとスクープで寸法感を補いました。手前の白い受け渡し台は一枚です。
+
+棚は以前の横長画像 `assets/vanilla-counter-interior.png`（1586×992）を再使用し、7:4の区画へ幅112%で表示します。画像ファイルの加工はしていません。一区画は `min(82%, clamp(300px, 250px + 14vw, 520px))` で画面幅に応じて緩やかに広がり、スマホでは約1.22個が見えます。仕切りは下側66%だけの3px幅へ薄くし、上側のガラスを一続きに見せます。ガラス札の文字サイズは維持しています。
+
+採用プロンプト:
+
+```text
+Use case: precise-object-edit.
+Asset type: photorealistic storefront background for an app-company website. One landscape artwork will be used both on desktop and as a CENTRAL CROP on mobile. The mobile crop must feel like part of a long counter, never a single-person cubicle.
+
+Image 1 is the edit target and material reference. Keep the same white painted storefront, muted vanilla-yellow / white woven awning, softly rounded scallops, natural daylight, thin brushed silver hardware and one ivory handover counter at the very bottom. Keep the blank fascia with NO text. Real photograph quality, understated and believable, subtle variation, no glossy CGI perfection.
+
+Change the spatial proportions and interior:
+Make a wide landscape image about 2.4:1. The white fascia is the top 22%, the fabric awning occupies about 22–46%, the serving opening runs across 6–94% of image width and from about 46–87% of its height. It is a very wide, relatively LOW service opening. The single foreground handover countertop occupies the final 13% and meets the exact bottom edge. Keep its straight horizontal edge continuous across the whole width, without a large empty band beneath it.
+Eliminate the narrow-room feeling: remove the side windows, deep ceiling and vertical planked rear wall. Use a quiet matte ivory rear wall with a LOW continuous rear worktop extending left and right. Rear worktop has a slim stainless edge and is clearly farther back and a little higher in the image than the foreground handover counter; no duplicate front counter or stacked front rails.
+At x40% place only a small believable stack of plain white paper ice-cream cups and a stainless ice-cream scoop resting on a small shallow utensil tray. These are modest physical scale cues, not focal decorations; leave the rest uncluttered. A tiny shallow ceiling soffit and soft diffuse task light, no spotlights or theatrical light cones.
+The vertical outer jambs should sit near the far image edges at x6% and94% so they are outside the mobile central crop. Wide horizontal lines and believable shallow depth are the priority. Front-facing camera at customer height, straight verticals, no fisheye. No person, no booth-shaped recess, no tall empty cavity, no floor, no wheels, no storefront side edges, no separate framed little rooms.
+NO glass panes or door handles baked into the picture: sliding glass and handles will be overlaid by the website. NO lettering, logo, sign, labels, UI, watermark or ice-cream cabinet below. Keep fascia empty for vector wordmark. Do not include the app shelf; it joins directly below this image.
+The output is the finished landscape storefront artwork itself, not a mockup on a phone.
+```
+
+## 店舗と棚の比率を揃えた画像（v3・旧版）
 
 保存先:
 
