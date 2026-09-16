@@ -114,7 +114,7 @@ function openShop() {
   for (const [selector, direction] of [[".window-glass-left", -1], [".window-glass-right", 1]]) {
     playScene(document.querySelector(selector), [
       { transform: "translateX(0)" },
-      { transform: `translateX(${direction * 98}%)` }
+      { transform: `translateX(${direction * 101}%)` }
     ], { duration: 1600, delay: 240, easing: "cubic-bezier(.3,.05,.2,1)", group: "window" });
   }
 }
@@ -199,7 +199,7 @@ function prepareEntrances() {
     scheduleVisuals();
   });
   const art = new Image();
-  art.src = document.querySelector(".kiosk-art image").getAttribute("href");
+  art.src = document.querySelector(".kiosk-art").getAttribute("src");
   boundedReady(art.decode(), 4000).then(() => {
     artworkReady = true;
     scheduleVisuals();
