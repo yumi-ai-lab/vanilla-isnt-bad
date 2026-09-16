@@ -1,4 +1,5 @@
-// Add real apps here. Empty shelves are intentional until assets are supplied.
+// Add real apps here in display order. Until then, the page shows labeled samples.
+// Registered apps use the same glass placards on PC and mobile; more records add rows.
 // Icon paths are relative to this page, e.g. "./assets/apps/your-app.png".
 // See README.md for the full app record format.
 export const apps = [];

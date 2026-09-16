@@ -84,7 +84,24 @@ h1 { font-size: clamp(44px, 5.2vw, 68px); font-weight: var(--weight-heading); li
   margin: 34px auto 0;
   padding-bottom: 28px;
 }
-.park-atmosphere { position: absolute; z-index: -2; top: -9%; bottom: 0; left: 50%; width: min(1600px, 160vw); transform: translateX(-50%); pointer-events: none; background: url("./assets/park-atmosphere.png") center bottom / cover no-repeat; opacity: .55; -webkit-mask-image: radial-gradient(ellipse 66% 58% at 50% 48%, #000 44%, transparent 96%); mask-image: radial-gradient(ellipse 66% 58% at 50% 48%, #000 44%, transparent 96%); }
+/* Frame the landscape from the shop's top, independently of the number of
+   shelf rows. Fade vertically without erasing the foliage at the side edges. */
+.park-atmosphere {
+  position: absolute;
+  z-index: -2;
+  top: -100px;
+  left: 50%;
+  width: min(1800px, 140vw);
+  aspect-ratio: 1672 / 941;
+  transform: translateX(-50%);
+  pointer-events: none;
+  background: url("./assets/park-atmosphere.png") center / 100% 100% no-repeat;
+  opacity: .88;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent), linear-gradient(transparent, #000 16%, #000 74%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent), linear-gradient(transparent, #000 16%, #000 74%, transparent);
+  mask-composite: intersect;
+}
 .storefront::before { content: ""; position: absolute; z-index: -1; bottom: 0; left: -20%; width: 140%; height: clamp(80px, 12vw, 140px); border-radius: 50%; background: radial-gradient(ellipse, #c3bba823, #e2dace0d 52%, transparent 72%); pointer-events: none; }
 .storefront::after { content: ""; position: absolute; z-index: -1; bottom: -1px; left: 14%; width: 72%; height: 18px; border-radius: 50%; background: radial-gradient(ellipse, #867c6947, #a2988321 48%, transparent 76%); filter: blur(6px); pointer-events: none; }
 .kiosk-scene { position: relative; margin: 0; }
@@ -150,25 +167,16 @@ h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.0
 .case-frame {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 1;
+  aspect-ratio: 5 / 4;
   border-radius: 8.5%;
   background-color: var(--surface);
-  /* Reuse the storefront's middle case: a 320 × 320 window at (495, 726)
-     in kiosk-warm.png (1309 × 1201). Update this crop if the art changes.
-     Size = image / window; position = crop origin / (image - window). */
-  background-image: url("./assets/kiosk-warm.png");
-  background-repeat: no-repeat;
-  background-size: 409.0625% 375.3125%;
-  background-position: 50.050556% 82.406356%;
-}
-/* Preserve the supplied image's 5:4 proportions. The transparent HTML
-   placard sits behind the case rim, just above its interior floor. */
-.app-grid[data-preview="vanilla-placards"] .preview-card .case-frame {
-  aspect-ratio: 5 / 4;
   background-image: url("./assets/vanilla-tray-daylight.png");
+  background-repeat: no-repeat;
   background-size: 100% 100%;
   background-position: center;
 }
+/* Preserve the supplied image's 5:4 proportions. The transparent HTML
+   placard sits behind the case rim, just above its interior floor. */
 .preview-card { position: relative; }
 .case-placard {
   position: absolute;
@@ -192,10 +200,12 @@ h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.0
 .case-placard::after { content: ""; position: absolute; left: 5%; right: 5%; bottom: -3px; height: 2px; background: linear-gradient(90deg, #eef3ec33, #ffffffb3 30%, #b8c1b899); border-bottom: 1px solid #8f978c66; transform: skewX(-18deg); box-shadow: 0 2px 2px #514a3933; pointer-events: none; }
 .case-placard h3 { margin: 0; color: var(--ink); font-size: 16px; line-height: 1.35; font-weight: var(--weight-heading); letter-spacing: -.01em; }
 .case-placard p { margin: 4px 0 0; color: #44423b; font-size: 13px; line-height: 1.5; font-weight: 400; letter-spacing: 0; white-space: nowrap; }
-.app-grid[data-preview="vanilla-placards"] .preview-card .glass-pane { inset: 12% 8% 13%; }
+/* Keep the shelf legible when real names are longer than the preview labels.
+   The complete name and purpose remain available in the app details. */
+.app-button .case-placard .copy-variant { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .glass-pane {
   position: absolute;
-  inset: 9%;
+  inset: 12% 8% 13%;
   isolation: isolate;
   overflow: hidden;
   display: flex;
@@ -220,17 +230,11 @@ h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.0
 .floor-mist i:nth-child(2) { left: 40%; animation-delay: -5s; animation-direction: reverse; }
 .floor-mist i:nth-child(3) { left: 60%; animation-delay: -10s; }
 .floor-mist[data-air-active="true"] i { animation-play-state: running; }
-.app-button { display: block; width: 100%; text-align: center; padding: 0; border: 0; border-radius: var(--case-radius); background: transparent; }
+.app-button { position: relative; display: block; width: 100%; text-align: center; padding: 0; border: 0; border-radius: var(--case-radius); background: transparent; }
 .app-button:focus-visible { border-radius: var(--case-radius); }
 .app-icon { position: relative; z-index: 1; display: grid; place-items: center; width: 48%; min-width: 44px; max-width: 144px; aspect-ratio: 1; border-radius: 23%; background: #eae1d2; font-size: clamp(22px, 4vw, 38px); font-weight: var(--weight-brand); box-shadow: 0 8px 15px -4px #715d4733; transition: transform var(--motion-press) var(--ease), box-shadow var(--motion-state) var(--ease); overflow: hidden; }
 .app-icon img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.app-button:focus-visible .app-icon { transform: translateY(-2px); box-shadow: 0 10px 18px -4px #715d4740; }
-.app-button:active .app-icon { transform: scale(.98); }
-.app-button.is-selected .app-icon { transform: translateY(-4px); box-shadow: 0 12px 18px -5px #715d474d; }
-.app-meta { padding: 12px 2px 8px; overflow-wrap: anywhere; }
-.app-meta h3 { margin: 0 0 6px; font-size: 16px; font-weight: var(--weight-heading); letter-spacing: -.01em; }
-.app-meta p { font-size: 14px; color: var(--muted); line-height: 1.65; margin: 0; text-wrap: pretty; }
-.app-meta .app-detail-label { display: inline-block; font-size: 12px; line-height: 1.5; margin-top: 12px; border-bottom: 1px solid #cbbba8; padding-bottom: 4px; }
+.app-detail-label { position: absolute; right: 12%; top: 15%; color: #575b50; font-size: 14px; line-height: 1; }
 .about-section { text-align: left; display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: start; margin-top: 64px; padding: 40px 0 64px; border-top: 1px solid var(--line); }
 .about-section h2 { margin-bottom: 0; }
 .about-copy { max-width: 28em; margin: 0; color: var(--muted); font-size: 16px; line-height: 1.8; letter-spacing: 0; text-wrap: pretty; white-space: pre-line; }
@@ -284,19 +288,15 @@ html[data-reduced-motion="true"] .glass-pane::after, html[data-reduced-motion="t
   .hero-subtitle { font-size: 16px; }
   .hero-description { font-size: 14px; line-height: 1.8; max-width: 32ch; margin-bottom: 20px; }
   .storefront { width: calc(100% + 24px); margin-left: -12px; }
-  .park-atmosphere { top: -5%; bottom: 0; width: 180vw; opacity: .45; }
+  .park-atmosphere { top: -52px; width: 100vw; aspect-ratio: 3 / 4; background-image: url("./assets/park-atmosphere-mobile.png"); opacity: .82; }
   .kiosk-wordmark { width: 57%; }
   .sign-plate { font-size: 9px; }
   .section-width { width: calc(100% - 44px); }
   .apps-section { padding-top: 16px; padding-bottom: 18px; }
   .app-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px 10px; }
-  .empty-card:nth-child(n+5) { display: none; }
   .case-placard { left: 9%; right: 9%; padding: 5px 4px 8px; }
   .case-placard h3 { font-size: 14px; }
   .case-placard p { margin-top: 3px; font-size: 12px; }
-  .app-meta { padding-top: 10px; }
-  .app-meta h3 { font-size: 14px; }
-  .app-meta p { font-size: 13px; }
   .app-icon { font-size: 26px; }
   .empty-note { padding-top: 18px; }
   .about-section { grid-template-columns: minmax(0, 1fr); gap: 28px; margin-top: 48px; padding: 32px 0 48px; }
@@ -310,8 +310,7 @@ html[data-reduced-motion="true"] .glass-pane::after, html[data-reduced-motion="t
 @media (hover: hover) {
   .header-nav > a:hover::after, .hero-link:hover::after { transform: scaleX(1); }
   .hero-link:hover svg { transform: translateY(4px); }
-  .app-button:hover:not(:active):not(.is-selected) .app-icon { transform: translateY(-2px); box-shadow: 0 10px 18px -4px #715d4740; }
-  .case-frame:hover .glass-pane::before { box-shadow: inset 0 0 26px 2px var(--shelf-glow); }
+  .app-button:hover .glass-pane::before, .preview-card:hover .glass-pane::before { box-shadow: inset 0 0 26px 2px var(--shelf-glow); }
   .kiosk-wrap:hover .shop-lights { opacity: .35; }
 }
 @media (hover: none) {
