@@ -1,6 +1,27 @@
 # 自然光とケースの画像制作記録
 
-## 店の全景と距離感（現在使用・v5）
+## 店頭の交換できる札と別画面の展示（現在使用・v6）
+
+今回も内蔵 `image_gen` を使用し、CLI / API生成は使用していません。採用PNGをそのまま以下へコピーしています。
+
+- `assets/storefront-blank-placards-v6.png` — v5を編集し、下の三枚の透明な札にある文字だけを除去。札の形、社名、APPS、店の全景を維持。HTMLで名前と用途を重ねます。
+- `assets/flavor-collection-v1.png` — 六種類のカップを3列×2行で新規生成。CSSの背景位置だけで各区画を表示します。画像を切り出したり、色を加工したりしていません。
+
+店頭は同じ三つのバニラのトレーです。データの flavor は別画面のカップに対応し、店のトレーそのものの色は変えません。新作・おすすめ・季節の表示、アプリ名・説明・リンク・詳細画面はHTMLで管理します。
+
+### 店の編集に使用した最終プロンプト
+
+```text
+Use case: precise-object-edit. Image 1 is the edit target. Remove ONLY the printed letters from the THREE small transparent glass placards INSIDE the lower ice-cream display. Erase 'Focus / Focus timer', 'Notes / Keep a note', and 'Trip / Plan a trip'. Leave the three glass plates themselves exactly in place, with their existing transparent material, thin edges, proportions, reflections and vanilla visible through them. They must be completely blank with no lettering or symbols; HTML will add replaceable words later. Preserve EVERY other pixel and design as closely as possible: exact square composition, whole shop and park, roof and VANILLA ISN’T BAD. wordmark, awning, APPS hanging sign, all equipment and cones/cups, vanilla trays, fixed glazing, feet, daylight, color and photographic realism. Do not crop, zoom, stretch, restyle, reposition, add anything or change any other text. Return the complete full-size edited square photograph.
+```
+
+### 展示用カップに使用した最終プロンプト
+
+```text
+Use case: product-mockup. Create a photographic contact sheet of SIX miniature artisanal ice creams for the VANILLA ISN'T BAD app showroom. The output is an exact 3-column by 2-row grid of SIX EQUAL SQUARE cells, overall landscape 3:2 aspect ratio. No gutters, frames, panels, dividers, text or labels. Every cell has the SAME perfectly plain warm-white background, same light, same object size and same straight-on slightly elevated camera. One realistic single scoop in a plain small matte ivory paper cup is centered in EACH cell. Entire cup and scoop visible with generous 18% breathing room on all four sides, soft small contact shadow, delicate tactile ice-cream ripples, premium quiet studio photography, tiny collectible feeling, not cartoon or glossy plastic. Color restrained, appetizing pastel rather than saturated. Top-left vanilla bean ivory. Top-center pale strawberry pink with tiny berry flecks. Top-right pale pistachio green with a few tiny nut flecks. Bottom-left light chocolate brown. Bottom-center cream vanilla with two very fine caramel ribbons. Bottom-right extremely pale mint green with tiny chocolate specks. Each cell is visually independent and exactly one-third of width and one-half of height; do not let cups or shadows cross cells. Consistent flat background so the six squares can be displayed separately as website thumbnails. No cones, spoons, extra props, decorative circles, pedestal, flowers, lettering, logos, watermarks or interface elements.
+```
+
+## 店の全景と距離感（旧v5）
 
 保存先: `assets/storefront-complete-v5.png`（1254×1254）。承認済みの `output/imagegen/storefront-distance-study-v1.png` をバイト単位でそのままコピーしています。今回のサイト反映で再生成・画像加工は行っていません。
 

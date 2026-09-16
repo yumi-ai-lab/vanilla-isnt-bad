@@ -1,8 +1,37 @@
 // Add real apps here in display order. Until then, the page shows labeled samples.
-// Registered apps use the same glass placards; more records extend the horizontal shelf.
+// Up to three featured apps appear at the shop; all apps appear in apps.html.
 // Icon paths are relative to this page, e.g. "./assets/apps/your-app.png".
 // See README.md for the full app record format.
 export const apps = [];
+
+// Explicit concepts for reviewing the experience, not released products.
+// Real records replace this entire collection as soon as apps is populated.
+export const previewApps = [
+  { id:"focus", name:"Focus", flavor:0, featured:"new", sample:true,
+    tagline:{en:"Focus timer",ja:"集中を計る"},
+    description:{en:"Choose one thing. Give it a little time. A quiet timer for the task in front of you.",ja:"いま取り組むことをひとつ決めて、時間を区切る。目の前の作業に戻るための、静かなタイマー。"},
+    features:[{en:"Set your own session",ja:"集中する時間を決める"},{en:"Take a gentle break",ja:"ひと区切りで休憩する"}] },
+  { id:"notes", name:"Notes", flavor:1, featured:"picked", sample:true,
+    tagline:{en:"Keep a note",ja:"メモを残す"},
+    description:{en:"A thought, a list, a line you want to remember. Keep it close, without arranging everything first.",ja:"思いつきも、買い物も、忘れたくないひと言も。整理する前に、まず残せる小さなノート。"},
+    features:[{en:"Write right away",ja:"すぐに書き留める"},{en:"Find a note again",ja:"残したメモを見つける"}] },
+  { id:"trip", name:"Trip", flavor:2, featured:"seasonal", sample:true,
+    tagline:{en:"Plan a trip",ja:"旅を計画"},
+    description:{en:"Save a few places and sketch out a day. A loose plan, with enough space to wander.",ja:"行きたい場所を集めて、一日の予定をゆるく組む。寄り道の余白を残しておく、旅のノート。"},
+    features:[{en:"Collect places to visit",ja:"行きたい場所を集める"},{en:"Arrange a day's plan",ja:"一日の予定を並べる"}] },
+  { id:"tasks", name:"Tasks", flavor:3, sample:true,
+    tagline:{en:"Sort tasks",ja:"タスクを整理"},
+    description:{en:"Keep today's tasks in one small list. Finish one, then move to the next.",ja:"今日やりたいことを、小さなリストに。ひとつ終えたら、次のひとつへ。"},
+    features:[{en:"Keep a short daily list",ja:"今日のリストを作る"},{en:"Mark the small wins",ja:"終わったことに印をつける"}] },
+  { id:"budget", name:"Budget", flavor:4, sample:true,
+    tagline:{en:"Track costs",ja:"支出を記録"},
+    description:{en:"A simple place to note everyday spending and look back over the month.",ja:"毎日の買い物をさっと残し、ひと月の流れを見返す。暮らしの支出を知るための記録帳。"},
+    features:[{en:"Note everyday spending",ja:"日々の支出を記録する"},{en:"See a monthly overview",ja:"ひと月を見渡す"}] },
+  { id:"journal", name:"Journal", flavor:5, sample:true,
+    tagline:{en:"Save a day",ja:"日々を記録"},
+    description:{en:"Something you noticed. Something that made you smile. A little place to keep the day.",ja:"気づいたこと、うれしかったこと。長く書かなくても、今日を少しだけ残しておく場所。"},
+    features:[{en:"Keep a daily line",ja:"一日のひと言を残す"},{en:"Revisit a past day",ja:"過去の日を見返す"}] }
+];
 
 export const copy = {
   en: {
@@ -18,6 +47,17 @@ export const copy = {
     "gallery.title": "APPS",
     "gallery.empty": "In the making.",
     "gallery.preview": "Sample apps for this preview.",
+    "gallery.all": "All apps",
+    "featured.new": "New",
+    "featured.picked": "Our pick",
+    "featured.seasonal": "In season",
+    "showcase.title": "All flavors.",
+    "showcase.subtitle": "A little something for your everyday.",
+    "showcase.back": "Back to the shop",
+    "showcase.count": "apps",
+    "dialog.preview": "Screen concept",
+    "dialog.sample": "A sample app — made for this preview.",
+    "dialog.features": "A few simple things",
     "shelf.label": "App shelf",
     "shelf.help": "Swipe horizontally, or use the left and right arrow keys to browse the shelf. Home and End move to either end.",
     "shelf.previous": "Previous apps",
@@ -31,6 +71,7 @@ export const copy = {
     "about.title": "Start with how it feels.",
     "about.description": "Like vanilla, good on its own.\nWe make apps that feel right from the start, with room to make them yours.",
     "footer.top": "Back to the sky",
+    "footer.pageTop": "Back to top",
     "dialog.close": "Close app details",
     "dialog.open": "Open app",
     "dialog.soon": "More details soon.",
@@ -52,6 +93,17 @@ export const copy = {
     "gallery.title": "APPS",
     "gallery.empty": "ただいま準備中。",
     "gallery.preview": "表示確認用のサンプルです。",
+    "gallery.all": "すべてのアプリ",
+    "featured.new": "新作",
+    "featured.picked": "おすすめ",
+    "featured.seasonal": "季節のひとつ",
+    "showcase.title": "All flavors.",
+    "showcase.subtitle": "すべてのアプリ。暮らしに合う、ひとつを。",
+    "showcase.back": "店へ戻る",
+    "showcase.count": "つのアプリ",
+    "dialog.preview": "画面イメージ",
+    "dialog.sample": "表示確認用のサンプルアプリです。",
+    "dialog.features": "できること",
     "shelf.label": "アプリの棚",
     "shelf.help": "横にスワイプ、または左右の矢印キーで棚を移動できます。Homeキーで最初、Endキーで最後へ移動します。",
     "shelf.previous": "前のアプリへ",
@@ -65,6 +117,7 @@ export const copy = {
     "about.title": "まず、使い心地を\n味わってみてください。",
     "about.description": "何も足さなくてもおいしいバニラアイスのように。\n\nトッピングのように。\n必要な分だけあなたに合わせます。",
     "footer.top": "空へ戻る",
+    "footer.pageTop": "上へ戻る",
     "dialog.close": "アプリの詳細を閉じる",
     "dialog.open": "アプリを開く",
     "dialog.soon": "詳細は準備中です。",

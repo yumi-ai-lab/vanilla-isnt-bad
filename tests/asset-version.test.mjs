@@ -36,3 +36,14 @@ test("Windows and Linux checkouts produce the same files and cache keys", () => 
   const windowsSource = Object.fromEntries(Object.entries(source).map(([name, text]) => [name, text.replace(/\n/g, "\r\n")]));
   assert.deepEqual(versionSiteFiles(windowsSource), versionSiteFiles(source));
 });
+
+test("both pages update when their shared gallery or nested data changes", () => {
+  const multiPage = {...source, "apps.html":source["index.html"] + '<link href="./showcase.css">', "showcase.css":".showcase {}", "main.js":source["main.js"] + '\nimport { createGallery } from "./gallery.js";', "gallery.js":'import { localized } from "./model.js"; export const createGallery = () => {};'};
+  const initial = versionSiteFiles(multiPage);
+  for (const dependency of ["model.js","content.js","gallery.js"]) {
+    const next = versionSiteFiles({...multiPage, [dependency]:multiPage[dependency] + "\n// Changed"});
+    for (const page of ["index.html","apps.html"]) assert.notEqual(scriptURL(next[page]),scriptURL(initial[page]));
+  }
+  assert.match(initial["gallery.js"], /model\.js\?v=[a-f0-9]{12}/);
+  assert.match(initial["apps.html"], /showcase\.css\?v=[a-f0-9]{12}/);
+});

@@ -1,5 +1,6 @@
-import { apps, copy } from "./content.js";
-import { localized, normalizeApps, resolveLanguage, shelfState } from "./model.js";
+import { createGallery } from "./gallery.js";
+import { apps, previewApps, copy } from "./content.js";
+import { normalizeApps, resolveLanguage } from "./model.js";
 
 const readPreference = (key) => { try { return localStorage.getItem(key); } catch { return null; } };
 const savePreference = (key, value) => { try { localStorage.setItem(key, value); } catch {} };
@@ -8,13 +9,14 @@ let language = resolveLanguage({
   saved: readPreference("vanilla-language"),
   browser: navigator.language
 });
-const records = normalizeApps(apps);
-const grid = document.querySelector("#app-grid");
-const dialog = document.querySelector("#app-dialog");
+const registered = normalizeApps(apps);
+const records = registered.length ? registered : normalizeApps(previewApps);
+const isShowcase = document.body.dataset.page === "showcase";
+
 const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 let userReduced = readPreference("vanilla-motion") === "off";
-let activeApp = null;
-let activeTrigger = null;
+
+
 let shelfInView = !("IntersectionObserver" in window);
 let fontsReady = false;
 let artworkReady = false;
@@ -101,6 +103,7 @@ function revealHero() {
 }
 
 function resetWindow() {
+  if (isShowcase) return;
   stopScenes("window");
   document.querySelector(".serving-window").dataset.state = reduced() ? "open" : "closed";
   document.querySelector(".kiosk-wrap").classList.toggle("is-open", reduced());
@@ -171,6 +174,7 @@ function updateSky() {
 }
 
 function scheduleVisuals() {
+  if (isShowcase) return;
   if (visualFrame) return;
   visualFrame = requestAnimationFrame(() => {
     visualFrame = 0;
@@ -207,203 +211,17 @@ function prepareEntrances() {
 }
 
 function updateAir() {
+  if (isShowcase) return;
   const active = String(shelfInView && !document.hidden && !reduced());
-  grid.dataset.airActive = active;
   document.querySelector(".cabinet-atmosphere").dataset.airActive = active;
 }
 
-function readShelf() {
-  return shelfState(grid.children.length, grid.firstElementChild?.getBoundingClientRect().width ?? 0, grid.clientWidth || 0, grid.scrollLeft || 0);
-}
-
-function updateShelf() {
-  if (records.length === 0) {
-    document.querySelector(".shelf-controls").hidden = true;
-    return;
-  }
-  const state = readShelf();
-  document.querySelector(".shelf-controls").hidden = state.max <= 1;
-  document.querySelector("#shelf-prev").disabled = state.atStart;
-  document.querySelector("#shelf-next").disabled = state.atEnd;
-  const position = state.first === state.last ? `${state.first}` : `${state.first}–${state.last}`;
-  const label = `${position} / ${grid.children.length}`;
-  const output = document.querySelector("#shelf-position");
-  if (output.textContent !== label) output.textContent = label;
-}
-
-function moveShelf(destination) {
-  grid.scrollTo({ left: destination, behavior: reduced() ? "instant" : "smooth" });
-}
-
-function setupShelf() {
-  if (records.length === 0) return;
-  let scrollFrame = 0;
-  const schedule = () => {
-    if (scrollFrame) return;
-    scrollFrame = requestAnimationFrame(() => { scrollFrame = 0; updateShelf(); });
-  };
-  grid.addEventListener("scroll", schedule, { passive: true });
-  window.addEventListener("resize", schedule);
-  if ("ResizeObserver" in window) new ResizeObserver(schedule).observe(grid);
-  document.querySelector("#shelf-prev").addEventListener("click", () => moveShelf(readShelf().previous));
-  document.querySelector("#shelf-next").addEventListener("click", () => moveShelf(readShelf().next));
-  grid.addEventListener("keydown", event => {
-    if (event.target !== grid || event.altKey || event.ctrlKey || event.metaKey) return;
-    const state = readShelf();
-    const destinations = { ArrowLeft: state.previous, ArrowRight: state.next, Home: 0, End: state.max };
-    if (!(event.key in destinations)) return;
-    event.preventDefault();
-    moveShelf(destinations[event.key]);
-  });
-  // Touch uses native horizontal scrolling. Mouse users can drag the same
-  // glass surface; a drag must never activate the app underneath on release.
-  let drag = null;
-  let suppressClickUntil = 0;
-  grid.addEventListener("pointerdown", event => {
-    if (event.pointerType !== "mouse" || event.button !== 0) return;
-    drag = { id: event.pointerId, x: event.clientX, left: grid.scrollLeft, moved: false };
-  });
-  grid.addEventListener("pointermove", event => {
-    if (!drag || event.pointerId !== drag.id) return;
-    if (event.buttons === 0) { finishDrag(event); return; }
-    const distance = event.clientX - drag.x;
-    if (!drag.moved && Math.abs(distance) < 6) return;
-    if (!drag.moved) {
-      drag.moved = true;
-      grid.classList.add("is-dragging");
-      grid.setPointerCapture(event.pointerId);
-    }
-    event.preventDefault();
-    grid.scrollLeft = drag.left - distance;
-  });
-  const finishDrag = event => {
-    if (!drag || event.pointerId !== drag.id) return;
-    const moved = drag.moved;
-    drag = null;
-    grid.classList.remove("is-dragging");
-    if (grid.hasPointerCapture(event.pointerId)) grid.releasePointerCapture(event.pointerId);
-    if (moved) {
-      suppressClickUntil = performance.now() + 350;
-      moveShelf(readShelf().nearest);
-    }
-  };
-  grid.addEventListener("pointerup", finishDrag);
-  grid.addEventListener("pointercancel", finishDrag);
-  grid.addEventListener("lostpointercapture", finishDrag);
-  grid.addEventListener("click", event => {
-    if (performance.now() >= suppressClickUntil) return;
-    event.preventDefault();
-    event.stopPropagation();
-  }, true);
-  schedule();
-}
-
-function makeIcon(app) {
-  const shell = document.createElement("span");
-  shell.className = "app-icon";
-  shell.setAttribute("aria-hidden", "true");
-  shell.textContent = localized(app.name, language).slice(0, 1).toUpperCase();
-  if (app.icon) {
-    const image = document.createElement("img");
-    image.src = app.icon;
-    image.alt = "";
-    image.loading = "lazy";
-    image.width = 160;
-    image.height = 160;
-    image.addEventListener("error", () => image.remove(), { once: true });
-    shell.append(image);
-  }
-  return shell;
-}
-
-function renderGallery() {
-  document.querySelector(".storefront").dataset.mode = records.length ? "catalog" : "preview";
-  document.querySelector("#shelf-help").hidden = records.length === 0;
-  if (records.length === 0) return;
-  const previousScroll = grid.scrollLeft;
-  grid.replaceChildren();
-  grid.removeAttribute("data-preview");
-  grid.removeAttribute("aria-hidden");
-  grid.setAttribute("tabindex", "0");
-  grid.setAttribute("aria-describedby", "shelf-help");
-  document.querySelector("#empty-note").hidden = true;
-  for (const app of records) {
-    const item = document.createElement("li");
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "app-button";
-    button.dataset.appId = app.id;
-    button.setAttribute("aria-haspopup", "dialog");
-    button.setAttribute("aria-controls", "app-dialog");
-    const frame = document.createElement("div");
-    frame.className = "case-frame";
-    frame.setAttribute("aria-hidden", "true");
-    const pane = document.createElement("div");
-    pane.className = "glass-pane";
-    frame.append(pane);
-    const meta = document.createElement("div");
-    meta.className = "case-placard";
-    const name = document.createElement("h3");
-    stableCopy(name, { en: localized(app.name, "en"), ja: localized(app.name, "ja") });
-    const description = document.createElement("p");
-    stableCopy(description, { en: localized(app.tagline, "en"), ja: localized(app.tagline, "ja") });
-    const detail = document.createElement("span");
-    detail.className = "app-detail-label";
-    detail.textContent = "↗";
-    detail.setAttribute("aria-hidden", "true");
-    const action = document.createElement("span");
-    action.className = "sr-only";
-    action.textContent = text("app.details");
-    meta.append(name, description);
-    button.append(frame, meta, detail, action);
-    button.addEventListener("click", () => openApp(app, button));
-    item.append(button);
-    grid.append(item);
-    if (dialog.open && activeApp?.id === app.id) {
-      activeTrigger = button;
-      button.classList.add("is-selected");
-    }
-  }
-  grid.scrollLeft = previousScroll;
-}
-
-function fillDialog(app) {
-  document.querySelector("#dialog-title").textContent = localized(app.name, language);
-  document.querySelector("#dialog-tagline").textContent = localized(app.tagline, language);
-  document.querySelector("#dialog-description").textContent = localized(app.description, language) || text("dialog.soon");
-  document.querySelector("#dialog-icon").replaceChildren(makeIcon(app));
-  const platforms = document.querySelector("#dialog-platforms");
-  platforms.replaceChildren();
-  for (const platform of app.platforms) {
-    const badge = document.createElement("span");
-    badge.textContent = platform;
-    platforms.append(badge);
-  }
-  const link = document.querySelector("#dialog-link");
-  link.hidden = !app.url;
-  if (app.url) link.href = app.url;
-  else link.removeAttribute("href");
-}
-
-function openApp(app, trigger) {
-  activeApp = app;
-  activeTrigger?.classList.remove("is-selected");
-  activeTrigger = trigger;
-  activeTrigger.classList.add("is-selected");
-  const source = trigger.getBoundingClientRect();
-  fillDialog(app);
-  if (!dialog.open) dialog.showModal();
-  const target = dialog.getBoundingClientRect();
-  const origin = (center, start, size) => Math.max(0, Math.min(100, (center - start) / Math.max(size, 1) * 100));
-  const x = origin(source.left + source.width / 2, target.left, target.width);
-  const y = origin(source.top + source.height / 2, target.top, target.height);
-  dialog.style.setProperty("--detail-origin", `${x}% ${y}%`);
-}
+const gallery = createGallery({records, isShowcase, language: () => language, text, stableCopy});
 
 function translate(animate = false) {
   stopCopyAnimations();
   document.documentElement.lang = language;
-  document.title = text("page.title");
+  document.title = isShowcase ? `${text("showcase.title")} — VANILLA ISN’T BAD.` : text("page.title");
   document.querySelector('meta[name="description"]').content = text("page.description");
   document.querySelectorAll("[data-i18n]").forEach((element) => {
     const key = element.dataset.i18n;
@@ -419,9 +237,7 @@ function translate(animate = false) {
   document.querySelectorAll("[data-language]").forEach((button) => {
     button.setAttribute("aria-pressed", String(button.dataset.language === language));
   });
-  renderGallery();
-  updateShelf();
-  if (activeApp && dialog.open) fillDialog(activeApp);
+  gallery.render();
   updateMotion();
 }
 
@@ -481,30 +297,17 @@ window.addEventListener("scroll", () => {
 window.addEventListener("resize", scheduleVisuals);
 window.addEventListener("pageshow", scheduleVisuals);
 
-document.querySelector(".dialog-close").addEventListener("click", () => dialog.close());
-dialog.addEventListener("click", (event) => {
-  if (event.target !== dialog) return;
-  const box = dialog.getBoundingClientRect();
-  if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) dialog.close();
-});
-dialog.addEventListener("close", () => {
-  activeTrigger?.classList.remove("is-selected");
-  const returnTarget = activeTrigger?.isConnected ? activeTrigger : document.querySelector("#apps");
-  returnTarget.focus({ preventScroll: true });
-  activeTrigger = null;
-  activeApp = null;
-  dialog.style.removeProperty("--detail-origin");
-});
-
 document.querySelector("#year").textContent = String(new Date().getFullYear());
 translate();
-prepareEntrances();
-setupShelf();
+if (!isShowcase) prepareEntrances();
+gallery.syncLocation();
+gallery.restoreShop();
+if (isShowcase && !reduced()) playScene(document.querySelector(".showcase-main"), [{opacity:.3, transform:"translateY(12px)"}, {opacity:1, transform:"none"}], {duration:360});
 
-if ("IntersectionObserver" in window) {
+if (!isShowcase && "IntersectionObserver" in window) {
   const shelfObserver = new IntersectionObserver((entries) => {
     shelfInView = entries.some((entry) => entry.isIntersecting);
     updateAir();
   });
-  shelfObserver.observe(records.length ? grid : document.querySelector(".kiosk-scene"));
+  shelfObserver.observe(document.querySelector(".kiosk-scene"));
 }
