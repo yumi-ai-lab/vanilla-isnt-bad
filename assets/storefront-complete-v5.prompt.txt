@@ -1,0 +1,44 @@
+# 店の輪郭と距離感を戻す構図案
+
+用途: サイト実装前の構図確認。初期の `assets/kiosk-warm.png` を形の基準、`assets/vanilla-counter-interior.png` をアイスと金属の質感の基準に使用。
+
+制作方法: 内蔵 `image_gen`。CLI / API生成は使用していません。
+
+- 丸い屋根と左右の端を画角に戻し、店の形を一目で把握できる距離にする。
+- 注文窓・作業台・下のアイスケースを同じ視点と光で一つの店として描く。
+- コーン、カップ、スクープ、アイスの機械を少量置き、アイス屋と分かる手がかりを残す。
+- 文字は構図確認用の画像内表記。実サイトではロゴと札をSVG / HTMLとして独立させる。
+
+## 採用プロンプト
+
+```text
+Use case: compositing.
+Asset type: one cohesive visual direction study for the VANILLA ISN’T BAD. website, showing the complete storefront at a comfortable viewing distance. This is a reviewable concept, not sliced website parts or a phone mockup.
+Image 1 (the warm white kiosk) is the PRIMARY design and silhouette reference. Restore this recognisable ice-cream kiosk shape with its rounded ivory roof, narrow silver trim, muted vanilla-yellow / white fabric awning, serving window and connected cabinet below. Image 2 is a supporting reference for the REAL vanilla ice cream and brushed metal material, not its whole large close-up composition.
+
+The recent website zoomed in too far and lost the recognisable shop silhouette. The whole kiosk should fit within the image, with 8–10% breathing room on BOTH sides, the curved roof and both exterior edges clearly visible. No cut-off awning, no tightly cropped long horizontal bands. Front-on, eye-level photograph with a believable single shared perspective. Soft warm-white background and quiet natural daylight; just a faint hint of blurred green park at the far edges. Calm white-led palette, restrained warm accents, fine real materials, not cute cartoon and not highly glossy CGI.
+
+Recompose the kiosk into physically coherent proportions: compact sign fascia, modest awning, a generous WIDE serving window (roughly three times as wide as high), ONE clear slim handover counter, and a low integrated glass ice-cream display in the same body immediately below. Do not make a tall telephone-booth-like room. The shop should feel like a place where someone can actually prepare and hand over ice cream. Maintain the attractive round top silhouette of Image 1. A low base and discreet short feet with a soft grounded shadow may be visible, like Image 1; no wheels or tall empty lower panel.
+
+Inside the serving window, add a small practical, restrained working arrangement: a clear holder containing stacked waffle cones on the left, a short stack of plain white paper cups near it, a stainless ice-cream scoop on a small utensil rest, and a compact stainless ice-cream dispenser at the far right rear. Leave the central handover area clear. These should be readable ice-cream-shop cues, not a decorative clutter of unrelated props. Believable sizes and depth, gently illuminated, no theatrical beams. Sliding glazing parked naturally at the sides with thin silver tracks and handles, no opaque glass rectangles hiding the shop.
+
+The lower cabinet is ONE connected glass display containing THREE vanilla gelato trays side by side, each comfortably wide, with only thin shared silver dividers and an ivory outer body. Keep the ice cream realistic like Image 2, but proportionate to the kiosk, not a giant close-up. Put three small transparent glass placards INSIDE the display, subtle silver edge, dark neutral sans-serif text:
+Left: "Focus" with "Focus timer" beneath.
+Middle: "Notes" with "Keep a note" beneath.
+Right: "Trip" with "Plan a trip" beneath.
+Clear readable labels, not opaque white cards, no thick black borders.
+
+On the roof fascia print exactly "VANILLA ISN’T BAD." in one line of beautifully spaced neutral black sans-serif lettering, Helvetica-like, medium weight, not a serif. No other promotional copy. A small ivory hanging sign at the outside right of the serving window reads "APPS", once.
+The whole upper shop, working counter, and lower ice cabinet must be designed and lit AS ONE OBJECT, not a collage of separate rectangular images. Prefer realistic restrained product/architectural photography. No person, no extra UI chrome, no navigation, no arrows, no page paragraphs, no watermarks.
+Output one finished almost-square composition, high detail, with the entire shop and breathing room.
+```
+
+## 最終修正
+
+初稿の右奥の機器が飲み物用に見えたため、外観と構図を固定してソフトクリーム用の機器へ修正。
+
+```text
+Use case: precise-object-edit.
+Image 1 is the edit target, a finished storefront composition. Make ONE local correction only. The cylindrical stainless appliance in the far right of the serving window looks like a coffee urn, which is wrong for this ice-cream shop. Replace it with a compact, realistic commercial SOFT-SERVE ICE CREAM MACHINE: a rectangular brushed stainless steel box-shaped countertop housing, one short black pull handle on the front, a white dispensing nozzle directly below the handle and a small perforated drip tray. No circular coffee urn, no beverage spigot, no espresso wand, no brand or text. Keep it modest and in the exact same right-hand area, about the same overall height, occupying no more space. Match the existing perspective, daylight, warm material lighting and rear counter contact shadow.
+Everything else must remain unchanged: full kiosk outline and framing, park background, roof and exact “VANILLA ISN’T BAD.” wordmark, yellow/white awning, all cones and cups, window glazing, counter, gelato trays and three glass placards, APPS sign, feet and ground shadow. Do not zoom in, crop, stretch, change layout, or redesign the shop. Return the complete final image at the same square composition.
+```
