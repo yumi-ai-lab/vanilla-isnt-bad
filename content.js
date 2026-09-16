@@ -1,5 +1,5 @@
 // Add real apps here in display order. Until then, the page shows labeled samples.
-// Registered apps use the same glass placards on PC and mobile; more records add rows.
+// Registered apps use the same glass placards; more records extend the horizontal shelf.
 // Icon paths are relative to this page, e.g. "./assets/apps/your-app.png".
 // See README.md for the full app record format.
 export const apps = [];
@@ -18,6 +18,10 @@ export const copy = {
     "gallery.title": "APPS",
     "gallery.empty": "In the making.",
     "gallery.preview": "Sample apps for this preview.",
+    "shelf.label": "App shelf",
+    "shelf.help": "Swipe horizontally, or use the left and right arrow keys to browse the shelf. Home and End move to either end.",
+    "shelf.previous": "Previous apps",
+    "shelf.next": "Next apps",
     "preview.focus": "Focus timer",
     "preview.notes": "Keep a note",
     "preview.trip": "Plan a trip",
@@ -48,6 +52,10 @@ export const copy = {
     "gallery.title": "APPS",
     "gallery.empty": "ただいま準備中。",
     "gallery.preview": "表示確認用のサンプルです。",
+    "shelf.label": "アプリの棚",
+    "shelf.help": "横にスワイプ、または左右の矢印キーで棚を移動できます。Homeキーで最初、Endキーで最後へ移動します。",
+    "shelf.previous": "前のアプリへ",
+    "shelf.next": "次のアプリへ",
     "preview.focus": "集中を計る",
     "preview.notes": "メモを残す",
     "preview.trip": "旅を計画",

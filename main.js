@@ -1,5 +1,5 @@
 import { apps, copy } from "./content.js";
-import { localized, normalizeApps, resolveLanguage } from "./model.js";
+import { localized, normalizeApps, resolveLanguage, shelfState } from "./model.js";
 
 const readPreference = (key) => { try { return localStorage.getItem(key); } catch { return null; } };
 const savePreference = (key, value) => { try { localStorage.setItem(key, value); } catch {} };
@@ -17,7 +17,6 @@ let activeApp = null;
 let activeTrigger = null;
 let signHasPlayed = false;
 let shelfInView = !("IntersectionObserver" in window);
-let floorInView = !("IntersectionObserver" in window);
 let fontsReady = false;
 let artworkReady = false;
 let visualFrame = 0;
@@ -209,7 +208,87 @@ function prepareEntrances() {
 
 function updateAir() {
   grid.dataset.airActive = String(shelfInView && !document.hidden && !reduced());
-  document.querySelector(".floor-mist").dataset.airActive = String(floorInView && !document.hidden && !reduced());
+}
+
+function readShelf() {
+  return shelfState(grid.children.length, grid.firstElementChild?.getBoundingClientRect().width ?? 0, grid.clientWidth || 0, grid.scrollLeft || 0);
+}
+
+function updateShelf() {
+  const state = readShelf();
+  document.querySelector(".shelf-controls").hidden = state.max <= 1;
+  document.querySelector("#shelf-prev").disabled = state.atStart;
+  document.querySelector("#shelf-next").disabled = state.atEnd;
+  const position = state.first === state.last ? `${state.first}` : `${state.first}–${state.last}`;
+  const label = `${position} / ${grid.children.length}`;
+  const output = document.querySelector("#shelf-position");
+  if (output.textContent !== label) output.textContent = label;
+}
+
+function moveShelf(destination) {
+  grid.scrollTo({ left: destination, behavior: reduced() ? "instant" : "smooth" });
+}
+
+function setupShelf() {
+  let scrollFrame = 0;
+  const schedule = () => {
+    if (scrollFrame) return;
+    scrollFrame = requestAnimationFrame(() => { scrollFrame = 0; updateShelf(); });
+  };
+  grid.addEventListener("scroll", schedule, { passive: true });
+  window.addEventListener("resize", schedule);
+  if ("ResizeObserver" in window) new ResizeObserver(schedule).observe(grid);
+  document.querySelector("#shelf-prev").addEventListener("click", () => moveShelf(readShelf().previous));
+  document.querySelector("#shelf-next").addEventListener("click", () => moveShelf(readShelf().next));
+  grid.addEventListener("keydown", event => {
+    if (event.target !== grid || event.altKey || event.ctrlKey || event.metaKey) return;
+    const state = readShelf();
+    const destinations = { ArrowLeft: state.previous, ArrowRight: state.next, Home: 0, End: state.max };
+    if (!(event.key in destinations)) return;
+    event.preventDefault();
+    moveShelf(destinations[event.key]);
+  });
+  // Touch uses native horizontal scrolling. Mouse users can drag the same
+  // glass surface; a drag must never activate the app underneath on release.
+  let drag = null;
+  let suppressClickUntil = 0;
+  grid.addEventListener("pointerdown", event => {
+    if (event.pointerType !== "mouse" || event.button !== 0) return;
+    drag = { id: event.pointerId, x: event.clientX, left: grid.scrollLeft, moved: false };
+  });
+  grid.addEventListener("pointermove", event => {
+    if (!drag || event.pointerId !== drag.id) return;
+    if (event.buttons === 0) { finishDrag(event); return; }
+    const distance = event.clientX - drag.x;
+    if (!drag.moved && Math.abs(distance) < 6) return;
+    if (!drag.moved) {
+      drag.moved = true;
+      grid.classList.add("is-dragging");
+      grid.setPointerCapture(event.pointerId);
+    }
+    event.preventDefault();
+    grid.scrollLeft = drag.left - distance;
+  });
+  const finishDrag = event => {
+    if (!drag || event.pointerId !== drag.id) return;
+    const moved = drag.moved;
+    drag = null;
+    grid.classList.remove("is-dragging");
+    if (grid.hasPointerCapture(event.pointerId)) grid.releasePointerCapture(event.pointerId);
+    if (moved) {
+      suppressClickUntil = performance.now() + 350;
+      moveShelf(readShelf().nearest);
+    }
+  };
+  grid.addEventListener("pointerup", finishDrag);
+  grid.addEventListener("pointercancel", finishDrag);
+  grid.addEventListener("lostpointercapture", finishDrag);
+  grid.addEventListener("click", event => {
+    if (performance.now() >= suppressClickUntil) return;
+    event.preventDefault();
+    event.stopPropagation();
+  }, true);
+  schedule();
 }
 
 function makeIcon(app) {
@@ -232,10 +311,11 @@ function makeIcon(app) {
 
 function renderGallery() {
   if (records.length === 0) return;
+  const previousScroll = grid.scrollLeft;
   grid.replaceChildren();
   grid.removeAttribute("data-preview");
   grid.removeAttribute("aria-hidden");
-  grid.removeAttribute("aria-describedby");
+  grid.setAttribute("aria-describedby", "shelf-help");
   document.querySelector("#empty-note").hidden = true;
   for (const app of records) {
     const item = document.createElement("li");
@@ -274,6 +354,7 @@ function renderGallery() {
       button.classList.add("is-selected");
     }
   }
+  grid.scrollLeft = previousScroll;
 }
 
 function fillDialog(app) {
@@ -329,6 +410,7 @@ function translate(animate = false) {
     button.setAttribute("aria-pressed", String(button.dataset.language === language));
   });
   renderGallery();
+  updateShelf();
   if (activeApp && dialog.open) fillDialog(activeApp);
   updateMotion();
 }
@@ -408,6 +490,7 @@ dialog.addEventListener("close", () => {
 document.querySelector("#year").textContent = String(new Date().getFullYear());
 translate();
 prepareEntrances();
+setupShelf();
 
 if ("IntersectionObserver" in window) {
   const shelfObserver = new IntersectionObserver((entries) => {
@@ -415,11 +498,6 @@ if ("IntersectionObserver" in window) {
     updateAir();
   });
   shelfObserver.observe(grid);
-  const floorObserver = new IntersectionObserver((entries) => {
-    floorInView = entries.some(entry => entry.isIntersecting);
-    updateAir();
-  });
-  floorObserver.observe(document.querySelector(".floor-mist"));
 }
 
 const sign = document.querySelector(".hanging-sign");

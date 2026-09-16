@@ -69,16 +69,18 @@
               <source media="(max-width: 680px)" srcset="./assets/wordmark-small.svg">
               <img src="./assets/wordmark-display.svg" width="440" height="36" alt="">
             </picture>
-            <a class="hanging-sign" href="#apps" data-i18n-aria="kiosk.link" aria-label="Explore the apps">
-              <span class="sign-plate"><span class="sign-label">APPS</span></span>
-            </a>
           </div>
+          <a class="hanging-sign" href="#apps" data-i18n-aria="kiosk.link" aria-label="Explore the apps">
+            <span class="sign-plate"><span class="sign-label">APPS</span></span>
+          </a>
           <figcaption class="sr-only" id="kiosk-caption" data-i18n="kiosk.caption">VANILLA ISN’T BAD. — our little storefront, with a vanilla-striped awning and an app shelf below the counter.</figcaption>
         </figure>
 
         <section class="apps-section" id="apps" aria-labelledby="apps-title" tabindex="-1">
           <h2 class="sr-only" id="apps-title" lang="en" data-i18n="gallery.title">APPS</h2>
-          <ul class="app-grid" id="app-grid" data-preview="vanilla-placards" aria-describedby="empty-note">
+          <p class="sr-only" id="shelf-help" data-i18n="shelf.help">Swipe horizontally, or use the arrow keys to browse the shelf.</p>
+          <div class="shelf-housing">
+          <ul class="app-grid" id="app-grid" data-preview="vanilla-placards" tabindex="0" data-i18n-aria="shelf.label" aria-label="App shelf" aria-describedby="shelf-help empty-note">
             <li class="empty-card preview-card">
               <div class="case-frame" aria-hidden="true"><div class="glass-pane"></div></div>
               <div class="case-placard"><h3 lang="en">Focus</h3><p data-i18n="preview.focus" data-copy-stable>Focus timer</p></div>
@@ -104,12 +106,22 @@
               <div class="case-placard"><h3 lang="en">Journal</h3><p data-i18n="preview.journal" data-copy-stable>Save a day</p></div>
             </li>
           </ul>
+          </div>
+          <div class="shelf-footer">
           <div class="empty-note" id="empty-note">
             <p data-i18n="gallery.preview" data-copy-stable>Sample apps for this preview.</p>
           </div>
+          <div class="shelf-controls" hidden>
+            <span class="shelf-position" id="shelf-position" role="status" aria-live="polite" aria-atomic="true"></span>
+            <button class="shelf-arrow" id="shelf-prev" type="button" aria-controls="app-grid" data-i18n-aria="shelf.previous" aria-label="Previous apps">
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20"><path d="M16 10H4m5-5-5 5 5 5"/></svg>
+            </button>
+            <button class="shelf-arrow" id="shelf-next" type="button" aria-controls="app-grid" data-i18n-aria="shelf.next" aria-label="Next apps">
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20"><path d="M4 10h12m-5-5 5 5-5 5"/></svg>
+            </button>
+          </div>
+          </div>
         </section>
-        <div class="storefront-base" aria-hidden="true"></div>
-        <div class="floor-mist" aria-hidden="true"><i></i><i></i><i></i></div>
       </div>
     </section>
 

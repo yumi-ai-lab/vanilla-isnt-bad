@@ -50,3 +50,24 @@ export function resolveLanguage({query, saved, browser = "en"} = {}) {
   if (saved === "en" || saved === "ja") return saved;
   return browser.toLowerCase().startsWith("ja") ? "ja" : "en";
 }
+
+// All counter bays have the same responsive width. Keep navigation bounded:
+// fractional last positions must not repeat or skip the final app.
+export function shelfState(count, itemWidth, viewportWidth, scrollLeft = 0) {
+  if (count < 1 || itemWidth <= 0 || viewportWidth <= 0) {
+    return { first: 0, last: 0, max: 0, previous: 0, next: 0, nearest: 0, atStart: true, atEnd: true };
+  }
+  const max = Math.max(0, count * itemWidth - viewportWidth);
+  const left = Math.max(0, Math.min(max, scrollLeft));
+  const bounded = value => Math.max(0, Math.min(max, value));
+  const first = Math.min(count, Math.floor((left + itemWidth * .5) / itemWidth) + 1);
+  const last = Math.max(first, Math.min(count, Math.floor((left + viewportWidth - itemWidth * .5) / itemWidth) + 1));
+  return {
+    first, last, max,
+    previous: bounded((Math.ceil((left - 1) / itemWidth) - 1) * itemWidth),
+    next: bounded((Math.floor((left + 1) / itemWidth) + 1) * itemWidth),
+    nearest: bounded(Math.round(left / itemWidth) * itemWidth),
+    atStart: left <= 1,
+    atEnd: max - left <= 1
+  };
+}
