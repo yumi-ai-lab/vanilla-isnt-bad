@@ -1,6 +1,20 @@
 # 自然光とケースの画像制作記録
 
-## 店頭の交換できる札と別画面の展示（現在使用・v6）
+## 一つにつながるショーケース（現在使用）
+
+保存先: `assets/flavor-cutouts-v2.png`（1536×1024、透過PNG）。内蔵 `image_gen` で `assets/flavor-collection-v1.png` を編集し、背景を透過しました。CLI / API生成、別ツールによる画像加工は使用していません。採用画像は生成元からそのままコピーし、アルファチャンネルと周囲の透明度を確認しました。
+
+生成元: `C:\Users\funadapd\.codex\generated_images\01a09d8d-5b5f-7c02-971c-8ea1daf97c73\exec-c7a3c124-a22e-4124-bb47-5caf6a8e85e7.png`
+
+PC三列、スマホ二列の配置と札はHTML/CSSです。棚全体を一つの白い筐体で囲み、ガラスの反射と銀の棚板を共有します。PNGの六つの区画をCSSの背景位置で表示し、各画像の白い四角や縁を重ねません。日よけはメインの `storefront-blank-placards-v6.png` をCSS背景で部分表示、周囲の公園は既存 `park-atmosphere.png` を再使用しています。これらのファイルは加工していません。
+
+最終プロンプト:
+
+```text
+Use case: precise-object-edit. Image 1 is the edit target, a 1536 x 1024 contact sheet of six ice cream cups in an exact 3-column by 2-row grid. Remove ONLY the plain ivory photographic background and replace it with genuine fully transparent alpha. Retain the six existing cups and scoops, their original positions, dimensions, detailed textures, flavor colors, perspective, lighting, complete bottom edges and equal grid cell boundaries exactly. Do not redesign, crop, move, resize, recolor, add outlines or omit any of the ice creams. Keep a very soft tiny semitransparent contact shadow immediately beneath each cup only; all empty areas between and around the cups must be transparent. The output is a 3:2 landscape PNG with real transparency, an atlas for placing the six cutout cups on a shared shelf background. No white/cream background, no checkerboard drawn into the image, no other objects, no text, no border. Top row vanilla, strawberry, pistachio; bottom row chocolate, caramel, mint chip, unchanged.
+```
+
+## 店頭の交換できる札（現在使用・v6）と旧展示用カップ
 
 今回も内蔵 `image_gen` を使用し、CLI / API生成は使用していません。採用PNGをそのまま以下へコピーしています。
 
