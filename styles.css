@@ -75,7 +75,7 @@ h1 { font-size: clamp(44px, 5.2vw, 68px); font-weight: var(--weight-heading); li
 .text-link svg, .text-link > span:last-child { transition: transform var(--motion-state) var(--ease); }
 .hero-link:focus-visible svg, .hero-link:active svg { transform: translateY(4px); }
 .storefront {
-  --kiosk-width: 124vw;
+  --kiosk-width: max(760px, 118%);
   position: relative;
   isolation: isolate;
   width: calc(100% + 48px);
@@ -102,10 +102,10 @@ h1 { font-size: clamp(44px, 5.2vw, 68px); font-weight: var(--weight-heading); li
 .kiosk-scene { position: relative; margin: 0; overflow: clip; }
 .kiosk-wrap { position: relative; left: 50%; width: var(--kiosk-width); transform: translateX(-50%); container-type: inline-size; }
 .kiosk-artwork, .kiosk-art { display: block; width: 100%; height: auto; }
-.kiosk-art { aspect-ratio: 1882 / 836; }
-/* The image supplies fixed jambs, a rear track and ONE projecting countertop.
-   The central leaves park over fixed side glass; they never cross the counter. */
-.serving-window { position: absolute; left: 16.6%; top: 49.1%; width: 66.8%; height: 35.6%; overflow: hidden; border-radius: 0 0 .2cqw .2cqw; pointer-events: none; }
+.kiosk-art { aspect-ratio: 1942 / 809; }
+/* Keep one horizontal room at every viewport width. Narrow screens crop its
+   sides instead of rebuilding it as a tall booth. Glass stays in image space. */
+.serving-window { position: absolute; left: 5.1%; top: 49.5%; width: 89.6%; height: 34%; overflow: hidden; border-radius: 0 0 .2cqw .2cqw; pointer-events: none; }
 .serving-window::before, .serving-window::after { content: ""; position: absolute; z-index: 3; left: 0; right: 0; height: clamp(1px, .2cqw, 2px); background: linear-gradient(#e9ebe3b3, #929d924d, #ffffffb3); pointer-events: none; }
 .serving-window::before { top: 0; }
 .serving-window::after { bottom: 0; }
@@ -123,23 +123,23 @@ h1 { font-size: clamp(44px, 5.2vw, 68px); font-weight: var(--weight-heading); li
 .window-glass-right::after { left: 3%; }
 /* Material lighting is in the photograph; this is only a quiet response. */
 .shop-lights { position: absolute; inset: 0; overflow: hidden; opacity: .03; pointer-events: none; transition: opacity 650ms var(--ease); }
-.shop-light { position: absolute; top: 51.4%; width: 28%; height: 33%; transform: translateX(-50%); filter: blur(clamp(3px, .8vw, 9px)); }
-.shop-light::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, #fffef6f2 0%, #fff4d7a6 36%, #fff0ca38 64%, transparent 78%); clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%); }
-.shop-light-left { left: 35.96%; }
-.shop-light-right { left: 63.58%; }
+.shop-light { position: absolute; top: 49.5%; width: 55%; height: 34%; transform: translateX(-50%); filter: blur(clamp(3px, .8vw, 9px)); }
+.shop-light::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%, #fffef6b3 0%, #fff4d766 36%, #fff0ca21 64%, transparent 85%); }
+.shop-light-left { left: 30%; }
+.shop-light-right { left: 70%; }
 .kiosk-wrap.is-open .shop-lights { opacity: .08; }
 .kiosk-scene:focus-within .shop-lights, .kiosk-scene:active .shop-lights { opacity: .18; }
 .kiosk-wordmark {
   position: absolute;
   left: 50%;
   width: clamp(270px, 44vw, 580px);
-  top: 12.6%;
+  top: 12.2%;
   transform: translate(-50%, -50%);
   display: block;
   mix-blend-mode: multiply;
 }
 .kiosk-wordmark img { display: block; width: 100%; height: auto; }
-.hanging-sign { position: absolute; z-index: 3; right: clamp(20px, 4.5vw, 84px); top: 53%; width: clamp(36px, 3.8vw, 56px); aspect-ratio: 1/1.7; transform-origin: 50% -10%; }
+.hanging-sign { position: absolute; z-index: 3; right: clamp(20px, 4.5vw, 84px); top: 50.5%; width: clamp(36px, 3.8vw, 56px); aspect-ratio: 1/1.7; transform-origin: 50% -10%; }
 .hanging-sign::before { content: ""; position: absolute; height: 2px; left: -27%; right: 19%; top: -9%; background: linear-gradient(#e5dfd5, var(--silver)); box-shadow: 0 1px 1px #68554012; }
 .hanging-sign::after { content: ""; position: absolute; inset: -10px; }
 .sign-plate { position: absolute; inset: 0; display: grid; place-items: center; border: 1px solid #d8cec0; border-radius: 3px; background: linear-gradient(115deg, #fffdf8 15%, #f0e9de 85%); color: var(--ink); font-size: clamp(8px, 1.3cqw, 11px); box-shadow: inset 0 0 0 1px #fffefabf, 1px 1px 0 #b6a89659, 3px 7px 10px -5px #68554030; transition: transform var(--motion-press) var(--ease); }
@@ -169,7 +169,7 @@ h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.0
   margin: 0;
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 30.18868%;
+  grid-auto-columns: min(82%, clamp(300px, calc(250px + 14vw), 520px));
   gap: 0;
   overflow-x: auto;
   overflow-y: hidden;
@@ -184,15 +184,15 @@ h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.0
 .app-grid.is-dragging { cursor: grabbing; scroll-snap-type: none; user-select: none; }
 .app-grid.is-dragging * { cursor: grabbing; }
 .app-grid > li { position: relative; min-width: 0; scroll-snap-align: start; }
-/* A single shared metal mullion, rather than separate white boxes. */
-.app-grid > li::after { content: ""; position: absolute; z-index: 4; right: 0; top: 0; bottom: 0; width: 6px; pointer-events: none; background: linear-gradient(90deg, #9fa397, #f6f7f0 24%, #bbbfb1 54%, #e5e8dc 78%, #858c7f); box-shadow: -1px 0 2px #343a2521, 1px 0 2px #343a251a; }
+/* Low, shared dividers keep the glass a continuous horizontal surface. */
+.app-grid > li::after { content: ""; position: absolute; z-index: 4; right: 0; top: 34%; bottom: 0; width: 3px; pointer-events: none; background: linear-gradient(90deg, #a4a99d, #f6f7f0 45%, #abb2a2); box-shadow: -1px 0 1px #343a2514; }
 .case-frame {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 7 / 5;
+  aspect-ratio: 7 / 4;
   border-radius: 0;
   background-color: var(--surface);
-  background-image: url("./assets/vanilla-counter-balanced-v2.png");
+  background-image: url("./assets/vanilla-counter-interior.png");
   background-repeat: no-repeat;
   /* Trim the side rails so neighboring bays share only one silver mullion. */
   background-size: 112% auto;
@@ -203,8 +203,8 @@ h2 { font-size: clamp(28px, 2.8vw, 36px); line-height: 1.25; letter-spacing: -.0
 .case-placard {
   position: absolute;
   z-index: 2;
-  left: 12.5%;
-  right: 12.5%;
+  left: 18%;
+  right: 18%;
   bottom: 12.5%;
   margin: 0;
   padding: 12px 10px 17px;
@@ -305,19 +305,13 @@ html[data-reduced-motion="true"] .glass-pane::after { opacity: 0; }
   h1 { font-size: clamp(38px, 10vw, 44px); letter-spacing: -.035em; line-height: 1.15; margin-bottom: 10px; }
   .hero-subtitle { font-size: 16px; }
   .hero-description { font-size: 14px; line-height: 1.8; max-width: 32ch; margin-bottom: 20px; }
-  .storefront { --kiosk-width: 100%; width: calc(100% + 24px); margin: 36px -12px 0; }
+  .storefront { width: calc(100% + 24px); margin: 36px -12px 0; }
   .park-atmosphere { top: -52px; width: 100vw; aspect-ratio: 3 / 4; background-image: url("./assets/park-atmosphere-mobile.png"); opacity: .82; }
-  .kiosk-art { aspect-ratio: 1173 / 1341; }
-  .serving-window { left: 12.2%; top: 45%; width: 75.6%; height: 41%; }
-  .shop-light { top: 48.1%; height: 37%; width: 40%; }
-  .shop-light-left { left: 33.4%; }
-  .shop-light-right { left: 67.3%; }
-  .kiosk-wordmark { top: 10.9%; width: calc(100vw - 88px); }
-  .hanging-sign { right: 12px; top: 49%; width: 32px; }
+  .kiosk-wordmark { width: calc(100vw - 88px); }
+  .hanging-sign { right: 12px; width: 32px; }
   .sign-plate { font-size: 10px; }
   .section-width { width: calc(100% - 44px); }
-  .app-grid { grid-auto-columns: 67.79661%; }
-  .case-placard { left: 10%; right: 10%; padding: 9px 8px 12px; }
+  .case-placard { left: 16%; right: 16%; padding: 9px 8px 12px; }
   .case-placard h3 { font-size: 19px; }
   .case-placard p { margin-top: 4px; font-size: 13px; }
   .app-icon { font-size: 26px; }
