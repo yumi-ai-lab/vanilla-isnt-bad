@@ -37,7 +37,6 @@ export function createTerrace({records, language, text, stableCopy, reduced}) {
   let menuOffset = -24;
   let menuAnchor = "";
   let searchTimer;
-  let hasServed = false;
   let transitionId = 0;
   let transitionFrame = 0;
   const animations = new Set();
@@ -86,10 +85,7 @@ export function createTerrace({records, language, text, stableCopy, reduced}) {
       button.dataset.appId = app.id;
       button.setAttribute("aria-controls", "app-detail");
       const cup = element("span", "cup-photo");
-      const serving = element("span", "cup-serving");
-      serving.setAttribute("aria-hidden", "true");
-      serving.append(element("span", "serving-shadow"), element("span", "serving-tray"), flavor(app));
-      cup.append(serving);
+      cup.append(flavor(app));
       const label = element("span", "cup-label");
       const name = element("span", "app-name");
       stableCopy(name, {en:localized(app.name, "en"), ja:localized(app.name, "ja")});
@@ -175,7 +171,6 @@ export function createTerrace({records, language, text, stableCopy, reduced}) {
     cancelAnimationFrame(transitionFrame);
     for (const animation of animations) animation.cancel();
     animations.clear();
-    grid.querySelectorAll(".is-delivery-pending,.is-swap-pending").forEach(button => button.classList.remove("is-delivery-pending", "is-swap-pending"));
   }
 
   function animate(node, keyframes, options = {}) {
@@ -204,41 +199,14 @@ export function createTerrace({records, language, text, stableCopy, reduced}) {
     transitionFrame = requestAnimationFrame(frame);
   }
 
-  function deliverCup(app) {
+  function focusCup(app) {
     const button = cupButton(app.id);
     const photo = button.querySelector(".cup-photo");
-    const firstServing = !hasServed;
-    // Prepare before scrolling so a settled cup never flashes before its arrival.
-    if (!reduced() && !document.hidden) button.classList.add(firstServing ? "is-delivery-pending" : "is-swap-pending");
     button.focus({preventScroll:true});
     const top = window.scrollY + photo.getBoundingClientRect().top - 24;
-    window.scrollTo({top:Math.max(0,top), behavior:reduced() ? "instant" : "smooth"});
-    afterScroll(() => {
-      button.classList.remove("is-delivery-pending", "is-swap-pending");
-      const bounds = photo.getBoundingClientRect();
-      // A visitor who scrolls on can keep reading; do not serve outside their view.
-      if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) return;
-      if (firstServing) {
-        hasServed = true;
-        animate(button.querySelector(".cup-serving"), [
-          {opacity:0, transform:"translate(26%,-3%) rotate(.45deg)", offset:0},
-          {opacity:1, offset:.18},
-          {transform:"translate(2%,-.2%) rotate(0)", offset:.76},
-          {opacity:1, transform:"none", offset:1}
-        ], {duration:1200});
-        animate(button.querySelector(".serving-shadow"), [
-          {opacity:.3, transform:"translate(3%,10%) scale(.94)"},
-          {opacity:.85, transform:"none"}
-        ], {duration:1200});
-      } else {
-        // Keep the tray in place for comparisons instead of repeating the full scene.
-        animate(button.querySelector(".flavor-art"), [
-          {opacity:0, transform:"translateX(12px)"},
-          {opacity:1, transform:"none"}
-        ], {duration:480});
-      }
-      animate(detail, [{opacity:.8},{opacity:1}], {duration:280});
-    });
+    window.scrollTo({top:Math.max(0,top), behavior:"instant"});
+    animate(button.querySelector(".flavor-art"), [{opacity:.55},{opacity:1}], {duration:180});
+    animate(detail, [{opacity:.55},{opacity:1}], {duration:180});
   }
 
   function reveal(node) {
@@ -270,7 +238,7 @@ export function createTerrace({records, language, text, stableCopy, reduced}) {
     afterScroll(() => animate(menu, [{opacity:.6,transform:"translateY(12px) rotate(-.25deg)"},{opacity:1,transform:"none"}], {duration:280}));
   }
 
-  function showSelection(app, delivery = false) {
+  function showSelection(app, focus = false) {
     cancelTransition();
     if (!activeApp) tableScroll = menu.hidden ? window.scrollY : menuScroll;
     closeMenu(false);
@@ -279,7 +247,7 @@ export function createTerrace({records, language, text, stableCopy, reduced}) {
     fillAppDetails(detail, app, language(), text);
     detail.hidden = false;
     updateTable();
-    if (delivery) deliverCup(app);
+    if (focus) focusCup(app);
     else reveal(detail);
   }
 

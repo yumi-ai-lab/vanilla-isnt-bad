@@ -3,60 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f5ef">
   <meta name="robots" content="noindex">
-  <meta name="description" content="VANILLA ISN’T BAD. — アプリを選ぶ体験のデモ。">
-  <title>Menu demo — VANILLA ISN’T BAD.</title>
+  <title>All flavors. — VANILLA ISN’T BAD.</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="./assets/fonts/inter/inter-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./assets/fonts/fonts.css">
-  <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="./menu-demo.css">
-  <script type="module" src="./menu-demo.js"></script>
+  <script type="module" src="./menu-redirect.js"></script>
 </head>
-<body id="top" class="menu-demo" data-view="menu">
-  <a class="skip-link" href="#demo-search" data-copy="skip">メニューへ</a>
-  <header class="demo-header">
-    <div class="demo-return">
-      <a id="demo-shop-return" href="./?lang=ja#shop"><span aria-hidden="true">←</span><span data-copy="shop">店へ戻る</span></a>
-      <button id="demo-menu-back" type="button"><span aria-hidden="true">←</span><span data-copy="back">メニューへ</span></button>
-    </div>
-    <a class="demo-brand" href="./"><img src="./assets/wordmark-small.svg" width="150" height="12" alt="VANILLA ISN’T BAD."></a>
-    <div class="demo-language" role="group" aria-label="Language"><button type="button" data-language="ja" aria-pressed="true">JA</button><span aria-hidden="true">/</span><button type="button" data-language="en" aria-pressed="false">EN</button></div>
-  </header>
-  <main class="demo-layout">
-    <section id="demo-catalog" class="demo-catalog" aria-labelledby="demo-title">
-      <div class="demo-intro"><span class="demo-edition">DEMO</span><h1 id="demo-title" lang="en">All flavors.</h1><p data-copy="intro">名前や、できることから。</p></div>
-      <div class="demo-find">
-        <form id="demo-search-form" role="search">
-          <label class="sr-only" for="demo-search" data-copy="searchLabel">アプリ名・できることで探す</label>
-          <div class="demo-search-field"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m15.5 15.5 5 5"/></svg><input id="demo-search" type="search" maxlength="200" autocomplete="off" spellcheck="false" aria-controls="demo-list" aria-describedby="demo-results"><button id="demo-clear" type="button" hidden>×</button></div>
-        </form>
-        <div id="demo-categories" class="demo-categories" role="group"></div>
-        <div class="demo-results"><p id="demo-results" role="status" aria-live="polite" aria-atomic="true"></p><button id="demo-reset" type="button" data-copy="reset" hidden>絞り込みを解除</button></div>
-      </div>
-      <ul id="demo-list" class="demo-list"></ul>
-      <p id="demo-empty" class="demo-empty" data-copy="empty" hidden>見つかりませんでした。別の言葉で探すか、絞り込みを解除してください。</p>
-      <button id="demo-more" class="demo-more" type="button" data-copy="more" hidden>もっと見る</button>
-      <p class="demo-disclaimer" data-copy="sample">アプリ名・仕様・説明は、確認用のサンプルです。</p>
-    </section>
-    <section id="demo-selection" class="demo-selection" aria-labelledby="demo-app-name">
-      <div class="demo-table" aria-hidden="true">
-        <img class="demo-landscape" src="./assets/terrace-background-v1.png" width="1536" height="1024" alt="" fetchpriority="high">
-        <span id="demo-cup" class="demo-cup"><span class="demo-flavor"></span></span>
-      </div>
-      <div class="demo-app-copy">
-        <div class="demo-app-heading"><h2 id="demo-app-name" tabindex="-1"></h2><span class="demo-sample-label" data-copy="sampleBadge">サンプル</span></div>
-        <p id="demo-purpose" class="demo-purpose"></p>
-        <ul id="demo-specs" class="demo-specs"></ul>
-        <div class="demo-launch"><button type="button" disabled><span data-copy="open">アプリを開く</span><span aria-hidden="true">↗</span></button><p data-copy="unavailable">デモのため、アプリは起動しません。</p></div>
-        <div id="demo-craft" class="demo-craft"><h3 data-copy="craft">つくり手のひとこと</h3><p id="demo-craft-lead"></p><details id="demo-craft-more"><summary data-copy="craftMore">ほかのこだわり</summary><ul id="demo-craft-points"></ul></details></div>
-        <button id="demo-browse" class="demo-browse" type="button"><span aria-hidden="true">←</span><span data-copy="browse">メニューでほかも見る</span></button>
-      </div>
-    </section>
-    <p id="demo-announcement" class="sr-only" role="status" aria-live="polite"></p>
-    <noscript><p>このデモを操作するにはJavaScriptを有効にしてください。</p></noscript>
-  </main>
-  <footer class="demo-footer"><span lang="en">Good as it is.</span><button id="demo-motion" type="button" aria-pressed="true"></button></footer>
+<body>
+  <p><a href="./apps.html">アプリのメニューへ / Open the app menu</a></p>
 </body>
 </html>

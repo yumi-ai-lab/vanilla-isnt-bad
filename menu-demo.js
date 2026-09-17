@@ -10,7 +10,9 @@ const records = normalizeApps(apps.length ? apps : previewApps).map(app => ({
 const $ = selector => document.querySelector(selector);
 const narrow = matchMedia("(max-width:900px)");
 const motionQuery = matchMedia("(prefers-reduced-motion:reduce)");
-let language = resolveLanguage({query:new URL(location.href).searchParams.get("lang"),browser:navigator.language});
+const readPreference = key => { try { return localStorage.getItem(key); } catch { return null; } };
+const savePreference = (key,value) => { try { localStorage.setItem(key,value); } catch {} };
+let language = resolveLanguage({query:new URL(location.href).searchParams.get("lang"),saved:readPreference("vanilla-language"),browser:navigator.language});
 let query = "";
 let category = "all";
 let limit = 12;
@@ -19,8 +21,7 @@ let detailOpen = false;
 let menuScroll = 0;
 let menuAnchor = "";
 let searchTimer;
-let userReduced = false;
-try { userReduced = localStorage.getItem("vanilla-motion") === "off"; } catch {}
+let userReduced = readPreference("vanilla-motion") === "off";
 const animations = new Set();
 const text = key => demoCopy[language][key];
 const reduced = () => motionQuery.matches || userReduced;
@@ -148,6 +149,15 @@ function renderSelection() {
   flavor($("#demo-cup"),selected);
   $("#demo-app-name").textContent=localized(selected.name,language);
   $("#demo-purpose").textContent=localized(selected.tagline,language);
+  $(".demo-sample-label").hidden=!selected.sample;
+  const launch=$("#demo-open");
+  const canOpen=Boolean(selected.url && !selected.sample);
+  launch.hidden=!canOpen;
+  if (canOpen) launch.href=selected.url;
+  else launch.removeAttribute("href");
+  $("#demo-unavailable").hidden=canOpen;
+  $("#demo-launch-status").hidden=canOpen;
+  $("#demo-launch-status").textContent=text(selected.sample ? "unavailable" : "soon");
   const list=$("#demo-specs");
   list.replaceChildren();
   list.hidden=!specs.length;
@@ -230,7 +240,9 @@ function renderLanguage() {
   $("#demo-clear").setAttribute("aria-label",text("clear"));
   $("#demo-categories").setAttribute("aria-label",text("categories"));
   $("#demo-specs").setAttribute("aria-label",text("specs"));
-  $("#demo-shop-return").href=`./?lang=${language}#shop`;
+  $("#demo-shop-return").href=`./?lang=${language}&return=shop#shop`;
+  $(".demo-brand").href=`./?lang=${language}`;
+  $(".demo-disclaimer").hidden=!records.some(app=>app.sample);
   renderCategories();
   renderMenu();
   renderSelection();
@@ -267,12 +279,17 @@ $("#demo-browse").addEventListener("click",backToMenu);
 for (const button of document.querySelectorAll("[data-language]")) button.addEventListener("click",()=>{
   cancelMotion();
   language=button.dataset.language;
+  savePreference("vanilla-language",language);
   const url=new URL(location.href);
   url.searchParams.set("lang",language);
   history.replaceState(history.state,"",url);
   renderLanguage();
 });
-$("#demo-motion").addEventListener("click",()=>{ userReduced=!userReduced; updateMotion(); });
+$("#demo-motion").addEventListener("click",()=>{
+  userReduced=!userReduced;
+  savePreference("vanilla-motion",userReduced ? "off" : "on");
+  updateMotion();
+});
 motionQuery.addEventListener("change",updateMotion);
 document.addEventListener("visibilitychange",updateMotion);
 document.addEventListener("keydown",event=>{ if (event.key==="Escape" && detailOpen && event.target!==$("#demo-search")) { event.preventDefault(); backToMenu(); } });
