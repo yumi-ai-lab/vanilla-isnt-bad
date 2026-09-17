@@ -43,6 +43,7 @@ export function normalizeApps(records) {
       sample: record.sample === true,
       flavor: Number.isInteger(record.flavor) && record.flavor >= 0 && record.flavor < 6 ? record.flavor : 0,
       featured: ["new", "picked", "seasonal"].includes(record.featured) ? record.featured : "",
+      categories: Array.isArray(record.categories) ? [...new Set(record.categories.filter(x => typeof x === "string" && /^[a-z][a-z0-9-]*$/.test(x)))].slice(0, 5) : [],
       features: Array.isArray(record.features) ? record.features.filter(x => localized(x).trim()).slice(0, 5) : [],
       screenshots: Array.isArray(record.screenshots) ? record.screenshots.flatMap(x => x && imageUrl(x.src) ? [{src:imageUrl(x.src), alt:x.alt || ""}] : []).slice(0, 4) : [],
       platforms: Array.isArray(record.platforms) ? record.platforms.filter((x) => typeof x === "string").slice(0, 4) : []

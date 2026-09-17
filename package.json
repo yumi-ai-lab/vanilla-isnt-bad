@@ -9,6 +9,6 @@
     "preview:phone": "npm run build && node scripts/serve-phone.mjs",
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check main.js && node --check gallery.js && node --check app-details.js && node --check terrace.js && node --check model.js && node --check content.js"
+    "check": "node --check main.js && node --check gallery.js && node --check app-details.js && node --check terrace.js && node --check catalog.js && node --check model.js && node --check content.js"
   }
 }
