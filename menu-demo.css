@@ -48,8 +48,22 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
 .demo-landscape { display: block; width: 100%; height: 100%; object-fit: cover; }
 .demo-cup { position: absolute; isolation: isolate; display: block; visibility: hidden; width: 51%; left: 26.5%; bottom: 6%; aspect-ratio: 1; }
 .demo-cup[data-ready="true"] { visibility: visible; }
-.demo-cup::before { content: ""; position: absolute; z-index: -1; left: 37%; width: 64%; bottom: calc(var(--cup-base,12.9%) - 4.8%); height: 9%; background: radial-gradient(ellipse at 32% 40%,#55574b59 0%,#62645724 42%,#70766608 67%,transparent 79%); border-radius: 50%; transform: rotate(7deg); filter: blur(.42cqw); }
-.demo-cup::after { content: ""; position: absolute; z-index: -1; left: 27%; width: 48%; bottom: calc(var(--cup-base,12.9%) - 1.4%); height: 3.2%; background: radial-gradient(ellipse,#383b32ba 0%,#464b3e91 42%,#5b624b35 67%,transparent 83%); border-radius: 50%; filter: blur(.1cqw); }
+/* Broad ambient and cast shadows fade into the tabletop. Percentages refer
+   to the square atlas cell, including its transparent margin. */
+.demo-cup::before {
+  content: ""; position: absolute; z-index: -1;
+  left: -20%; width: 140%; bottom: calc(var(--cup-base,13.1%) - 21.1%); height: 48%;
+  background:
+    radial-gradient(24.286% 21.875% at 54.286% 54.167%,#4d5142 0%,#4d514275 20%,#4d51422b 38%,#4d51421a 55%,#4d51420d 70%,#4d514205 84%,transparent 100%),
+    radial-gradient(48.571% 43.75% at 50.714% 50%,#565b4933 0%,#565b492d 20%,#565b4921 38%,#565b4914 55%,#565b490a 70%,#565b4904 84%,transparent 100%);
+}
+/* Most of the contact ellipse sits beneath the cup; only its soft front edge
+   remains visible. These static shadows stay identical with motion off. */
+.demo-cup::after {
+  content: ""; position: absolute; z-index: -1;
+  left: 24.5%; width: 49.6%; bottom: calc(var(--cup-base,13.1%) - 1.4%); height: 14.6%;
+  background: radial-gradient(50% 50% at 50% 50%,#303429c7 0%,#303429a3 45%,#3034295a 70%,#30342920 86%,transparent 100%);
+}
 .demo-cup > .demo-flavor { position: relative; width: 100%; height: 100%; }
 .demo-cup > .demo-flavor::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 39% 78%,#f4f3e93b,transparent 34%),linear-gradient(135deg,#fff4d322,transparent 54%); mix-blend-mode: soft-light; mask: url("./assets/flavor-cutouts-v2.png") var(--flavor-x,0%) var(--flavor-y,0%) / 300% 200% no-repeat; }
 /* One light field crosses the cup and tabletop together. The photograph has

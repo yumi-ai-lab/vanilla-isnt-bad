@@ -79,8 +79,8 @@ function flavor(item, app) {
   // are measured from the opaque bounds in the atlas; keep the image unedited.
   item.style.setProperty("--scoop-offset-y",`${[-4.4,-4.3,-4.5,5.4,5,5][app.flavor]}%`);
   item.style.setProperty("--scoop-offset-x",`${[-3.3,-.2,2.6,-3.5,-.2,2.6][app.flavor]}%`);
-  // The two rows of the existing cup atlas have slightly different baselines.
-  item.style.setProperty("--cup-base",app.flavor < 3 ? "12.9%" : "14.3%");
+  // Bottom inset of the near-opaque cup body (alpha >= 250), per atlas row.
+  item.style.setProperty("--cup-base",app.flavor < 3 ? "13.1%" : "14.45%");
 }
 function cancelMotion() {
   for (const animation of animations) animation.cancel();
