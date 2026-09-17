@@ -1,3 +1,21 @@
+# アイス単体のメニュー素材（現在使用）
+
+保存先: `assets/flavor-scoops-v1.png`。内蔵 image_gen で生成し、生成PNGを加工せずコピー。CLI / API生成や画像加工は使用していません。既存の `assets/flavor-cutouts-v2.png` は質感とフレーバーの参照のみ。3列×2行の各正方形をCSS背景位置で表示します。カップは一覧に表示せず、詳細では元のカップ素材を維持し、接地影と色調はCSSで調整します。
+
+生成元: `C:/Users/funadapd/.codex/generated_images/01a09d8d-5b5f-7c02-971c-8ea1daf97c73/exec-0a566dd5-c30d-4158-a3db-33ac228f9348.png`
+
+最終プロンプト:
+
+```text
+Use case: product-mockup.
+Asset type: one transparent ice-cream flavor atlas for a calm, premium website menu.
+Input image 1 is a flavor, material and color reference only. Create a new atlas of the same SIX flavors as single bare scoops WITHOUT cups.
+Composition: landscape 3:2 canvas, exactly three columns and two rows of equal square cells, no gutters or drawn grid. One complete scoop centered in every cell, each about 64 percent of the cell width, all the same size, camera angle and lighting. Clear empty transparent margins on every side. Top row left to right: ivory vanilla bean, soft strawberry pink, pale pistachio green with tiny nut pieces. Bottom row: milk chocolate brown, ivory caramel with two fine caramel ribbons, very pale mint with small chocolate flecks.
+Each scoop is naturally rounded with delicate scooping ridges and a subtly flattened irregular lower edge resting on an invisible level surface. Show the complete believable bottom of each scoop, never a cropped hemisphere. Soft photographic detail with quiet, restrained pastel color, no harsh sharpening. Slightly elevated three-quarter product view, soft daylight from upper left, gentle cool reflected fill. A tiny soft semitransparent contact shadow immediately beneath each scoop only.
+Genuine transparent alpha PNG background everywhere else. NO cups, cones, bowls, dishes, plates, trays, pedestals, packaging, hands, lettering, labels, logos, grid lines, borders, solid background or checkerboard drawn into the image. Six individual bare scoops only. Keep every scoop and its short shadow completely inside its own square cell. Output the production atlas itself, preferably 1536 by 1024 pixels.
+
+```
+
 # 自然光とケースの画像制作記録
 
 ## カップを選べるテラス（現在使用）

@@ -63,6 +63,11 @@ function icon(id) {
 function flavor(item, app) {
   item.style.setProperty("--flavor-x",`${app.flavor % 3 * 50}%`);
   item.style.setProperty("--flavor-y",`${Math.floor(app.flavor / 3) * 100}%`);
+  // Align the full scoops within their square cells without cropping their bases.
+  item.style.setProperty("--scoop-offset-y",app.flavor < 3 ? "-1.4%" : "7.3%");
+  item.style.setProperty("--scoop-offset-x",`${[-1.7,0,1.6,-2.5,0,.6][app.flavor]}%`);
+  // The two rows of the existing cup atlas have slightly different baselines.
+  item.style.setProperty("--cup-contact-bottom",app.flavor < 3 ? "10.5%" : "12%");
 }
 function cancelMotion() {
   for (const animation of animations) animation.cancel();
@@ -122,14 +127,14 @@ function renderMenu() {
     button.id=`demo-app-${app.id}`;
     button.dataset.appId=app.id;
     button.setAttribute("aria-controls","demo-selection");
-    const art=node("span","demo-flavor");
+    const art=node("span","demo-scoop");
     art.setAttribute("aria-hidden","true");
     flavor(art,app);
+    const visual=node("span","demo-menu-visual");
+    visual.append(art);
     const words=node("span","demo-menu-copy");
     words.append(node("span","demo-menu-name",localized(app.name,language)),node("span","demo-menu-purpose",localized(app.tagline,language)));
-    const arrow=node("span","demo-menu-arrow","›");
-    arrow.setAttribute("aria-hidden","true");
-    button.append(art,words,arrow);
+    button.append(visual,words);
     button.addEventListener("click",()=>choose(app));
     li.append(button);
     list.append(li);
