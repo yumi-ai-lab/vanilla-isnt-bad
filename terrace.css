@@ -22,16 +22,7 @@ body[data-page="showcase"] { background: #f7f5ef; }
 .cup-button { position: relative; display: flex; flex-direction: column; align-items: center; width: 100%; padding: 0; border: 0; border-radius: 30%; background: none; text-align: center; }
 .cup-photo { position: relative; display: block; width: min(107%,28.5cqw); max-width: 430px; aspect-ratio: 1; transition: transform 450ms var(--ease); }
 .cup-photo::before { content: ""; position: absolute; left: 24%; right: 18%; bottom: 10%; height: 6%; background: #4a493635; border-radius: 50%; filter: blur(9px); }
-.cup-serving { position: absolute; inset: 0; display: block; pointer-events: none; }
 .cup-photo .flavor-art { position: relative; z-index: 2; height: 100%; }
-.serving-shadow,.serving-tray { position: absolute; display: block; opacity: 0; pointer-events: none; }
-.serving-shadow { z-index: 0; left: 5%; right: 2%; bottom: 2.5%; height: 23%; border-radius: 50%; background: radial-gradient(ellipse,#41473542 20%,#59604c1c 52%,transparent 73%); filter: blur(6px); }
-.serving-tray { z-index: 1; left: 5%; right: 5%; bottom: 5%; height: 26%; border: 1px solid #b7bcb361; border-bottom: 3px solid #c5c9bf; border-radius: 28% 28% 31% 31% / 43% 43% 49% 49%; background: linear-gradient(174deg,#fffffc 3%,#ebeee7 48%,#f9faf4 86%,#dfe2d9); box-shadow: inset 0 2px 2px #fff,0 2px 3px #73786529; }
-.serving-tray::before { content: ""; position: absolute; inset: 6% 2.5% 14%; border-radius: inherit; border: 1px solid #d6dace91; background: radial-gradient(ellipse at 36% 17%,#ffffffe6,transparent 67%),radial-gradient(ellipse at 87% 70%,#85907812,transparent 54%),linear-gradient(178deg,#e8ebe3,#fcfcf6 58%,#f0f2e9); box-shadow: inset 0 3px 5px #78846818,0 1px 1px #fff; }
-.cup-button.is-selected .cup-photo::before { opacity: 0; }
-.cup-button.is-selected .serving-tray { opacity: 1; }
-.cup-button.is-selected .serving-shadow { opacity: .85; }
-.cup-button.is-delivery-pending .cup-serving,.cup-button.is-swap-pending .flavor-art { opacity: 0; }
 .cup-label { position: relative; display: block; width: 100%; padding: 0 8px 10px; margin-top: -1.4cqw; text-shadow: 0 1px 5px #ffffff96; }
 .cup-label .app-name { font-size: clamp(18px,1.7vw,25px); font-weight: 500; letter-spacing: -.025em; }
 .cup-label .app-purpose { margin-top: 5px; color: #4e554c; font-size: clamp(12px,1.05vw,15px); }

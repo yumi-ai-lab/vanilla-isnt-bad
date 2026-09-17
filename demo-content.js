@@ -38,14 +38,14 @@ export const demoCopy = {
     skip:"メニューへ",shop:"店へ戻る",back:"メニューへ",intro:"名前や、できることから。",
     searchLabel:"アプリ名・できることで探す",placeholder:"メモ、旅、集中…",clear:"検索を消去",categories:"用途で絞り込む",all:"すべて",
     reset:"絞り込みを解除",empty:"見つかりませんでした。別の言葉で探すか、絞り込みを解除してください。",more:"もっと見る",
-    sample:"アプリ名・仕様・説明は、確認用のサンプルです。",sampleBadge:"サンプル",open:"アプリを開く",unavailable:"デモのため、アプリは起動しません。",
-    specs:"主な仕様（デモ）",craft:"つくり手のひとこと",craftMore:"ほかのこだわり",browse:"メニューでほかも見る",motionOn:"動き あり",motionOff:"動き なし"
+    sample:"アプリ名・仕様・説明は、確認用のサンプルです。",sampleBadge:"サンプル",open:"アプリを開く",unavailable:"サンプルのため、アプリは起動しません。",soon:"公開準備中です。",
+    specs:"主な仕様",craft:"つくり手のひとこと",craftMore:"ほかのこだわり",browse:"メニューでほかも見る",motionOn:"動き あり",motionOff:"動き なし"
   },
   en: {
     skip:"Skip to the menu",shop:"Shop",back:"Menu",intro:"Find a little something for your day.",
     searchLabel:"Find an app by name or purpose",placeholder:"Notes, travel, focus…",clear:"Clear search",categories:"Choose a purpose",all:"All",
     reset:"Clear filters",empty:"No apps found. Try another word, or clear the filters.",more:"Show more",
-    sample:"App names, specifications and notes are illustrative samples.",sampleBadge:"Sample",open:"Open app",unavailable:"This demo does not launch an app.",
-    specs:"At a glance (demo)",craft:"A note from the maker",craftMore:"A little more care",browse:"Browse the menu",motionOn:"Motion on",motionOff:"Motion off"
+    sample:"App names, specifications and notes are illustrative samples.",sampleBadge:"Sample",open:"Open app",unavailable:"This sample does not launch an app.",soon:"Coming soon.",
+    specs:"At a glance",craft:"A note from the maker",craftMore:"A little more care",browse:"Browse the menu",motionOn:"Motion on",motionOff:"Motion off"
   }
 };

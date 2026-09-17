@@ -1,97 +1,61 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f3ed">
-  <meta name="description" content="Apps that feel good from the start, with room to make them your own. VANILLA ISN’T BAD.">
+  <meta name="theme-color" content="#f7f5ef">
+  <meta name="description" content="VANILLA ISN’T BAD. — 暮らしに合うアプリを、名前やできることから。">
   <title>All flavors. — VANILLA ISN’T BAD.</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="./assets/fonts/inter/inter-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./assets/fonts/fonts.css">
   <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="./showcase.css">
-  <link rel="stylesheet" href="./terrace.css">
-  <script type="module" src="./main.js"></script>
+  <link rel="stylesheet" href="./menu-demo.css">
+  <script type="module" src="./menu-demo.js"></script>
 </head>
-<body id="top" data-page="showcase">
-  <a class="skip-link" href="#app-grid" data-i18n="nav.skip">Skip to the apps</a>
-  <main class="showcase-main terrace" id="terrace">
-    <div class="terrace-scene">
-      <picture class="terrace-background">
-        <source media="(max-width: 680px)" srcset="./assets/terrace-background-mobile-v1.png">
-        <img src="./assets/terrace-background-v1.png" width="1536" height="1024" alt="" fetchpriority="high">
-      </picture>
-      <div class="terrace-shade" aria-hidden="true"></div>
-      <header class="terrace-nav">
-        <a class="back-link" data-store-return href="./#shop"><span aria-hidden="true">←</span><span data-i18n="showcase.back" data-copy-stable>Back to the shop</span></a>
-        <div class="terrace-actions">
-          <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="all-flavors"><span data-i18n="terrace.menu" data-copy-stable>All apps</span><span aria-hidden="true">＋</span></button>
-          <div class="language-switch" role="group" aria-label="Language">
-            <button type="button" data-language="en" aria-pressed="true">EN</button><span aria-hidden="true">/</span><button type="button" data-language="ja" aria-pressed="false">JA</button>
-          </div>
-        </div>
-      </header>
-      <div class="terrace-heading"><h1 lang="en" data-i18n="showcase.title">All flavors.</h1></div>
-      <ul id="app-grid" class="table-cups" tabindex="-1" data-i18n-aria="terrace.choose" aria-label="Choose a cup"></ul>
-      <nav class="terrace-pager" aria-label="Flavors">
-        <button id="previous-cups" type="button" data-i18n-aria="terrace.previous" aria-label="Previous flavors"><span aria-hidden="true">←</span></button>
-        <span id="cup-position" role="status" aria-live="polite" aria-atomic="true"></span>
-        <button id="next-cups" type="button" data-i18n-aria="terrace.next" aria-label="More flavors"><span aria-hidden="true">→</span></button>
-      </nav>
-      <button id="see-details" class="table-detail-jump" type="button" hidden><span data-i18n="terrace.details">Explore this app</span><span aria-hidden="true">↓</span></button>
+<body id="top" class="menu-demo" data-view="menu">
+  <a class="skip-link" href="#demo-search" data-copy="skip">メニューへ</a>
+  <header class="demo-header">
+    <div class="demo-return">
+      <a id="demo-shop-return" href="./?lang=ja&return=shop#shop"><span aria-hidden="true">←</span><span data-copy="shop">店へ戻る</span></a>
+      <button id="demo-menu-back" type="button"><span aria-hidden="true">←</span><span data-copy="back">メニューへ</span></button>
     </div>
-    <section id="app-detail" class="tasting-note" tabindex="-1" aria-labelledby="dialog-title" hidden>
-      <div class="tasting-topline">
-        <span class="tasting-eyebrow" data-i18n="terrace.selected">Your choice</span>
-        <button id="close-tasting" class="tasting-close" type="button"><span data-i18n="terrace.back" data-copy-stable>Back to the table</span><span aria-hidden="true">×</span></button>
+    <a class="demo-brand" href="./"><img src="./assets/wordmark-small.svg" width="150" height="12" alt="VANILLA ISN’T BAD."></a>
+    <div class="demo-language" role="group" aria-label="Language"><button type="button" data-language="ja" aria-pressed="true">JA</button><span aria-hidden="true">/</span><button type="button" data-language="en" aria-pressed="false">EN</button></div>
+  </header>
+  <main class="demo-layout">
+    <section id="demo-catalog" class="demo-catalog" aria-labelledby="demo-title">
+      <div class="demo-intro"><h1 id="demo-title" lang="en">All flavors.</h1><p data-copy="intro">名前や、できることから。</p></div>
+      <div class="demo-find">
+        <form id="demo-search-form" role="search">
+          <label class="sr-only" for="demo-search" data-copy="searchLabel">アプリ名・できることで探す</label>
+          <div class="demo-search-field"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m15.5 15.5 5 5"/></svg><input id="demo-search" type="search" maxlength="200" autocomplete="off" spellcheck="false" aria-controls="demo-list" aria-describedby="demo-results"><button id="demo-clear" type="button" hidden>×</button></div>
+        </form>
+        <div id="demo-categories" class="demo-categories" role="group"></div>
+        <div class="demo-results"><p id="demo-results" role="status" aria-live="polite" aria-atomic="true"></p><button id="demo-reset" type="button" data-copy="reset" hidden>絞り込みを解除</button></div>
       </div>
-      <div class="dialog-layout">
-        <div id="dialog-preview" class="dialog-preview"></div>
-        <div class="dialog-copy">
-          <div class="dialog-heading"><div id="dialog-icon" hidden></div><h2 id="dialog-title" lang="en"></h2></div>
-          <p class="dialog-tagline" id="dialog-tagline"></p>
-          <div class="platforms" id="dialog-platforms"></div>
-          <p class="dialog-description" id="dialog-description"></p>
-          <h3 class="features-heading" id="dialog-features-heading" data-i18n="dialog.features">A few simple things</h3>
-          <ul id="dialog-features" class="dialog-features"></ul>
-          <p id="dialog-status" class="preview-note"></p>
-          <a class="primary-link" id="dialog-link" target="_blank" rel="noopener noreferrer" hidden><span data-i18n="dialog.open" data-copy-stable>Open app</span><span aria-hidden="true">↗</span></a>
-          <button id="browse-flavors" class="browse-flavors" type="button"><span aria-hidden="true">←</span><span data-i18n="menu.back">Back to the menu</span></button>
-        </div>
+      <ul id="demo-list" class="demo-list"></ul>
+      <p id="demo-empty" class="demo-empty" data-copy="empty" hidden>見つかりませんでした。別の言葉で探すか、絞り込みを解除してください。</p>
+      <button id="demo-more" class="demo-more" type="button" data-copy="more" hidden>もっと見る</button>
+      <p class="demo-disclaimer" data-copy="sample">アプリ名・仕様・説明は、確認用のサンプルです。</p>
+    </section>
+    <section id="demo-selection" class="demo-selection" aria-labelledby="demo-app-name">
+      <div class="demo-table" aria-hidden="true">
+        <img class="demo-landscape" src="./assets/terrace-background-v1.png" width="1536" height="1024" alt="" fetchpriority="high">
+        <span id="demo-cup" class="demo-cup"><span class="demo-flavor"></span></span>
+      </div>
+      <div class="demo-app-copy">
+        <div class="demo-app-heading"><h2 id="demo-app-name" tabindex="-1"></h2><span class="demo-sample-label" data-copy="sampleBadge">サンプル</span></div>
+        <p id="demo-purpose" class="demo-purpose"></p>
+        <ul id="demo-specs" class="demo-specs"></ul>
+        <div class="demo-launch"><a id="demo-open" target="_blank" rel="noopener noreferrer" hidden><span data-copy="open">アプリを開く</span><span aria-hidden="true">↗</span></a><button id="demo-unavailable" type="button" disabled><span data-copy="open">アプリを開く</span><span aria-hidden="true">↗</span></button><p id="demo-launch-status">表示確認用のサンプルです。</p></div>
+        <div id="demo-craft" class="demo-craft"><h3 data-copy="craft">つくり手のひとこと</h3><p id="demo-craft-lead"></p><details id="demo-craft-more"><summary data-copy="craftMore">ほかのこだわり</summary><ul id="demo-craft-points"></ul></details></div>
+        <button id="demo-browse" class="demo-browse" type="button"><span aria-hidden="true">←</span><span data-copy="browse">メニューでほかも見る</span></button>
       </div>
     </section>
-    <section id="all-flavors" class="flavor-menu" tabindex="-1" aria-labelledby="menu-title" hidden>
-      <div class="flavor-menu-heading">
-        <div><h2 id="menu-title" data-i18n="terrace.menu">All apps</h2><p id="app-count" class="app-count"></p></div>
-        <button id="menu-close" type="button" data-i18n-aria="terrace.closeMenu" aria-label="Close the menu">×</button>
-      </div>
-      <form class="menu-search" role="search">
-        <label for="app-search" data-i18n="menu.search">Find an app by name or purpose</label>
-        <div class="menu-search-field">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
-          <input id="app-search" type="search" maxlength="200" autocomplete="off" spellcheck="false" aria-controls="flavor-menu-list" aria-describedby="menu-results">
-          <button id="search-clear" type="button" data-i18n-aria="menu.clear" aria-label="Clear search" hidden>×</button>
-        </div>
-      </form>
-      <div id="menu-categories" class="menu-categories" role="group" data-i18n-aria="menu.categories" aria-label="Choose a purpose"></div>
-      <div class="menu-results-line"><p id="menu-results" role="status" aria-live="polite" aria-atomic="true"></p><button id="menu-reset" type="button" data-i18n="menu.reset" hidden>Clear filters</button></div>
-      <ul id="flavor-menu-list" class="flavor-menu-list"></ul>
-      <p id="menu-empty" class="menu-empty" data-i18n="menu.empty" hidden>No apps found. Try another word, or clear the filters.</p>
-      <button id="menu-more" class="menu-more" type="button" data-i18n="menu.more" hidden>Show more</button>
-    </section>
-    <p class="preview-note terrace-note" data-preview-note data-i18n="gallery.preview" data-copy-stable>Sample apps for this preview.</p>
-    <noscript><p class="terrace-note">アプリを選ぶにはJavaScriptを有効にしてください。</p></noscript>
+    <p id="demo-announcement" class="sr-only" role="status" aria-live="polite"></p>
+    <noscript><p>アプリを選ぶにはJavaScriptを有効にしてください。</p></noscript>
   </main>
-  <footer class="site-footer section-width">
-    <div>
-      <a class="footer-brand" href="./"><img src="./assets/wordmark-small.svg" class="brand-mark" width="150" height="12" alt="VANILLA ISN’T BAD." loading="lazy"></a>
-      <small>© <span id="year">2026</span> VANILLA ISN’T BAD.</small>
-    </div>
-    <div class="footer-actions">
-      <button class="motion-toggle" id="motion-toggle" type="button" aria-pressed="true"><span data-i18n="motion.label" data-copy-stable>Motion</span><span id="motion-state">On</span></button>
-      <a class="text-link" href="#top"><span data-i18n="footer.pageTop" data-copy-stable>Back to top</span><span aria-hidden="true">↑</span></a>
-    </div>
-  </footer>
+  <footer class="demo-footer"><span lang="en">Good as it is.</span><button id="demo-motion" type="button" aria-pressed="true"></button></footer>
 </body>
 </html>
