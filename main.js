@@ -1,4 +1,5 @@
 import { createGallery } from "./gallery.js";
+import { createTerrace } from "./terrace.js";
 import { apps, previewApps, copy } from "./content.js";
 import { normalizeApps, resolveLanguage } from "./model.js";
 
@@ -216,7 +217,7 @@ function updateAir() {
   document.querySelector(".cabinet-atmosphere").dataset.airActive = active;
 }
 
-const gallery = createGallery({records, isShowcase, language: () => language, text, stableCopy});
+const gallery = (isShowcase ? createTerrace : createGallery)({records, isShowcase, language: () => language, text, stableCopy, reduced});
 
 function translate(animate = false) {
   stopCopyAnimations();
@@ -261,6 +262,7 @@ function updateMotion() {
   }
   lastReduced = isReduced;
   updateAir();
+  gallery.updateMotion?.();
   scheduleVisuals();
 }
 
@@ -276,6 +278,14 @@ document.querySelectorAll("[data-language]").forEach((button) => {
   });
 });
 
+window.addEventListener("popstate", () => {
+  const requested = new URLSearchParams(location.search).get("lang");
+  if ((requested === "ja" || requested === "en") && requested !== language) {
+    language = requested;
+    translate();
+  }
+});
+
 document.querySelector("#motion-toggle").addEventListener("click", () => {
   userReduced = !userReduced;
   savePreference("vanilla-motion", userReduced ? "off" : "on");
@@ -284,6 +294,7 @@ document.querySelector("#motion-toggle").addEventListener("click", () => {
 motionQuery.addEventListener("change", updateMotion);
 document.addEventListener("visibilitychange", () => {
   updateAir();
+  gallery.updateMotion?.();
   // A hidden tab may suspend animation frames; re-arm immediately on hiding.
   if (document.hidden) checkEntrances();
   scheduleVisuals();
@@ -302,7 +313,7 @@ translate();
 if (!isShowcase) prepareEntrances();
 gallery.syncLocation();
 gallery.restoreShop();
-if (isShowcase && !reduced()) playScene(document.querySelector(".showcase-main"), [{opacity:.3, transform:"translateY(12px)"}, {opacity:1, transform:"none"}], {duration:360});
+if (isShowcase && !reduced()) playScene(document.querySelector(".showcase-main"), [{opacity:.4}, {opacity:1}], {duration:420});
 
 if (!isShowcase && "IntersectionObserver" in window) {
   const shelfObserver = new IntersectionObserver((entries) => {

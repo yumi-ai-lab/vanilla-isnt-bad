@@ -48,7 +48,7 @@ test("shipping catalog contains only valid app records and both languages cover 
     assert.equal(typeof copy.en[key], "string", "English: " + key);
     assert.equal(typeof copy.ja[key], "string", "Japanese: " + key);
   }
-  for (const asset of ["storefront-blank-placards-v6.png", "flavor-collection-v1.png"]) {
+  for (const asset of ["storefront-blank-placards-v6.png", "flavor-cutouts-v2.png", "terrace-background-v1.png", "terrace-background-mobile-v1.png"]) {
     assert.equal((await stat(new URL(`../assets/${asset}`, import.meta.url))).size > 0, true);
   }
 });
@@ -63,7 +63,7 @@ test("local preview serves routes and rejects non-static or malformed requests",
     assert.match(await page.text(), /VANILLA ISN[’']T BAD/);
     assert.match((await fetch(base + "/main.js")).headers.get("content-type"), /javascript/);
     assert.equal((await fetch(base + "/apps.html")).status, 200);
-    for (const asset of ["storefront-blank-placards-v6.png", "flavor-collection-v1.png"]) {
+    for (const asset of ["storefront-blank-placards-v6.png", "flavor-cutouts-v2.png", "terrace-background-v1.png", "terrace-background-mobile-v1.png"]) {
       assert.equal((await fetch(base + `/assets/${asset}`, {method:"HEAD"})).status, 200);
     }
     assert.equal((await fetch(base + "/missing.png")).status, 404);

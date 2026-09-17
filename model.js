@@ -70,6 +70,16 @@ export function resolveLanguage({query, saved, browser = "en"} = {}) {
   return browser.toLowerCase().startsWith("ja") ? "ja" : "en";
 }
 
+// Keep the chosen cup on the table when switching between phone and desktop.
+export function tablePage(count, index = 0, capacity = 3) {
+  const size = Math.max(1, Math.floor(capacity));
+  const total = Math.max(0, Math.floor(count));
+  const cursor = Math.max(0, Math.min(total - 1, Math.floor(index)));
+  const start = Math.floor(cursor / size) * size;
+  const end = Math.min(total, start + size);
+  return {start, end, previous:Math.max(0, start - size), next:Math.min(Math.max(0, total - 1), start + size), atStart:start === 0, atEnd:end >= total};
+}
+
 // All counter bays have the same responsive width. Keep navigation bounded:
 // fractional last positions must not repeat or skip the final app.
 export function shelfState(count, itemWidth, viewportWidth, scrollLeft = 0) {
