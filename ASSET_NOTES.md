@@ -1,6 +1,18 @@
 # 自然光とケースの画像制作記録
 
-## テラス案のスマホ共有（確認用・未採用）
+## カップを選べるテラス（現在使用）
+
+承認済みの `assets/terrace-scene-v1.png` を参照し、内蔵 `image_gen` で背景を二種類制作しました。生成PNGを加工せずコピーしています。CLI / API生成や別ツールによる画像加工は行っていません。
+
+- `assets/terrace-background-v1.png` — 1536×1024。元の構図・金属のテーブル・公園・奥の店舗を保持し、三つのカップとUI文字を除去。
+- `assets/terrace-background-mobile-v1.png` — 1024×1536。同じ場所をスマホ向けの縦構図で制作。テーブル中央は空に保持。
+- カップは既存の `assets/flavor-cutouts-v2.png` をそのまま再使用。配置・名前・用途・操作はHTML/CSS/JavaScriptです。
+
+生成元は `C:\Users\funadapd\.codex\generated_images\01a09d8d-5b5f-7c02-971c-8ea1daf97c73\` 内の `exec-659f5669-434c-4384-83db-64a7c8719c28.png`（PC）と `exec-164893ae-f01f-4b10-9953-3dbdaf1160a2.png`（スマホ）。
+
+最終プロンプト全文は作業フォルダーの `assets/terrace-backgrounds-v1.prompt.txt` に保存しています。プロンプトはGit管理とサイト配信から除外します。
+
+## テラス案のスマホ共有（承認された元の静止画）
 
 `assets/terrace-scene-v1.png`（1536×1024）は、前のターンで内蔵 image_gen により制作した `output/imagegen/terrace-scene-v1.png` を、そのまま公開用の場所へコピーしたものです。今回の共有対応では再生成・加工を行っていません。
 
@@ -8,7 +20,7 @@
 
 生成元: `C:\Users\funadapd\.codex\generated_images\01a09d8d-5b5f-7c02-971c-8ea1daf97c73\exec-db19bdd4-f9d0-40c1-bdbd-b080b38a88d3.png`
 
-## 一つにつながるショーケース（現在使用）
+## 一つにつながるショーケース（旧配置・透過カップは再使用）
 
 保存先: `assets/flavor-cutouts-v2.png`（1536×1024、透過PNG）。内蔵 `image_gen` で `assets/flavor-collection-v1.png` を編集し、背景を透過しました。CLI / API生成、別ツールによる画像加工は使用していません。採用画像は生成元からそのままコピーし、アルファチャンネルと周囲の透明度を確認しました。
 
