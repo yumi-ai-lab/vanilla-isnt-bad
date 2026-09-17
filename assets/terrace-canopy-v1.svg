@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" fill="#485345">
+  <defs>
+    <path id="leaf" d="M0 0C-29-20-25-62-8-82C19-66 34-22 0 0Z"/>
+    <g id="sprig">
+      <use href="#leaf" transform="rotate(-48) scale(.92)"/>
+      <use href="#leaf" transform="translate(50 24) rotate(28) scale(1.1)"/>
+      <use href="#leaf" transform="translate(72 76) rotate(69) scale(.8)"/>
+      <use href="#leaf" transform="translate(-18 63) rotate(-82) scale(1.08)"/>
+      <use href="#leaf" transform="translate(19 101) rotate(6) scale(.76)"/>
+    </g>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="16"/>
+    </filter>
+  </defs>
+  <g filter="url(#soft)">
+    <use href="#sprig" transform="translate(16 110) rotate(-16) scale(1.5)"/>
+    <use href="#sprig" transform="translate(242 38) rotate(30) scale(1.2)"/>
+    <use href="#sprig" transform="translate(412 150) rotate(-61) scale(1.05)" opacity=".8"/>
+    <use href="#sprig" transform="translate(691 70) rotate(54) scale(1.35)"/>
+    <use href="#sprig" transform="translate(994 88) rotate(22) scale(1.65)"/>
+    <use href="#sprig" transform="translate(1180 329) rotate(-56) scale(1.4)"/>
+    <use href="#sprig" transform="translate(806 330) rotate(-5) scale(1.25)" opacity=".82"/>
+    <use href="#sprig" transform="translate(474 343) rotate(46) scale(1.3)" opacity=".75"/>
+    <use href="#sprig" transform="translate(95 427) rotate(-42) scale(1.6)"/>
+    <use href="#sprig" transform="translate(290 552) rotate(28) scale(1.14)" opacity=".86"/>
+    <use href="#sprig" transform="translate(620 570) rotate(-36) scale(1.12)" opacity=".72"/>
+    <use href="#sprig" transform="translate(976 572) rotate(57) scale(1.5)"/>
+    <use href="#sprig" transform="translate(1155 769) rotate(-35) scale(1.25)"/>
+    <use href="#sprig" transform="translate(391 806) rotate(52) scale(1.65)"/>
+    <use href="#sprig" transform="translate(27 769) rotate(-8) scale(1.3)"/>
+  </g>
+</svg>

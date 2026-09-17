@@ -44,14 +44,33 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
 .demo-empty { padding: 28px 5px; font-size: 13px; color: #6d7960; line-height: 1.9; }
 .demo-disclaimer { margin: 24px 0 0; color: #929582; font-size: 10px; line-height: 1.8; }
 .demo-selection { position: sticky; top: var(--selection-top,98px); min-width: 0; }
-.demo-table { position: relative; container-type: inline-size; overflow: hidden; aspect-ratio: 3 / 2; border-radius: 5px; background: #e7eee3; }
+.demo-table { position: relative; isolation: isolate; container-type: inline-size; overflow: hidden; aspect-ratio: 3 / 2; border-radius: 5px; background: #eff0e8; }
 .demo-landscape { display: block; width: 100%; height: 100%; object-fit: cover; }
-.demo-cup { position: absolute; isolation: isolate; display: block; visibility: hidden; width: 27%; left: 36.5%; bottom: 16%; aspect-ratio: 1; transform: scale(1.15); transform-origin: 51% calc(100% - var(--cup-base,12.9%)); }
+.demo-cup { position: absolute; isolation: isolate; display: block; visibility: hidden; width: 51%; left: 26.5%; bottom: 6%; aspect-ratio: 1; }
 .demo-cup[data-ready="true"] { visibility: visible; }
 .demo-cup::before { content: ""; position: absolute; z-index: -1; left: 37%; width: 64%; bottom: calc(var(--cup-base,12.9%) - 4.8%); height: 9%; background: radial-gradient(ellipse at 32% 40%,#55574b59 0%,#62645724 42%,#70766608 67%,transparent 79%); border-radius: 50%; transform: rotate(7deg); filter: blur(.42cqw); }
 .demo-cup::after { content: ""; position: absolute; z-index: -1; left: 27%; width: 48%; bottom: calc(var(--cup-base,12.9%) - 1.4%); height: 3.2%; background: radial-gradient(ellipse,#383b32ba 0%,#464b3e91 42%,#5b624b35 67%,transparent 83%); border-radius: 50%; filter: blur(.1cqw); }
 .demo-cup > .demo-flavor { position: relative; width: 100%; height: 100%; }
 .demo-cup > .demo-flavor::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 39% 78%,#f4f3e93b,transparent 34%),linear-gradient(135deg,#fff4d322,transparent 54%); mix-blend-mode: soft-light; mask: url("./assets/flavor-cutouts-v2.png") var(--flavor-x,0%) var(--flavor-y,0%) / 300% 200% no-repeat; }
+/* One light field crosses the cup and tabletop together. The photograph has
+   no leaf shadows; these vectors stay independent of the product artwork. */
+.demo-dapple { position: absolute; z-index: 2; inset: 0; pointer-events: none; opacity: 0; mix-blend-mode: multiply; mask-image: linear-gradient(transparent 15%,#0009 33%,#000 53%); transition: opacity 700ms ease; }
+.demo-table[data-scene-ready="true"] .demo-dapple { opacity: 1; }
+.demo-leaf-shadow,.demo-leaf-light { position: absolute; inset: -15%; animation-play-state: paused; }
+.demo-leaf-shadow { background: url("./assets/terrace-canopy-v1.svg") center / 100% 100% no-repeat; opacity: .13; animation: terrace-leaf-sway 26s ease-in-out infinite alternate paused; }
+.demo-leaf-light { background: radial-gradient(ellipse at 39% 47%,#fff8dc6b 0%,#fff8dc24 19%,transparent 40%); mix-blend-mode: soft-light; opacity: .24; animation: terrace-leaf-light 31s ease-in-out infinite alternate paused; }
+.demo-table[data-ambient="running"] .demo-leaf-shadow,.demo-table[data-ambient="running"] .demo-leaf-light { animation-play-state: running; }
+@keyframes terrace-leaf-sway {
+  0%,12% { transform: translate(-1.8%,-.6%) rotate(-1.2deg); opacity: .11; }
+  45% { transform: translate(.2%,1.1%) rotate(.3deg); opacity: .16; }
+  76% { transform: translate(2.4%,.1%) rotate(1deg); opacity: .14; }
+  100% { transform: translate(1.8%,-.8%) rotate(.7deg); opacity: .12; }
+}
+@keyframes terrace-leaf-light {
+  0%,14% { transform: translate(0,-1%); opacity: .18; }
+  63% { transform: translate(3%,1.6%); opacity: .29; }
+  100% { transform: translate(1%,.4%); opacity: .22; }
+}
 .demo-app-copy { padding: 25px 6px 0; }
 .demo-app-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; }
 .demo-app-heading h2 { margin: 0; font-size: 31px; font-weight: 500; line-height: 1.25; letter-spacing: -.035em; overflow-wrap: anywhere; }
@@ -157,13 +176,15 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
   .menu-demo[data-view="detail"] #demo-shop-return { display: none; }
   .menu-demo[data-view="detail"] #demo-menu-back { display: inline-flex; }
   .demo-table { margin-inline: -22px; border-radius: 0; }
-  .demo-cup { width: 30%; left: 35%; }
   .demo-app-copy { padding: 25px 0 0; }
   .demo-launch { gap: 14px; }
   .demo-launch button { padding: 0 17px; gap: 20px; white-space: nowrap; }
   .demo-specs { gap: 12px; }
   .demo-footer { width: min(620px,calc(100% - 44px)); margin-top: 32px; }
 }
-@media (prefers-reduced-motion:reduce) { .demo-menu-visual { transition: none; } }
+@media (prefers-reduced-motion:reduce) { .demo-menu-visual,.demo-dapple { transition: none; } .demo-leaf-shadow,.demo-leaf-light { animation: none; } .demo-leaf-shadow { opacity: .11; } }
 html[data-reduced-motion="true"] .demo-menu-visual { transition: none; }
+html[data-reduced-motion="true"] .demo-dapple { transition: none; }
+html[data-reduced-motion="true"] .demo-leaf-shadow,html[data-reduced-motion="true"] .demo-leaf-light { animation: none; }
+html[data-reduced-motion="true"] .demo-leaf-shadow { opacity: .11; }
 @media (max-width:360px) { .demo-header { padding-inline: 14px; gap: 5px; } .demo-brand img { width: 117px; } .demo-return a,.demo-return button { font-size: 11px; gap: 5px; } .demo-language button { min-width: 29px; } .demo-spec span { font-size: 11px; } .demo-launch { align-items: flex-start; flex-direction: column; gap: 7px; } .demo-mockup-art { padding: 18px 10px; } .mock-ui { padding: 18px 16px; } .mock-title { font-size: 18px; } }
