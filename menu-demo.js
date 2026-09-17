@@ -3,6 +3,7 @@ import { localized, normalizeApps, resolveLanguage } from "./model.js";
 import { availableCategories, menuPage } from "./catalog.js";
 import { demoNotes, demoCopy } from "./demo-content.js";
 import { observeImage } from "./menu-media.js";
+import { appMockup, renderAppMockup } from "./app-mockups.js";
 
 const records = normalizeApps(apps.length ? apps : previewApps).map(app => ({
   ...app,
@@ -82,7 +83,7 @@ function flavor(item, app) {
   item.style.setProperty("--scoop-offset-y",`${[-4.4,-4.3,-4.5,5.4,5,5][app.flavor]}%`);
   item.style.setProperty("--scoop-offset-x",`${[-3.3,-.2,2.6,-3.5,-.2,2.6][app.flavor]}%`);
   // The two rows of the existing cup atlas have slightly different baselines.
-  item.style.setProperty("--cup-contact-bottom",app.flavor < 3 ? "10.5%" : "12%");
+  item.style.setProperty("--cup-base",app.flavor < 3 ? "12.9%" : "14.3%");
 }
 function cancelMotion() {
   for (const animation of animations) animation.cancel();
@@ -231,6 +232,9 @@ function renderSelection() {
   $("#demo-craft-more").open=false;
   $("#demo-craft-more").hidden=!notes?.points?.length;
   $("#demo-craft-points").replaceChildren(...(notes?.points || []).slice(0,2).map(point=>node("li","",localized(point,language))));
+  const mockup=appMockup(selected,language);
+  $("#demo-mockup").hidden=!mockup;
+  renderAppMockup($("#demo-mockup-art"),mockup);
   renderScreen();
 }
 function renderView() {
