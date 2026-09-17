@@ -77,9 +77,10 @@ function icon(id) {
 function flavor(item, app) {
   item.style.setProperty("--flavor-x",`${app.flavor % 3 * 50}%`);
   item.style.setProperty("--flavor-y",`${Math.floor(app.flavor / 3) * 100}%`);
-  // Align the full scoops within their square cells without cropping their bases.
-  item.style.setProperty("--scoop-offset-y",app.flavor < 3 ? "-1.4%" : "7.3%");
-  item.style.setProperty("--scoop-offset-x",`${[-1.7,0,1.6,-2.5,0,.6][app.flavor]}%`);
+  // Center the overhead scoops at about 70% of the card width. These offsets
+  // are measured from the opaque bounds in the atlas; keep the image unedited.
+  item.style.setProperty("--scoop-offset-y",`${[-4.4,-4.3,-4.5,5.4,5,5][app.flavor]}%`);
+  item.style.setProperty("--scoop-offset-x",`${[-3.3,-.2,2.6,-3.5,-.2,2.6][app.flavor]}%`);
   // The two rows of the existing cup atlas have slightly different baselines.
   item.style.setProperty("--cup-contact-bottom",app.flavor < 3 ? "10.5%" : "12%");
 }
