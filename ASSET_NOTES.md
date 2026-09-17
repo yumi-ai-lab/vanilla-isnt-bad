@@ -1,4 +1,26 @@
-# アイス単体のメニュー素材（現在使用）
+# 真上から見たアイスのメニュー素材（現在使用）
+
+保存先: `assets/flavor-scoops-top-v2.png`。内蔵 `image_gen` で生成し、PNGを加工せずコピーしました。CLI / API生成・画像の縮小や切り抜き加工は使用していません。1536×1024、RGBA、3列×2行の各区画は512×512。透明な背景を保持しています。
+
+参照画像 `assets/flavor-scoops-v1.png` は、フレーバー・色・素材感の参照のみです。構図を真上から見下ろす視点へ変更しました。アイスの占有幅はCSSでカード幅の約7割にし、画像内の輪郭位置に合わせて中央へ補正します。詳細のカップ素材は既存のまま、表示側のぼかし・色調抑制フィルターを外しています。
+
+生成元: `C:/Users/funadapd/.codex/generated_images/01a09d8d-5b5f-7c02-971c-8ea1daf97c73/exec-ef980a90-579d-4574-8e38-94d872ea693f.png`
+
+最終プロンプト:
+
+```text
+Use case: product-mockup.
+Asset type: production-ready transparent ice-cream atlas for the square app menu of VANILLA ISN'T BAD.
+Input image 1: material, flavor and restrained color reference only. Replace the camera angle completely; do not retain its three-quarter/front view.
+Primary request: SIX single bare scoops of realistic ice cream, photographed from directly overhead, camera looking straight down at exactly 90 degrees to the supporting plane. This is a true top-down flat lay. See only each scoop's rounded top surface and irregular circular perimeter, with no front-facing base, no visible side wall, no horizon, no change of perspective between scoops.
+Composition: landscape 3:2 canvas, preferably 1536 by 1024 pixels. EXACTLY three equal columns and two equal rows of square cells, no gutters or visible grid. Cell centers at x=1/6, 1/2, 5/6 of the canvas and y=1/4, 3/4. One scoop centered in every cell. Every scoop roughly 70 percent of its cell's width and equal visual size. Generous clear transparent margins. Entire scoop and its tiny contact shadow remain inside its own cell.
+Flavors in order: upper row vanilla bean ivory, soft strawberry pink with tiny berry flecks, pale pistachio green with a few small nut flecks. Lower row milk chocolate brown, ivory vanilla with two restrained fine caramel ribbons, very pale mint green with small chocolate flecks. Preserve these identities and their order.
+Style: premium natural food photography. Clearly resolved fine scooping ridges and delicate creamy folds; appetizing, believable dairy texture. Natural slightly irregular edges, not mathematically perfect spheres or flat disks. Keep each top sharply in focus without crunchy oversharpening, fuzzy blur, noise, plastic shine or excessive cracks. The shadow and soft upper-left daylight should suggest gentle dome volume even from directly overhead. Restrained colors, cohesive illumination, no harsh specular reflections.
+Background: genuine transparent alpha PNG everywhere outside the six scoops, including all empty space. Only a tiny faint semitransparent contact shadow close to each perimeter, consistent direction; no solid background, photographic backdrop, checkerboard, white matte or opaque gray rectangle.
+Avoid: cups, cones, bowls, plates, trays, pedestals, utensils, hands, stray toppings, extra objects, drawn circles, labels, lettering, logos, frames, divider lines, UI. Output only the six-scoop production atlas. Do not output a webpage mockup.
+```
+
+# 斜め構図のアイス単体メニュー素材（旧版）
 
 保存先: `assets/flavor-scoops-v1.png`。内蔵 image_gen で生成し、生成PNGを加工せずコピー。CLI / API生成や画像加工は使用していません。既存の `assets/flavor-cutouts-v2.png` は質感とフレーバーの参照のみ。3列×2行の各正方形をCSS背景位置で表示します。カップは一覧に表示せず、詳細では元のカップ素材を維持し、接地影と色調はCSSで調整します。
 

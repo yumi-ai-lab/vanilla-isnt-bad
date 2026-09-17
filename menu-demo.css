@@ -36,7 +36,7 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
 .demo-menu-copy { display: block; width: 100%; padding: 0 2px 2px; }
 .demo-menu-name { display: block; font-size: 17px; line-height: 1.35; letter-spacing: -.025em; font-weight: 500; overflow-wrap: anywhere; }
 .demo-menu-purpose { display: block; margin-top: 5px; font-size: 13px; line-height: 1.7; color: #606c56; overflow-wrap: anywhere; }
-.demo-scoop { display: block; width: 100%; aspect-ratio: 1; background: url("./assets/flavor-scoops-v1.png") var(--flavor-x,0%) var(--flavor-y,0%) / 300% 200% no-repeat; transform: translate(var(--scoop-offset-x,0%),var(--scoop-offset-y,0%)); }
+.demo-scoop { position: absolute; display: block; width: 86%; aspect-ratio: 1; left: calc(7% + var(--scoop-offset-x,0%)); top: calc(7% + var(--scoop-offset-y,0%)); background: url("./assets/flavor-scoops-top-v2.png") var(--flavor-x,0%) var(--flavor-y,0%) / 300% 200% no-repeat; }
 @container (min-width:510px) { .demo-list { grid-template-columns: repeat(3,minmax(0,1fr)); } }
 .demo-flavor { position: relative; display: block; aspect-ratio: 1; overflow: hidden; }
 .demo-flavor img { position: absolute; display: block; width: 300%; height: 200%; max-width: none; left: calc(var(--flavor-x,0%) * -2); top: calc(var(--flavor-y,0%) * -1); }
@@ -50,7 +50,7 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
 .demo-cup[data-ready="true"] { visibility: visible; }
 .demo-cup::before { content: ""; position: absolute; z-index: -1; left: 30%; width: 74%; bottom: calc(var(--cup-contact-bottom,10.5%) - 5.5%); height: 13%; background: radial-gradient(ellipse at 32% 45%,#494e4563 0%,#555d4a2e 38%,#72775e0a 65%,transparent 75%); border-radius: 50%; transform: rotate(7deg); filter: blur(.65cqw); }
 .demo-cup::after { content: ""; position: absolute; z-index: -1; left: 27%; width: 48%; bottom: var(--cup-contact-bottom,10.5%); height: 4.2%; background: radial-gradient(ellipse,#34392ed1 0%,#444b3b80 35%,#555e421a 66%,transparent 80%); border-radius: 50%; filter: blur(.15cqw); }
-.demo-cup > .demo-flavor { position: relative; width: 100%; height: 100%; filter: saturate(.9) contrast(.94) brightness(.99) blur(.12px); }
+.demo-cup > .demo-flavor { position: relative; width: 100%; height: 100%; }
 .demo-app-copy { padding: 25px 6px 0; }
 .demo-app-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; }
 .demo-app-heading h2 { margin: 0; font-size: 31px; font-weight: 500; line-height: 1.25; letter-spacing: -.035em; overflow-wrap: anywhere; }
