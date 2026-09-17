@@ -10,6 +10,10 @@ GitHubリポジトリ: https://github.com/yumi-ai-lab/vanilla-isnt-bad
 
 公開先: https://yumi-ai-lab.github.io/vanilla-isnt-bad/?lang=ja
 
+テラス案の画像確認: https://yumi-ai-lab.github.io/vanilla-isnt-bad/terrace-preview.html
+
+画像確認ページは静止画のデザイン案です。スマホからも開けるHTTPSのURLで共有し、画像そのものを大きく開くリンクを添えています。
+
 main ブランチを更新すると、GitHub Actions が構文チェック・テスト・ビルドを実行し、成功した場合に dist/ を GitHub Pages に公開します。プルリクエストではチェックだけを実行します。実行状況はリポジトリの Actions タブで確認できます。
 
 GitHub Pages 上のサイトは、PCを起動していなくても、別のWi-Fiや携帯回線から確認できます。ローカルで編集しただけでは公開サイトは変わりません。変更をコミットし、GitHubへpushしてmainに反映する必要があります。

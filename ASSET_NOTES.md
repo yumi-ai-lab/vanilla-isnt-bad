@@ -1,5 +1,13 @@
 # 自然光とケースの画像制作記録
 
+## テラス案のスマホ共有（確認用・未採用）
+
+`assets/terrace-scene-v1.png`（1536×1024）は、前のターンで内蔵 image_gen により制作した `output/imagegen/terrace-scene-v1.png` を、そのまま公開用の場所へコピーしたものです。今回の共有対応では再生成・加工を行っていません。
+
+`terrace-preview.html` から静止画として確認できます。画面内の文字やボタンは画像の一部です。カップは `flavor-collection-v1.png`、奥の店舗は `storefront-blank-placards-v6.png` を参照して生成しています。プロンプトと参照の記録は作業フォルダーの `output/imagegen/terrace-scene-v1.prompt.md` に保存しています。
+
+生成元: `C:\Users\funadapd\.codex\generated_images\01a09d8d-5b5f-7c02-971c-8ea1daf97c73\exec-db19bdd4-f9d0-40c1-bdbd-b080b38a88d3.png`
+
 ## 一つにつながるショーケース（現在使用）
 
 保存先: `assets/flavor-cutouts-v2.png`（1536×1024、透過PNG）。内蔵 `image_gen` で `assets/flavor-collection-v1.png` を編集し、背景を透過しました。CLI / API生成、別ツールによる画像加工は使用していません。採用画像は生成元からそのままコピーし、アルファチャンネルと周囲の透明度を確認しました。
