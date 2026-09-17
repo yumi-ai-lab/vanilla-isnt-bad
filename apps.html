@@ -39,6 +39,7 @@
         <span id="cup-position" role="status" aria-live="polite" aria-atomic="true"></span>
         <button id="next-cups" type="button" data-i18n-aria="terrace.next" aria-label="More flavors"><span aria-hidden="true">→</span></button>
       </nav>
+      <button id="see-details" class="table-detail-jump" type="button" hidden><span data-i18n="terrace.details">Explore this app</span><span aria-hidden="true">↓</span></button>
     </div>
     <section id="app-detail" class="tasting-note" tabindex="-1" aria-labelledby="dialog-title" hidden>
       <div class="tasting-topline">
@@ -56,6 +57,7 @@
           <ul id="dialog-features" class="dialog-features"></ul>
           <p id="dialog-status" class="preview-note"></p>
           <a class="primary-link" id="dialog-link" target="_blank" rel="noopener noreferrer" hidden><span data-i18n="dialog.open" data-copy-stable>Open app</span><span aria-hidden="true">↗</span></a>
+          <button id="browse-flavors" class="browse-flavors" type="button"><span aria-hidden="true">←</span><span data-i18n="menu.back">Back to the menu</span></button>
         </div>
       </div>
     </section>
@@ -64,7 +66,19 @@
         <div><h2 id="menu-title" data-i18n="terrace.menu">All apps</h2><p id="app-count" class="app-count"></p></div>
         <button id="menu-close" type="button" data-i18n-aria="terrace.closeMenu" aria-label="Close the menu">×</button>
       </div>
+      <form class="menu-search" role="search">
+        <label for="app-search" data-i18n="menu.search">Find an app by name or purpose</label>
+        <div class="menu-search-field">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
+          <input id="app-search" type="search" maxlength="200" autocomplete="off" spellcheck="false" aria-controls="flavor-menu-list" aria-describedby="menu-results">
+          <button id="search-clear" type="button" data-i18n-aria="menu.clear" aria-label="Clear search" hidden>×</button>
+        </div>
+      </form>
+      <div id="menu-categories" class="menu-categories" role="group" data-i18n-aria="menu.categories" aria-label="Choose a purpose"></div>
+      <div class="menu-results-line"><p id="menu-results" role="status" aria-live="polite" aria-atomic="true"></p><button id="menu-reset" type="button" data-i18n="menu.reset" hidden>Clear filters</button></div>
       <ul id="flavor-menu-list" class="flavor-menu-list"></ul>
+      <p id="menu-empty" class="menu-empty" data-i18n="menu.empty" hidden>No apps found. Try another word, or clear the filters.</p>
+      <button id="menu-more" class="menu-more" type="button" data-i18n="menu.more" hidden>Show more</button>
     </section>
     <p class="preview-note terrace-note" data-preview-note data-i18n="gallery.preview" data-copy-stable>Sample apps for this preview.</p>
     <noscript><p class="terrace-note">アプリを選ぶにはJavaScriptを有効にしてください。</p></noscript>
