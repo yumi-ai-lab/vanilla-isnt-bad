@@ -8,6 +8,12 @@ const records = normalizeApps(apps.length ? apps : previewApps).map(app => ({
   features:[...app.features,...(app.sample ? demoNotes[app.id]?.specs || [] : []).map(spec=>spec.label)]
 }));
 const $ = selector => document.querySelector(selector);
+// Warm the detail atlas while the visitor browses. Keep its contact shadow
+// hidden until the actual cup is ready, including on a first mobile visit.
+const cupImage = new Image();
+cupImage.decoding = "async";
+cupImage.onload = () => { $("#demo-cup").dataset.ready = "true"; };
+cupImage.src = "./assets/flavor-cutouts-v2.png";
 const narrow = matchMedia("(max-width:900px)");
 const motionQuery = matchMedia("(prefers-reduced-motion:reduce)");
 const readPreference = key => { try { return localStorage.getItem(key); } catch { return null; } };
