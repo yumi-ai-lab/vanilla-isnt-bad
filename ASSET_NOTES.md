@@ -1,3 +1,25 @@
+# 手元のカップを主役にする背景（詳細画面で現在使用）
+
+保存先: `assets/terrace-foreground-v2.png`。内蔵 `image_gen` で生成し、加工せずコピーしました。1536×1024。旧 `assets/terrace-background-v1.png` を、公園・店・白い金属テーブルの参照として使用しています。
+
+手前のカップに視線を集めるため、テーブルの脚と手前の縁を画角から外し、奥の店はぼかしています。天板には木漏れ日を焼き込まず、`assets/terrace-canopy-v1.svg` とCSSで動く葉影を重ねます。葉影のSVGはコードで作成した図形です。既存のカップPNGは維持し、画像全体の高さの約57%を占める表示へ変更しています。
+
+生成元: `C:/Users/funadapd/.codex/generated_images/01a09d8d-5b5f-7c02-971c-8ea1daf97c73/exec-c2d5adec-43f6-4495-8a0a-378aa06294e8.png`
+
+最終プロンプト:
+
+```text
+Use case: photorealistic-natural.
+Asset type: clean background plate for a responsive product-detail hero, landscape 3:2, preferably 1536x1024 or larger. This is a production website image, not a UI mockup.
+Input image 1: reference for the existing park, white ice-cream kiosk with pale yellow striped awning, white metal terrace table, calm warm-white palette. Recompose the camera rather than preserving the old wide view.
+Primary request: the view from a nearby terrace seat, ready for one large ice-cream cup to be composited in the immediate foreground. The foreground product will occupy roughly 55-60 percent of the image height, centered at x52%, with its bottom at y84%. LEAVE THIS SPACE EMPTY. Do not render a cup or any product.
+Composition: low, intimate, slightly downward product-photography viewpoint, looking down about 18-22 degrees, a 65-85 mm lens feel. The white satin powder-coated metal tabletop fills the lower 60 percent of the frame and continues beyond left, right and bottom edges; the table's far edge may show gently around y43%, but do not show a complete circle, table legs, or large foreground rim. Sharp plane of focus at the middle-foreground tabletop around y82%, where the cup will touch; the far table edge softens naturally.
+Distance: the same small white kiosk is 5-8 metres away in the upper-left background, reduced to about 20 percent of the image width. Recognizable rounded roof and pale yellow striped awning, but naturally out of focus, quiet and unobtrusive. A softly blurred green park surrounds it, a little pale blue sky. No chairs intruding into foreground. The scene feels spacious and real, not a miniature diorama.
+Lighting: gentle, broad open-shade daylight, warm neutral upper-left light and soft white bounce from the tabletop. The table is evenly and softly lit. IMPORTANT: NO baked-in dappled sunlight, leaf-shadow silhouettes, sharp sun patches, or striped shadows anywhere on the foreground table. These will be animated in code later. Keep natural depth and subtle satin highlights; do not flatten into plain white. No ghost cup shadow or prepainted circular contact shadow.
+Materials: believable fine white metal finish, subtle real texture, satin not mirror, not marble. Soft distant photographic bokeh, foreground high-resolution clear texture, no artificial blur on the focus plane.
+Avoid: cups, ice cream, dishes, trays, spoons, people, hands, text overlays, UI, graphic design, bloom, glare, lens flare, fog, heavy vignette, grain, strong greens, a full round table, visible table legs. Output only the clean photographic background plate.
+```
+
 # 真上から見たアイスのメニュー素材（現在使用）
 
 保存先: `assets/flavor-scoops-top-v2.png`。内蔵 `image_gen` で生成し、PNGを加工せずコピーしました。CLI / API生成・画像の縮小や切り抜き加工は使用していません。1536×1024、RGBA、3列×2行の各区画は512×512。透明な背景を保持しています。

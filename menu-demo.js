@@ -11,14 +11,11 @@ const records = normalizeApps(apps.length ? apps : previewApps).map(app => ({
 }));
 const $ = selector => document.querySelector(selector);
 const cupImage = $("#demo-cup-image");
-let cupRetries = 0;
-observeImage(cupImage, {
-  ready: () => { $("#demo-cup").dataset.ready = "true"; },
-  failed: () => {
-    $("#demo-cup").dataset.ready = "false";
-    if (cupRetries++ === 0) setTimeout(() => { cupImage.src = cupImage.getAttribute("src"); }, 1000);
-  }
-});
+const landscape = $(".demo-landscape");
+const terrace = $(".demo-table");
+let cupReady = false;
+let landscapeReady = false;
+let terraceVisible = false;
 const narrow = matchMedia("(max-width:900px)");
 const motionQuery = matchMedia("(prefers-reduced-motion:reduce)");
 const readPreference = key => { try { return localStorage.getItem(key); } catch { return null; } };
@@ -108,6 +105,13 @@ function updateMotion() {
   $("#demo-motion").textContent = text(reduced() ? "motionOff" : "motionOn");
   $("#demo-motion").setAttribute("aria-pressed",String(!reduced()));
   $("#demo-motion").disabled = motionQuery.matches;
+  updateTerraceLight();
+}
+function updateTerraceLight() {
+  const ready = cupReady && landscapeReady;
+  $("#demo-cup").dataset.ready = String(ready);
+  terrace.dataset.sceneReady = String(ready);
+  terrace.dataset.ambient = ready && terraceVisible && !document.hidden && !reduced() ? "running" : "paused";
 }
 function updateCurrent() {
   for (const button of $("#demo-list").querySelectorAll("button")) {
@@ -376,6 +380,25 @@ if ("ResizeObserver" in window) new ResizeObserver(fitSelection).observe($("#dem
 window.addEventListener("resize",fitSelection);
 window.addEventListener("popstate",syncLocation);
 window.addEventListener("hashchange",syncLocation);
+// Decode both layers before showing the product or the moving light. A failed
+// scene never delays the app's name, specifications, mockup or launch link.
+for (const [image,setReady] of [[cupImage,value=>cupReady=value],[landscape,value=>landscapeReady=value]]) {
+  let retries = 0;
+  observeImage(image, {
+    ready: () => { setReady(true); updateTerraceLight(); },
+    failed: () => {
+      setReady(false);
+      updateTerraceLight();
+      if (retries++ === 0) setTimeout(()=>{ image.src=image.getAttribute("src"); },1000);
+    }
+  });
+}
+if ("IntersectionObserver" in window) {
+  new IntersectionObserver(([entry])=>{
+    terraceVisible=entry.isIntersecting && entry.intersectionRatio>.05;
+    updateTerraceLight();
+  },{threshold:[0,.05]}).observe(terrace);
+}
 renderLanguage();
 syncLocation();
 fitSelection();
