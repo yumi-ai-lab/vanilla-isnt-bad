@@ -40,7 +40,8 @@ export const demoCopy = {
     reset:"絞り込みを解除",empty:"見つかりませんでした。別の言葉で探すか、絞り込みを解除してください。",more:"もっと見る",
     sample:"アプリ名・仕様・説明は、確認用のサンプルです。",sampleBadge:"サンプル",open:"アプリを開く",unavailable:"サンプルのため、アプリは起動しません。",soon:"公開準備中です。",
     specs:"主な仕様",craft:"つくり手のひとこと",craftMore:"ほかのこだわり",browse:"メニューでほかも見る",motionOn:"動き あり",motionOff:"動き なし",
-    screen:"画面を見る",screenTitle:"アプリの画面",imageLoading:"読み込み中…",imageError:"画像を読み込めませんでした。",imageRetry:"もう一度読み込む"
+    screen:"画面を見る",screenTitle:"アプリの画面",imageLoading:"読み込み中…",imageError:"画像を読み込めませんでした。",imageRetry:"もう一度読み込む",
+    mockupTitle:"開いたら、こんな感じ。",mockupBadge:"画面イメージ",mockupCaption:"デザイン確認用のモックアップです。"
   },
   en: {
     skip:"Skip to the menu",shop:"Shop",back:"Menu",intro:"Find a little something for your day.",
@@ -48,6 +49,7 @@ export const demoCopy = {
     reset:"Clear filters",empty:"No apps found. Try another word, or clear the filters.",more:"Show more",
     sample:"App names, specifications and notes are illustrative samples.",sampleBadge:"Sample",open:"Open app",unavailable:"This sample does not launch an app.",soon:"Coming soon.",
     specs:"At a glance",craft:"A note from the maker",craftMore:"A little more care",browse:"Browse the menu",motionOn:"Motion on",motionOff:"Motion off",
-    screen:"See the app",screenTitle:"App screen",imageLoading:"Loading…",imageError:"The image could not be loaded.",imageRetry:"Try again"
+    screen:"See the app",screenTitle:"App screen",imageLoading:"Loading…",imageError:"The image could not be loaded.",imageRetry:"Try again",
+    mockupTitle:"A look inside.",mockupBadge:"Screen concept",mockupCaption:"An illustrative mockup for design review."
   }
 };
