@@ -22,7 +22,7 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
 #demo-search::-webkit-search-cancel-button { display: none; }
 #demo-clear { flex-shrink: 0; width: 38px; min-height: 44px; margin-right: -9px; padding: 0; border: 0; background: transparent; font-size: 21px; color: #69765a; }
 .demo-categories { display: flex; flex-wrap: wrap; gap: 1px 8px; margin-top: 12px; }
-.demo-category { min-height: 44px; padding: 6px 6px; background: none; border: 0; font-size: 12px; color: #767e6c; text-underline-offset: 7px; }
+.demo-category { min-height: 44px; padding: 6px 6px; background: none; border: 0; font-size: 12px; color: #606c56; text-underline-offset: 7px; }
 .demo-category[aria-pressed="true"] { color: #34452a; text-decoration: underline; text-decoration-thickness: 1px; }
 .demo-results { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 43px; color: #848a7a; font-size: 11px; }
 .demo-results p { margin: 0; font-variant-numeric: tabular-nums; }
@@ -35,10 +35,11 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
 .demo-menu-item[aria-current="true"] .demo-menu-name { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
 .demo-menu-copy { display: block; width: 100%; padding: 0 2px 2px; }
 .demo-menu-name { display: block; font-size: 17px; line-height: 1.35; letter-spacing: -.025em; font-weight: 500; overflow-wrap: anywhere; }
-.demo-menu-purpose { display: block; margin-top: 5px; font-size: 12px; line-height: 1.7; color: #737b67; overflow-wrap: anywhere; }
+.demo-menu-purpose { display: block; margin-top: 5px; font-size: 13px; line-height: 1.7; color: #606c56; overflow-wrap: anywhere; }
 .demo-scoop { display: block; width: 100%; aspect-ratio: 1; background: url("./assets/flavor-scoops-v1.png") var(--flavor-x,0%) var(--flavor-y,0%) / 300% 200% no-repeat; transform: translate(var(--scoop-offset-x,0%),var(--scoop-offset-y,0%)); }
 @container (min-width:510px) { .demo-list { grid-template-columns: repeat(3,minmax(0,1fr)); } }
-.demo-flavor { display: block; aspect-ratio: 1; background: url("./assets/flavor-cutouts-v2.png") var(--flavor-x,0%) var(--flavor-y,0%) / 300% 200% no-repeat; }
+.demo-flavor { position: relative; display: block; aspect-ratio: 1; overflow: hidden; }
+.demo-flavor img { position: absolute; display: block; width: 300%; height: 200%; max-width: none; left: calc(var(--flavor-x,0%) * -2); top: calc(var(--flavor-y,0%) * -1); }
 .demo-more { display: block; min-height: 46px; margin: 22px auto 0; padding: 0 27px; border: 1px solid #d4dacb; border-radius: 4px; background: transparent; color: #5d6c4e; font-size: 12px; }
 .demo-empty { padding: 28px 5px; font-size: 13px; color: #6d7960; line-height: 1.9; }
 .demo-disclaimer { margin: 24px 0 0; color: #929582; font-size: 10px; line-height: 1.8; }
@@ -63,6 +64,14 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
 .demo-launch { display: flex; align-items: center; gap: 17px; margin-top: 22px; }
 .demo-launch button,.demo-launch a { display: inline-flex; align-items: center; justify-content: space-between; gap: 34px; min-height: 47px; padding: 0 22px; background: #e3e8d9; border: 1px solid #d3dcc7; border-radius: 4px; color: #68775a; font-size: 13px; }
 .demo-launch p { margin: 0; font-size: 10px; color: #969b8b; line-height: 1.8; }
+.demo-screen { margin-top: 19px; border-bottom: 1px solid #dfe1d5; }
+.demo-screen > summary { display: list-item; width: fit-content; min-height: 44px; padding: 12px 0; cursor: pointer; color: #606c56; font-size: 13px; }
+.demo-screen-body { padding: 7px 0 22px; }
+.demo-screen figure { margin: 0; }
+#demo-screen-art { display: flex; justify-content: center; padding: 18px; border-radius: 5px; background: #efede6; }
+#demo-screen-art img { display: block; width: auto; height: auto; max-width: 100%; max-height: 480px; object-fit: contain; border-radius: 3px; }
+.demo-screen figcaption,.demo-screen-status { margin: 12px 0 0; color: #606c56; font-size: 13px; line-height: 1.7; }
+#demo-screen-retry { margin-top: 8px; min-height: 44px; padding: 8px 0; border: 0; background: none; color: #4d5f41; font-size: 13px; text-decoration: underline; text-underline-offset: 4px; }
 .demo-craft { margin-top: 30px; }
 .demo-craft h3 { margin: 0; font-size: 11px; font-weight: 400; color: #939a87; letter-spacing: .02em; }
 #demo-craft-lead { margin: 9px 0 0; font-size: 13px; line-height: 1.9; color: #5b6550; }

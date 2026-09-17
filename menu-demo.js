@@ -2,18 +2,22 @@ import { apps, previewApps } from "./content.js";
 import { localized, normalizeApps, resolveLanguage } from "./model.js";
 import { availableCategories, menuPage } from "./catalog.js";
 import { demoNotes, demoCopy } from "./demo-content.js";
+import { observeImage } from "./menu-media.js";
 
 const records = normalizeApps(apps.length ? apps : previewApps).map(app => ({
   ...app,
   features:[...app.features,...(app.sample ? demoNotes[app.id]?.specs || [] : []).map(spec=>spec.label)]
 }));
 const $ = selector => document.querySelector(selector);
-// Warm the detail atlas while the visitor browses. Keep its contact shadow
-// hidden until the actual cup is ready, including on a first mobile visit.
-const cupImage = new Image();
-cupImage.decoding = "async";
-cupImage.onload = () => { $("#demo-cup").dataset.ready = "true"; };
-cupImage.src = "./assets/flavor-cutouts-v2.png";
+const cupImage = $("#demo-cup-image");
+let cupRetries = 0;
+observeImage(cupImage, {
+  ready: () => { $("#demo-cup").dataset.ready = "true"; },
+  failed: () => {
+    $("#demo-cup").dataset.ready = "false";
+    if (cupRetries++ === 0) setTimeout(() => { cupImage.src = cupImage.getAttribute("src"); }, 1000);
+  }
+});
 const narrow = matchMedia("(max-width:900px)");
 const motionQuery = matchMedia("(prefers-reduced-motion:reduce)");
 const readPreference = key => { try { return localStorage.getItem(key); } catch { return null; } };
@@ -27,6 +31,10 @@ let detailOpen = false;
 let menuScroll = 0;
 let menuAnchor = "";
 let searchTimer;
+let screenKey = "";
+let screenImage;
+let screenState = "idle";
+let stopScreenImage;
 let userReduced = readPreference("vanilla-motion") === "off";
 const animations = new Set();
 const text = key => demoCopy[language][key];
@@ -153,6 +161,46 @@ function renderMenu() {
   for (const button of $("#demo-categories").children) button.setAttribute("aria-pressed",String(button.dataset.category===category));
   updateCurrent();
 }
+function updateScreenText() {
+  const screen = selected?.screenshots[0];
+  const caption = localized(screen?.alt,language) || `${localized(selected?.name,language)} — ${text("screenTitle")}`;
+  if (screenImage) screenImage.alt = caption;
+  $("#demo-screen-caption").textContent = caption;
+  $("#demo-screen-status").textContent = screenState === "loading" ? text("imageLoading") : screenState === "error" ? text("imageError") : "";
+  $("#demo-screen-status").hidden = !["loading","error"].includes(screenState);
+  $("#demo-screen-figure").hidden = screenState !== "ready";
+  $("#demo-screen-retry").hidden = screenState !== "error";
+}
+function renderScreen() {
+  const screen = selected?.screenshots[0];
+  const key = screen ? `${selected.id}:${screen.src}` : "";
+  const panel = $("#demo-screen");
+  if (key !== screenKey) {
+    stopScreenImage?.();
+    screenKey = key;
+    screenState = "idle";
+    screenImage = null;
+    panel.open = false;
+    $("#demo-screen-art").replaceChildren();
+  }
+  panel.hidden = !screen;
+  updateScreenText();
+}
+function loadScreen() {
+  const screen = selected?.screenshots[0];
+  if (!screen || screenState === "loading" || screenState === "ready") return;
+  stopScreenImage?.();
+  screenState = "loading";
+  screenImage = new Image();
+  screenImage.decoding = "async";
+  $("#demo-screen-art").replaceChildren(screenImage);
+  updateScreenText();
+  stopScreenImage = observeImage(screenImage, {
+    ready: () => { screenState = "ready"; updateScreenText(); fitSelection(); },
+    failed: () => { screenState = "error"; updateScreenText(); fitSelection(); }
+  });
+  screenImage.src = screen.src;
+}
 function renderSelection() {
   if (!selected) { $("#demo-selection").hidden=true; return; }
   const notes=selected.sample ? demoNotes[selected.id] : null;
@@ -182,6 +230,7 @@ function renderSelection() {
   $("#demo-craft-more").open=false;
   $("#demo-craft-more").hidden=!notes?.points?.length;
   $("#demo-craft-points").replaceChildren(...(notes?.points || []).slice(0,2).map(point=>node("li","",localized(point,language))));
+  renderScreen();
 }
 function renderView() {
   document.body.dataset.view=detailOpen ? "detail" : "menu";
@@ -189,6 +238,9 @@ function renderView() {
 }
 function choose(app) {
   cancelMotion();
+  // Commit a just-typed search before storing the return position; its
+  // pending debounce must not clear the chosen card after opening details.
+  if (searchTimer) updateSearch();
   menuScroll=window.scrollY;
   menuAnchor=`demo-app-${app.id}`;
   const wasOpen=detailOpen;
@@ -207,7 +259,7 @@ function choose(app) {
     const bounds=$("#demo-selection").getBoundingClientRect();
     if (bounds.bottom<100 || bounds.top>innerHeight-100) $("#demo-selection").scrollIntoView({block:"start",behavior:"instant"});
   }
-  fade($("#demo-cup .demo-flavor"));
+  fade($("#demo-cup"));
   fade($(".demo-app-copy"));
   $("#demo-announcement").textContent=language==="ja" ? `${localized(app.name,language)}の説明を表示しました。` : `Showing ${localized(app.name,language)}.`;
 }
@@ -264,6 +316,7 @@ function renderLanguage() {
 
 function updateSearch() {
   clearTimeout(searchTimer);
+  searchTimer = undefined;
   query=$("#demo-search").value;
   limit=12;
   menuAnchor="";
@@ -287,6 +340,11 @@ $("#demo-more").addEventListener("click",()=>{
 });
 $("#demo-menu-back").addEventListener("click",backToMenu);
 $("#demo-browse").addEventListener("click",backToMenu);
+$("#demo-screen").addEventListener("toggle",()=>{ if ($("#demo-screen").open) loadScreen(); fitSelection(); });
+$("#demo-screen-retry").addEventListener("click",()=>{
+  $("#demo-screen > summary").focus({preventScroll:true});
+  loadScreen();
+});
 for (const button of document.querySelectorAll("[data-language]")) button.addEventListener("click",()=>{
   cancelMotion();
   language=button.dataset.language;
