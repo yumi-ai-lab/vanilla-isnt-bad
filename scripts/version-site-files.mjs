@@ -18,7 +18,7 @@ export function versionSiteFiles(files) {
     if (!name.endsWith(".html")) continue;
     versioned[name] = source
       .replace(/href="\.\/([a-z-]+\.css)"/g, (match, sheet) => sheet in normalized ? `href="./${sheet}?v=${hash(normalized[sheet])}"` : match)
-      .replace('src="./main.js"', `src="./main.js?v=${hash(versioned["main.js"])}"`);
+      .replace(/src="\.\/([a-z-]+\.js)"/g, (match, entry) => entry in versioned ? `src="./${entry}?v=${hash(versioned[entry])}"` : match);
   }
   return { ...normalized, ...versioned };
 }
