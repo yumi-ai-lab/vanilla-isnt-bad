@@ -46,9 +46,15 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
 .demo-selection { position: sticky; top: var(--selection-top,98px); min-width: 0; }
 .demo-table { position: relative; isolation: isolate; container-type: inline-size; overflow: hidden; aspect-ratio: 3 / 2; border-radius: 5px; background: #eff0e8; }
 .demo-landscape { display: block; width: 100%; height: 100%; object-fit: cover; }
+.demo-landscape-layer { position: relative; width: 100%; height: 100%; }
 /* Keep the scenic photograph readable but quieter than the product. Apply
    the same grade to the complete fallback and the masked foreground. */
-.demo-landscape,.demo-park-foreground { filter: saturate(.79) contrast(.95) brightness(1.018); }
+.demo-landscape-layer,.demo-park-foreground { filter: saturate(.79) contrast(.95) brightness(1.018); }
+/* Distance falls out of focus behind the product. Feather the same photo
+   over the far park without softening the cup, tabletop or left-hand shop.
+   Inside the animated scene the foreground alpha also hides this layer
+   behind every sky opening, so it cannot reintroduce static clouds. */
+.demo-distance-soften { position: absolute; inset: 0; pointer-events: none; background: url("./assets/terrace-open-park-v8.png") center / 100% 100% no-repeat; filter: blur(clamp(.75px,.30cqw,3px)); mask-image: radial-gradient(ellipse 50% 23% at 73% 47%,#000 54%,transparent 100%); }
 /* Correct the cool tabletop toward a warm neutral white below the cup.
    Color blending retains the original surface texture and brightness. */
 .demo-table::after { content: ""; position: absolute; z-index: 1; inset: 0; pointer-events: none; background: #eee9dd; mix-blend-mode: color; opacity: .38; mask-image: linear-gradient(transparent 67%,#000 76%); }
