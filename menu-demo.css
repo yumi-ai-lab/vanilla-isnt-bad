@@ -46,7 +46,7 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
 .demo-selection { position: sticky; top: var(--selection-top,98px); min-width: 0; }
 .demo-table { position: relative; isolation: isolate; container-type: inline-size; overflow: hidden; aspect-ratio: 3 / 2; border-radius: 5px; background: #eff0e8; }
 .demo-landscape { display: block; width: 100%; height: 100%; object-fit: cover; }
-.demo-cup { position: absolute; z-index: 2; isolation: isolate; display: block; visibility: hidden; width: 51%; left: 26.5%; bottom: 1.5%; aspect-ratio: 1; }
+.demo-cup { position: absolute; z-index: 2; isolation: isolate; display: block; visibility: hidden; width: 43%; left: 28.5%; bottom: 4%; aspect-ratio: 1; }
 .demo-cup[data-ready="true"] { visibility: visible; }
 /* Broad ambient and cast shadows fade into the tabletop. Percentages refer
    to the square atlas cell, including its transparent margin. */
@@ -66,26 +66,27 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
 }
 .demo-cup > .demo-flavor { position: relative; isolation: isolate; width: 100%; height: 100%; }
 .demo-cup > .demo-flavor::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 39% 78%,#f4f3e93b,transparent 34%),linear-gradient(135deg,#fff4d322,transparent 54%); mix-blend-mode: soft-light; mask: url("./assets/flavor-cutouts-v2.png") var(--flavor-x,0%) var(--flavor-y,0%) / 300% 200% no-repeat; }
-/* A real alpha cutout moves over a photograph with the foreground branch
-   removed. Pivot at its attachment beyond the top-right frame; the sky is
-   revealed between leaves instead of doubling a static set of leaves. */
-.demo-breeze { position: absolute; z-index: 1; inset: 0; pointer-events: none; visibility: hidden; }
-.demo-table[data-scene-ready="true"][data-breeze-ready="true"] .demo-breeze { visibility: visible; }
-.demo-branch { position: absolute; display: block; width: 60%; height: auto; max-width: none; right: -1%; top: -1.5%; transform-origin: 100% 0%; animation: terrace-branch-breeze 9s ease-in-out -1.2s infinite paused; }
-.demo-table[data-ambient="running"] .demo-branch { animation-play-state: running; }
-@keyframes terrace-branch-breeze {
-  0%,100% { transform: rotate(-1.8deg); }
-  36% { transform: translate(-.35cqw,.2cqw) rotate(2.4deg); }
-  68% { transform: translate(.1cqw,0) rotate(-.8deg); }
-  83% { transform: rotate(.5deg); }
-}
+/* Keep the approved photograph as a complete fallback. Only reveal the sky
+   composite when both cloud tiles and the alpha foreground have decoded.
+   The foreground occludes clouds at every branch, leaf and tree silhouette.
+   Two identical tiles travel by one tile width, so the loop never jumps. */
+.demo-atmosphere { position: absolute; z-index: 1; inset: 0; pointer-events: none; opacity: 0; background: linear-gradient(180deg,#acd2f2 0%,#cee3f4 35%,#edf1e8 63%); transition: opacity 650ms ease-out; }
+.demo-table[data-scene-ready="true"][data-atmosphere-ready="true"] .demo-atmosphere { opacity: 1; }
+.demo-cloud-track { position: absolute; inset: -10% auto auto 0; display: flex; width: 200%; height: 100%; animation: terrace-cloud-drift 240s linear -10s infinite paused; }
+.demo-cloud-tile { display: block; flex: 0 0 50%; width: 50%; height: 100%; max-width: none; object-fit: fill; }
+/* Use only the extracted alpha, preserving the approved photograph's actual
+   park, shop and table pixels rather than the extraction's regenerated RGB. */
+.demo-park-foreground { position: absolute; inset: 0; background: url("./assets/terrace-open-park-v8.png") center / 100% 100% no-repeat; mask: url("./assets/terrace-park-foreground-v1.png") center / 100% 100% no-repeat; }
+.demo-park-foreground > img { display: block; width: 100%; height: 100%; opacity: 0; }
+.demo-table[data-ambient="running"] .demo-cloud-track { animation-play-state: running; }
+@keyframes terrace-cloud-drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 .demo-app-copy { padding: 25px 6px 0; }
 .demo-app-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; }
 .demo-app-heading h2 { margin: 0; font-size: 31px; font-weight: 500; line-height: 1.25; letter-spacing: -.035em; overflow-wrap: anywhere; }
 .demo-app-heading h2:focus { outline: none; }
 .demo-sample-label { flex-shrink: 0; color: #8b9280; font-size: 10px; }
 .demo-purpose { margin: 9px 0 21px; color: #6d7563; font-size: 14px; line-height: 1.8; }
-.demo-specs { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; margin: 0; padding: 18px 0; list-style: none; border-top: 1px solid #dfe1d5; border-bottom: 1px solid #dfe1d5; }
+.demo-specs { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; margin: 24px 0 0; padding: 18px 0; list-style: none; border-top: 1px solid #dfe1d5; border-bottom: 1px solid #dfe1d5; }
 .demo-spec { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; min-width: 0; color: #637355; }
 .demo-spec svg { width: 22px; height: 22px; }
 .demo-spec span { color: #636b59; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
@@ -190,7 +191,8 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
   .demo-specs { gap: 12px; }
   .demo-footer { width: min(620px,calc(100% - 44px)); margin-top: 32px; }
 }
-@media (prefers-reduced-motion:reduce) { .demo-menu-visual { transition: none; } .demo-branch { animation: none; } }
+@media (prefers-reduced-motion:reduce) { .demo-menu-visual,.demo-atmosphere { transition: none; } .demo-cloud-track { animation: none; } }
 html[data-reduced-motion="true"] .demo-menu-visual { transition: none; }
-html[data-reduced-motion="true"] .demo-branch { animation: none; }
+html[data-reduced-motion="true"] .demo-atmosphere { transition: none; }
+html[data-reduced-motion="true"] .demo-cloud-track { animation: none; }
 @media (max-width:360px) { .demo-header { padding-inline: 14px; gap: 5px; } .demo-brand img { width: 117px; } .demo-return a,.demo-return button { font-size: 11px; gap: 5px; } .demo-language button { min-width: 29px; } .demo-spec span { font-size: 11px; } .demo-launch { align-items: flex-start; flex-direction: column; gap: 7px; } .demo-mockup-art { padding: 18px 10px; } .mock-ui { padding: 18px 16px; } .mock-title { font-size: 18px; } }
