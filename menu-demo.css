@@ -73,9 +73,9 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
 .demo-breeze { position: absolute; z-index: 1; inset: 0; pointer-events: none; visibility: hidden; }
 .demo-table[data-scene-ready="true"] .demo-breeze { visibility: visible; }
 .demo-foliage-mask { position: absolute; inset: 0; --breeze-distance: clamp(1px,.35cqw,2px); }
-.demo-foliage-mask[data-edge="left"] { mask-image: radial-gradient(ellipse 10% 7% at 2% 0%,#000 55%,transparent 100%); --breeze-duration: 18s; --breeze-direction: -1; }
-.demo-foliage-mask[data-edge="right"] { mask-image: radial-gradient(ellipse 11% 9% at 73.5% 0%,#000 55%,transparent 100%); --breeze-duration: 15.5s; --breeze-direction: 1; --breeze-delay: -4s; }
-.demo-foliage-pattern { position: absolute; inset: 0; background: url("./assets/terrace-foreground-v2.png") center / 100% 100% no-repeat; animation: terrace-foliage-breeze var(--breeze-duration) ease-in-out var(--breeze-delay,0s) infinite paused; }
+.demo-foliage-mask[data-edge="left"] { mask-image: radial-gradient(ellipse 5.5% 8% at 33.2% 0%,#000 55%,transparent 100%); --breeze-duration: 18s; --breeze-direction: -1; }
+.demo-foliage-mask[data-edge="right"] { mask-image: radial-gradient(ellipse 14% 12% at 91% 0%,#000 55%,transparent 100%); --breeze-duration: 15.5s; --breeze-direction: 1; --breeze-delay: -4s; }
+.demo-foliage-pattern { position: absolute; inset: 0; background: url("./assets/terrace-nearby-v3.png") center / 100% 100% no-repeat; animation: terrace-foliage-breeze var(--breeze-duration) ease-in-out var(--breeze-delay,0s) infinite paused; }
 .demo-table[data-ambient="running"] .demo-foliage-pattern { animation-play-state: running; }
 @keyframes terrace-foliage-breeze {
   0%,18%,100% { transform: translate(0,0); }
