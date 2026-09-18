@@ -1,4 +1,42 @@
-# お店の脇の小さな休憩スペース（現在の詳細画面）
+# アイス越しに景色を見る構図（現在の詳細画面）
+
+2026-09-18。保存先: `assets/terrace-open-view-v4.png`（1536×1024、約1.85MB）。内蔵 `image_gen` で編集し、生成されたPNGを加工せずコピーしました。CLI/API生成は使用していません。入力1は `assets/terrace-nearby-v3.png`（構図の編集対象）、入力2は `assets/storefront-blank-placards-v6.png`（場所と素材の参照）です。
+
+天板を下の約3分の1に抑え、少し低い視点から店・ベンチ・舗装・奥の景色を見渡す構図へ変更しました。テーブル全体・脚・手前の縁は見せず、柔らかな木漏れ日は奥の舗装にだけ残しています。カップ素材と幅51%は維持し、表示位置を bottom 6% から1.5%へ下げました。接地影は同じカップ要素に属するため一緒に移動します。
+
+葉先のCSSマスクは新しい写真の上端30%・90%付近に合わせました。1〜2pxの揺れ、18秒・15.5秒の周期、動き軽減と画面外停止は維持。店・ベンチ・天板は静止します。メイン画面は承認済みの状態を維持し、以前のv3背景も比較用に保存しています。
+
+生成元: `C:/Users/funadapd/.codex/generated_images/01a09d8d-5b5f-7c02-971c-8ea1daf97c73/exec-d57770a5-294a-4363-ab2e-53dd8c0eb7c1.png`
+
+最終プロンプト（内蔵 `image_gen`）:
+
+```text
+Use case: precise-object-edit.
+Asset type: responsive photographic background plate for an ice-cream app detail hero, 1536x1024 landscape 3:2. This is scenery for a website, not a mockup. Output the empty scene only.
+
+Image 1 is the EDIT TARGET: the current nearby-kiosk rest area with too much white tabletop.
+Image 2 is the approved main kiosk, a MATERIAL AND PLACE REFERENCE only.
+
+Primary correction: CHANGE THE CAMERA COMPOSITION so someone seated in light shade is looking out across a comfortable open space, past a future ice-cream cup. The current tabletop occupies more than half the image and compresses the view. The NEW table must occupy ONLY THE BOTTOM THIRD. This is the most important instruction.
+
+Composition:
+- Put the far edge of the clean white satin metal tabletop at y=67 percent of the whole image (about 685 px in a 1024 px-tall image). From that line to the bottom, the table extends beyond the left, right and lower frame. Do not show its near rim, thickness, legs, whole circular shape or an emphasized corner. Its far edge is a very quiet nearly horizontal, gently curved line, not an object of attention. Do NOT retain the old table edge at y44%.
+- Use a slightly lower seated viewpoint and look more level into the scenery. Keep enough natural downward angle to read the clean tabletop surface in the bottom third. Its texture is subtly photographic and crisp near x52%, y88%, where a cup will touch.
+- Leave the foreground COMPLETELY EMPTY. The existing ice-cream cup will be composited separately around x52%, with its bottom at y89%, its scoop top near y34%, and about the same apparent size as before. Do not draw a cup, food, spoon or a product shadow.
+- The upper two-thirds is a real view with depth, not a close tabletop photograph and not a blank studio backdrop. Keep uncluttered visual breathing room above and around the future cup.
+
+Spatial layers:
+Near: only a cropped part of the SAME warm-white kiosk from image 2 at the far LEFT EDGE, with a modest fragment of butter-yellow striped awning and satin silver trim. No full storefront, no signs or readable logo. It should feel beside the seat, peripheral and softly out of focus, no more than about 20 percent of frame width.
+Middle distance: a small understated warm-white bench with fine silver supports at the far RIGHT edge, several metres behind the table, separated from it by an open patch of pale cream stone paving. Show enough bench to recognize seating, but do not fill the view with furniture. Restrained soft dappled light on a small part of this distant paving only.
+Beyond: a quiet walk or open clearing receding between very sparse, low, softly blurred sage planting at the side edges, toward pale blue sky and a softly defined distant horizon. Distinct near/middle/far distances, natural atmospheric perspective, no bright artificial fog. More room to look through, not more objects. No dense belt of green shrubs, no forest, large dark trunk, black fence, urban buildings, pots or extra chairs.
+A few real soft-focus leaf tips along the very top-left and top-right edges suggest overhead shade and can be animated later in code. Keep them away from the kiosk structure so leaf movement can be masked independently.
+
+Lighting and mood: the same bright warm-neutral daylight, ivory paint, pale paving, soft butter yellow and restrained sage accents as the approved main image. Comfortable, airy, quiet, clean, naturally photographic. The white tabletop and future product area have stable soft diffuse light, NO leaf shadows or moving sunlight patches baked onto the table. Background sunlight is gentle. Keep real photographic detail and believable physical proportions.
+
+Avoid: full table, large tabletop area, camera aimed down at the table, dramatic depth distortion, wide-angle stretched furniture, huge kiosk in center, dense park scenery, desolate wasteland, an enormous empty sky, dark outlines, haze, sunbeams, lens flare, harsh shadows, people, hands, plates, cups, ice cream, trays, spoons, text, UI or watermarks. Keep the scene continuous with the reference shop. Produce one finished clean background plate.
+```
+
+# お店の脇の小さな休憩スペース（以前のv3構図）
 
 2026-09-18。保存先: `assets/terrace-nearby-v3.png`（1536×1024、約1.8MB）。内蔵 `image_gen` で編集し、生成結果のPNGを加工せずコピーしています。CLIやAPIでの生成は使用していません。
 
