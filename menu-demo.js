@@ -1,15 +1,12 @@
 import { apps, previewApps } from "./content.js";
-import { localized, normalizeApps, resolveLanguage } from "./model.js";
-import { availableCategories, menuPage } from "./catalog.js";
+import { localized, resolveLanguage } from "./model.js";
+import { availableCategories, menuPage, menuRecords, readMenuFilters, menuFilterUrl } from "./catalog.js";
 import { demoNotes, demoCopy } from "./demo-content.js";
 import { observeImage } from "./menu-media.js";
 import { appMockup, renderAppMockup } from "./app-mockups.js";
 import { createCloudSky } from "./cloud-sky.js";
 
-const records = normalizeApps(apps.length ? apps : previewApps).map(app => ({
-  ...app,
-  features:[...app.features,...(app.sample ? demoNotes[app.id]?.specs || [] : []).map(spec=>spec.label)]
-}));
+const records = menuRecords(apps.length ? apps : previewApps, demoNotes);
 const $ = selector => document.querySelector(selector);
 const cupImage = $("#demo-cup-image");
 const landscape = $(".demo-landscape");
@@ -20,16 +17,18 @@ const terrace = $(".demo-table");
 let cupReady = false;
 let landscapeReady = false;
 let terraceVisible = false;
+let sceneRequested = false;
+let atmosphereRequested = false;
 const narrow = matchMedia("(max-width:900px)");
 const motionQuery = matchMedia("(prefers-reduced-motion:reduce)");
 const readPreference = key => { try { return localStorage.getItem(key); } catch { return null; } };
 const savePreference = (key,value) => { try { localStorage.setItem(key,value); } catch {} };
 let language = resolveLanguage({query:new URL(location.href).searchParams.get("lang"),saved:readPreference("vanilla-language"),browser:navigator.language});
-let query = "";
-let category = "all";
+let {query, category} = readMenuFilters(location.href, records);
 let limit = 12;
-let selected = records[0];
-let detailOpen = false;
+const initialApp = records.find(app => location.hash === `#app-${app.id}`);
+let selected = initialApp || records[0];
+let detailOpen = Boolean(initialApp);
 let menuScroll = 0;
 let menuAnchor = "";
 let searchTimer;
@@ -115,6 +114,13 @@ function updateTerraceLight() {
   const ready = cupReady && landscapeReady;
   $("#demo-cup").dataset.ready = String(ready);
   terrace.dataset.sceneReady = String(ready);
+  // Let the product finish first. The small alpha-only mask is optional and
+  // must not compete with the cup or the photograph on a slow connection.
+  if (ready && terraceVisible && !atmosphereRequested) {
+    atmosphereRequested = true;
+    terrace.dataset.atmosphereLoading = "true";
+    for (const image of atmosphereImages) image.src = image.dataset.src;
+  }
   if (ready && terraceVisible && !cloudSky) cloudSky=createCloudSky($("#demo-cloud-sky"),{onChange:updateTerraceLight});
   const atmosphereReady = decodedAtmosphere.size === atmosphereImages.length && Boolean(cloudSky?.available);
   terrace.dataset.atmosphereReady = String(atmosphereReady);
@@ -138,9 +144,7 @@ function renderCategories() {
     button.setAttribute("aria-pressed",String(choice.id === category));
     button.addEventListener("click",()=>{
       category=choice.id;
-      limit=12;
-      menuAnchor="";
-      renderMenu();
+      updateSearch();
     });
     group.append(button);
   }
@@ -171,6 +175,9 @@ function renderMenu() {
   $("#demo-results").textContent=language === "ja" ? `${page.count}件${page.remaining ? ` · ${page.shown.length}件を表示` : ""}` : `${page.count} ${page.count===1 ? "app" : "apps"}${page.remaining ? ` · ${page.shown.length} shown` : ""}`;
   $("#demo-more").hidden=!page.remaining;
   $("#demo-empty").hidden=page.count>0;
+  const outside=$("#demo-clear-category");
+  outside.hidden=page.count>0 || page.allCount===0;
+  outside.textContent=language === "ja" ? `すべての分類で${page.allCount}件を見る` : `Show ${page.allCount} ${page.allCount===1 ? "match" : "matches"} in all categories`;
   $("#demo-reset").hidden=!query && category==="all";
   $("#demo-clear").hidden=!query;
   for (const button of $("#demo-categories").children) button.setAttribute("aria-pressed",String(button.dataset.category===category));
@@ -252,6 +259,13 @@ function renderSelection() {
 }
 function renderView() {
   document.body.dataset.view=detailOpen ? "detail" : "menu";
+  // Hidden phone details do not download scenery before the menu is usable.
+  if (selected && (!narrow.matches || detailOpen) && !sceneRequested) {
+    sceneRequested=true;
+    terrace.dataset.sceneLoading="true";
+    landscape.src=landscape.dataset.src;
+    cupImage.src=cupImage.dataset.src;
+  }
   updateCurrent();
 }
 function choose(app) {
@@ -300,6 +314,14 @@ function backToMenu() {
   }
 }
 function syncLocation() {
+  const filters=readMenuFilters(location.href,records);
+  if (query!==filters.query || category!==filters.category) {
+    query=filters.query;
+    category=filters.category;
+    $("#demo-search").value=query;
+    limit=12;
+    renderMenu();
+  }
   const id=location.hash.startsWith("#app-") ? location.hash.slice(5) : "";
   const app=records.find(item=>item.id===id);
   if (app) {
@@ -338,6 +360,7 @@ function updateSearch() {
   query=$("#demo-search").value;
   limit=12;
   menuAnchor="";
+  history.replaceState(history.state,"",menuFilterUrl(location.href,{query,category}));
   renderMenu();
 }
 $("#demo-search").addEventListener("input",event=>{
@@ -348,6 +371,7 @@ $("#demo-search").addEventListener("compositionend",updateSearch);
 $("#demo-search-form").addEventListener("submit",event=>{ event.preventDefault(); updateSearch(); });
 $("#demo-clear").addEventListener("click",()=>{ $("#demo-search").value=""; updateSearch(); $("#demo-search").focus({preventScroll:true}); });
 $("#demo-reset").addEventListener("click",()=>{ category="all"; $("#demo-search").value=""; updateSearch(); $("#demo-search").focus({preventScroll:true}); });
+$("#demo-clear-category").addEventListener("click",()=>{ category="all"; updateSearch(); $("#demo-search").focus({preventScroll:true}); });
 $("#demo-more").addEventListener("click",()=>{
   const count=$("#demo-list").children.length;
   limit+=12;
@@ -413,6 +437,7 @@ if ("IntersectionObserver" in window) {
     updateTerraceLight();
   },{threshold:[0,.05]}).observe(terrace);
 }
+$("#demo-search").value=query;
 renderLanguage();
 syncLocation();
 fitSelection();

@@ -2,7 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { normalizeApps } from "../model.js";
 import { previewApps } from "../content.js";
-import { availableCategories, filterApps, menuPage, searchText } from "../catalog.js";
+import { availableCategories, filterApps, menuPage, searchText, menuRecords, readMenuFilters, menuFilterUrl } from "../catalog.js";
+import { demoNotes } from "../demo-content.js";
 const samples = normalizeApps(previewApps);
 
 test("search accepts names, purposes, width variants and either language", () => {
@@ -36,4 +37,52 @@ test("large menus keep every matching app reachable without duplicate records", 
   assert.equal(new Set(final.shown.map(app=>app.id)).size,41);
   assert.equal(menuPage(records,"Notes","record",48).count,21);
   assert.equal(menuPage(records,"Notes","organize",48).count,0);
+});
+
+test("familiar words find the sample apps without adding sample claims to real apps", () => {
+  const menu=menuRecords(previewApps,demoNotes);
+  for (const [word,id] of [["旅行","trip"],["家計簿","budget"],["TODO","tasks"],["日記","journal"],["ﾎﾟﾓﾄﾞｰﾛ","focus"]]) {
+    assert.deepEqual(filterApps(menu,word).map(app=>app.id),[id]);
+  }
+  const real=menuRecords([{id:"focus",name:"Focus",features:["独自の機能"],searchTerms:["仕事",42,null]}],demoNotes);
+  assert.deepEqual(real[0].features,["独自の機能"]);
+  assert.deepEqual(real[0].searchTerms,["仕事"]);
+  assert.equal(filterApps(real,"仕事").length,1);
+  assert.equal(filterApps(real,"ポモドーロ").length,0);
+});
+
+test("a named app ranks above incidental description matches while browsing keeps its order", () => {
+  const menu=menuRecords([
+    {id:"incidental",name:"Another app",description:"Export notes from your journal"},
+    {id:"purpose",name:"Writing",tagline:"Keep notes"},
+    {id:"exact",name:"Notes"},
+    {id:"prefix",name:"Notes Plus"}
+  ]);
+  assert.deepEqual(filterApps(menu,"notes").map(app=>app.id),["exact","prefix","purpose","incidental"]);
+  assert.deepEqual(filterApps(menu,"").map(app=>app.id),["incidental","purpose","exact","prefix"]);
+  assert.deepEqual(filterApps(menu,"notes journal").map(app=>app.id),["incidental"]);
+});
+
+test("an empty category search still exposes matching apps elsewhere without changing its terms", () => {
+  const menu=menuRecords(previewApps,demoNotes);
+  const restricted=menuPage(menu,"旅行","focus");
+  assert.equal(restricted.count,0);
+  assert.equal(restricted.allCount,1);
+  assert.deepEqual(menuPage(menu,"旅行","all").shown.map(app=>app.id),["trip"]);
+  assert.equal(menuPage(menu,"not-a-real-app","focus").allCount,0);
+});
+
+test("filter URLs retain language and selected app and safely restore a copied or reloaded menu", () => {
+  const original="https://example.com/apps.html?lang=ja&v=build#app-notes";
+  const url=menuFilterUrl(original,{query:"  メモ & note  ",category:"record"});
+  assert.equal(url.searchParams.get("lang"),"ja");
+  assert.equal(url.searchParams.get("v"),"build");
+  assert.equal(url.hash,"#app-notes");
+  assert.deepEqual(readMenuFilters(url,samples),{query:"メモ & note",category:"record"});
+  assert.deepEqual(readMenuFilters(original+"",samples),{query:"",category:"all"});
+  assert.equal(readMenuFilters("https://example.com/?q="+"a".repeat(250)+"&category=missing",samples).query.length,200);
+  assert.equal(readMenuFilters("https://example.com/?category=missing",samples).category,"all");
+  const cleared=menuFilterUrl(url,{query:"",category:"all"});
+  assert.equal(cleared.searchParams.has("q"),false);
+  assert.equal(cleared.searchParams.has("category"),false);
 });
