@@ -4,6 +4,7 @@ import { availableCategories, menuPage } from "./catalog.js";
 import { demoNotes, demoCopy } from "./demo-content.js";
 import { observeImage } from "./menu-media.js";
 import { appMockup, renderAppMockup } from "./app-mockups.js";
+import { createCloudSky } from "./cloud-sky.js";
 
 const records = normalizeApps(apps.length ? apps : previewApps).map(app => ({
   ...app,
@@ -12,8 +13,9 @@ const records = normalizeApps(apps.length ? apps : previewApps).map(app => ({
 const $ = selector => document.querySelector(selector);
 const cupImage = $("#demo-cup-image");
 const landscape = $(".demo-landscape");
-const atmosphereImages = [$("#demo-park-image"),...document.querySelectorAll(".demo-cloud-tile")];
+const atmosphereImages = [$("#demo-park-image")];
 const decodedAtmosphere = new Set();
+let cloudSky;
 const terrace = $(".demo-table");
 let cupReady = false;
 let landscapeReady = false;
@@ -113,9 +115,12 @@ function updateTerraceLight() {
   const ready = cupReady && landscapeReady;
   $("#demo-cup").dataset.ready = String(ready);
   terrace.dataset.sceneReady = String(ready);
-  const atmosphereReady = decodedAtmosphere.size === atmosphereImages.length;
+  if (ready && terraceVisible && !cloudSky) cloudSky=createCloudSky($("#demo-cloud-sky"),{onChange:updateTerraceLight});
+  const atmosphereReady = decodedAtmosphere.size === atmosphereImages.length && Boolean(cloudSky?.available);
   terrace.dataset.atmosphereReady = String(atmosphereReady);
-  terrace.dataset.ambient = ready && atmosphereReady && terraceVisible && !document.hidden && !reduced() ? "running" : "paused";
+  const running = ready && atmosphereReady && terraceVisible && !document.hidden && !reduced();
+  terrace.dataset.ambient = running ? "running" : "paused";
+  cloudSky?.setRunning(running);
 }
 function updateCurrent() {
   for (const button of $("#demo-list").querySelectorAll("button")) {
