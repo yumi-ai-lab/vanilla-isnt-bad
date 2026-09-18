@@ -43,8 +43,16 @@
     <section id="demo-selection" class="demo-selection" aria-labelledby="demo-app-name">
       <div class="demo-table" aria-hidden="true">
         <img class="demo-landscape" src="./assets/terrace-foreground-v2.png" width="1536" height="1024" alt="" fetchpriority="high">
-        <span id="demo-cup" class="demo-cup"><span class="demo-flavor"><img id="demo-cup-image" src="./assets/flavor-cutouts-v2.png" width="1536" height="1024" alt="" decoding="async" draggable="false"></span></span>
-        <div class="demo-dapple"><span class="demo-leaf-shadow"></span><span class="demo-leaf-light"></span></div>
+        <div class="demo-dapple">
+          <div class="demo-leaf-band" data-depth="far"><span class="demo-leaf-shadow"></span></div>
+          <div class="demo-leaf-band" data-depth="mid"><span class="demo-leaf-shadow"></span></div>
+          <div class="demo-leaf-band" data-depth="near"><span class="demo-leaf-shadow"></span></div>
+          <span class="demo-leaf-light"></span>
+        </div>
+        <div class="demo-sun-pools"><div class="demo-sun-field">
+          <span class="demo-sun-pool"></span><span class="demo-sun-pool"></span><span class="demo-sun-pool"></span><span class="demo-sun-pool"></span><span class="demo-sun-pool"></span>
+        </div></div>
+        <span id="demo-cup" class="demo-cup"><span class="demo-flavor"><img id="demo-cup-image" src="./assets/flavor-cutouts-v2.png" width="1536" height="1024" alt="" decoding="async" draggable="false"><span class="demo-cup-dapple"><span class="demo-leaf-shadow"></span></span></span></span>
       </div>
       <div class="demo-app-copy">
         <div class="demo-app-heading"><h2 id="demo-app-name" tabindex="-1"></h2><span class="demo-sample-label" data-copy="sampleBadge">サンプル</span></div>
