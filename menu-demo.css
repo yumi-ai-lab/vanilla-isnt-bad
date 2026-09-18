@@ -67,15 +67,16 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
 .demo-cup > .demo-flavor { position: relative; isolation: isolate; width: 100%; height: 100%; }
 .demo-cup > .demo-flavor::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 39% 78%,#f4f3e93b,transparent 34%),linear-gradient(135deg,#fff4d322,transparent 54%); mix-blend-mode: soft-light; mask: url("./assets/flavor-cutouts-v2.png") var(--flavor-x,0%) var(--flavor-y,0%) / 300% 200% no-repeat; }
 /* Reuse two small parts of the original photograph at exactly the same
-   scale. Fixed, feathered masks confine motion to leaves along the top edge;
+   scale. Fixed, feathered masks confine motion to the left tree crown and
+   upper-right leaves, keeping the awning outside the moving areas;
    the kiosk, bench, table and product stay in the untransformed base.
    This is a CSS crop, not another image download or a moving full backdrop. */
 .demo-breeze { position: absolute; z-index: 1; inset: 0; pointer-events: none; visibility: hidden; }
 .demo-table[data-scene-ready="true"] .demo-breeze { visibility: visible; }
 .demo-foliage-mask { position: absolute; inset: 0; --breeze-distance: clamp(1px,.35cqw,2px); }
-.demo-foliage-mask[data-edge="left"] { mask-image: radial-gradient(ellipse 7.5% 14% at 30% 0%,#000 55%,transparent 100%); --breeze-duration: 18s; --breeze-direction: -1; }
-.demo-foliage-mask[data-edge="right"] { mask-image: radial-gradient(ellipse 13% 18% at 90% 0%,#000 55%,transparent 100%); --breeze-duration: 15.5s; --breeze-direction: 1; --breeze-delay: -4s; }
-.demo-foliage-pattern { position: absolute; inset: 0; background: url("./assets/terrace-open-view-v4.png") center / 100% 100% no-repeat; animation: terrace-foliage-breeze var(--breeze-duration) ease-in-out var(--breeze-delay,0s) infinite paused; }
+.demo-foliage-mask[data-edge="left"] { mask-image: radial-gradient(ellipse 6.5% 10% at 3% 30%,#000 55%,transparent 100%); --breeze-duration: 18s; --breeze-direction: -1; }
+.demo-foliage-mask[data-edge="right"] { mask-image: radial-gradient(ellipse 12% 14% at 88% 0%,#000 55%,transparent 100%); --breeze-duration: 15.5s; --breeze-direction: 1; --breeze-delay: -4s; }
+.demo-foliage-pattern { position: absolute; inset: 0; background: url("./assets/terrace-airy-courtyard-v5.png") center / 100% 100% no-repeat; animation: terrace-foliage-breeze var(--breeze-duration) ease-in-out var(--breeze-delay,0s) infinite paused; }
 .demo-table[data-ambient="running"] .demo-foliage-pattern { animation-play-state: running; }
 @keyframes terrace-foliage-breeze {
   0%,18%,100% { transform: translate(0,0); }
