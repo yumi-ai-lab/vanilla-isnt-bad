@@ -1,4 +1,42 @@
-# 中庭の素材感と独立した枝（現在の詳細画面）
+# 空と公園、中央のカップと流れる雲（現在の詳細画面）
+
+2026-09-18。ユーザーが選んだ公園の画像を基に、内蔵 `image_gen` で空を抜いた前景と透過の雲を生成しました。CLI / API生成や別ツールによる画像加工は行っていません。採用PNGはそのまま保存し、CSSで合成しています。
+
+- `assets/terrace-open-park-v8.png` — 1536×1024、2,130,511 bytes。ユーザー添付 `C:/Users/funadapd/Downloads/Codex 画像 2026年9月18日 20_56_09.png` をそのままコピー。静止画の完全なフォールバックであり、前景としても同じ写真の画素を表示します。
+- `assets/terrace-park-foreground-v1.png` — 1536×1024、2,298,869 bytes、RGBA。空と雲の部分が透明な前景抽出。生成でRGBの細部に差が出たため、アルファだけをCSSマスクとして使い、ユーザーが選んだ公園・店・天板の色やぼけを保ちます。空の中央のalpha=0、天板の代表点alpha=253を確認。
+- `assets/terrace-clouds-v1.png` — 1536×1024、1,147,566 bytes、RGBA。自然な積雲と薄い雲の透過素材。左右の余白と下半分が透明な一枚を二回表示します。外側の代表点alpha=0を確認。
+
+前景の生成元: `C:/Users/funadapd/.codex/generated_images/01a09d8d-5b5f-7c02-971c-8ea1daf97c73/exec-d1c3f93b-ece6-436e-a24b-f452b5d5ec11.png`
+雲の生成元: 同ディレクトリの `exec-eb3c26e6-ebe4-4a64-9983-86b18b91589f.png`
+
+青空の下地、横へ動く二枚の雲、前景のアルファで抜いた採用写真、カップの順に重ねています。雲は240秒で一画面分を左へ流れ、次の周期へ連続します。前景と雲を低優先度で読み込み、すべてデコード済みの時だけ650msで空を切り替えます。追加素材の失敗時は元の写真のまま表示。画面外・タブ非表示では停止し、動き軽減時は雲も静止します。元写真の静止した雲と二重に重ねません。
+
+カップの要素幅は51%から43%、左右中央、要素の下端は4%に調整。透過余白を除いた見える高さはシーンの約48%、カップ底は下から約12〜13%です。既存の接地影をカップと一体で縮尺変更し、天板の手前に置きます。写真の下はアプリ名・用途、起動ボタン、仕様、画面イメージ、こだわりの順。承認済みメイン画面は維持しています。
+
+## 空を抜くプロンプト
+
+入力: ユーザー添付の公園画像。
+
+```text
+Use case: background-extraction.
+Asset: exact full-frame foreground plate with a TRANSPARENT SKY for a website scene, 1536 x 1024.
+The attached image is the extraction target. Remove ONLY the blue sky and ALL clouds, making those pixels genuinely transparent alpha. Keep everything else at exactly the same position and size: both framing trees including fine branches and leaves, distant park trees, the left ivory/yellow ice cream shop, bench, lawn, paths and the entire white foreground table.
+This is a sky-removal matte, not a new composition. The whole park and tabletop remain opaque. Every small opening of sky between leaves and branches must also be transparent with soft natural photographic alpha edges. Preserve the original photo's gentle optical defocus, colors, grain, light, object silhouettes and framing. Do not rebuild, move, relight or enlarge objects. Do not leave blue/white sky fringe around leaves. No painted checkerboard, black background, opaque color replacement or new elements. True RGBA transparency in ALL sky areas is essential. The table stays completely empty. Return the full original 3:2 canvas.
+```
+
+## 雲のプロンプト
+
+新規生成、参照画像なし。
+
+```text
+Use case: photorealistic-natural.
+Asset: a tile of real fair-weather clouds on a genuinely transparent background for a slowly drifting photographic website sky. 1536 x 1024 landscape.
+Create a few beautifully natural sunlit small cumulus clouds with delicate wispy edges, subtly varied density and soft very pale blue-grey undersides, as photographed on a calm clear warm afternoon. Light is soft from upper left. Real vapor volume, irregular asymmetrical forms, not cartoon cotton balls, not painted or dramatic.
+Composition: 3 sparse loose groups across the upper 40% of the full canvas, at slightly different heights between 10% and 34%. A medium airy cluster near x30%, smaller thin wisps near x65%, and a small soft cluster near x82%. Leave lots of transparent air between them. Keep left and right 8% margins fully transparent so the tile can repeat horizontally without a hard seam. Bottom 55% must be fully transparent. No isolated clouds touching canvas borders.
+True transparent alpha including gradual semi-transparency at all feathery edges, no blue sky or opaque backdrop, no checkerboard graphic, no glow outline. No ground, scenery, birds, text or objects. Clouds should look gently optically soft but retain natural fine vapor structure. Return only the white clouds on actual transparent background.
+```
+
+# 中庭の素材感と独立した枝（以前の詳細画面）
 
 2026-09-18。内蔵 `image_gen` で背景の編集と透過の枝を制作しました。CLI / API生成や別ツールによる画像加工は使用していません。生成PNGを加工せず公開用の場所へコピーしています。
 
