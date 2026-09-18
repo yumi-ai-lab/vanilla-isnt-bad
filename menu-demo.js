@@ -12,9 +12,11 @@ const records = normalizeApps(apps.length ? apps : previewApps).map(app => ({
 const $ = selector => document.querySelector(selector);
 const cupImage = $("#demo-cup-image");
 const landscape = $(".demo-landscape");
+const branchImage = $("#demo-branch-image");
 const terrace = $(".demo-table");
 let cupReady = false;
 let landscapeReady = false;
+let branchReady = false;
 let terraceVisible = false;
 const narrow = matchMedia("(max-width:900px)");
 const motionQuery = matchMedia("(prefers-reduced-motion:reduce)");
@@ -111,7 +113,8 @@ function updateTerraceLight() {
   const ready = cupReady && landscapeReady;
   $("#demo-cup").dataset.ready = String(ready);
   terrace.dataset.sceneReady = String(ready);
-  terrace.dataset.ambient = ready && terraceVisible && !document.hidden && !reduced() ? "running" : "paused";
+  terrace.dataset.breezeReady = String(branchReady);
+  terrace.dataset.ambient = ready && branchReady && terraceVisible && !document.hidden && !reduced() ? "running" : "paused";
 }
 function updateCurrent() {
   for (const button of $("#demo-list").querySelectorAll("button")) {
@@ -380,9 +383,10 @@ if ("ResizeObserver" in window) new ResizeObserver(fitSelection).observe($("#dem
 window.addEventListener("resize",fitSelection);
 window.addEventListener("popstate",syncLocation);
 window.addEventListener("hashchange",syncLocation);
-// Decode both layers before showing the product or the moving light. A failed
-// scene never delays the app's name, specifications, mockup or launch link.
-for (const [image,setReady] of [[cupImage,value=>cupReady=value],[landscape,value=>landscapeReady=value]]) {
+// Decode the photograph and cup before showing the product. The optional
+// branch loads independently: a failed branch cannot hide or delay the cup.
+// App descriptions, mockups and launch links never wait for image decoding.
+for (const [image,setReady] of [[cupImage,value=>cupReady=value],[landscape,value=>landscapeReady=value],[branchImage,value=>branchReady=value]]) {
   let retries = 0;
   observeImage(image, {
     ready: () => { setReady(true); updateTerraceLight(); },

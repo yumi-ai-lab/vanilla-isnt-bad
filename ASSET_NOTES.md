@@ -1,4 +1,65 @@
-# 白い中庭と空（現在の詳細画面）
+# 中庭の素材感と独立した枝（現在の詳細画面）
+
+2026-09-18。内蔵 `image_gen` で背景の編集と透過の枝を制作しました。CLI / API生成や別ツールによる画像加工は使用していません。生成PNGを加工せず公開用の場所へコピーしています。
+
+- `assets/terrace-courtyard-material-v6.png` — 1536×1024、1,851,097 bytes。ユーザー指定のv5中庭を基に、ベンチの斜め方向・座面の奥行き、白い粉体塗装の細かな肌と柔らかい反射を調整。右上の手前の枝を取り除き、空を補いました。二度目の編集でベンチの向きを追加調整しています。
+- `assets/terrace-branch-v1.png` — 1536×1024、977,621 bytes、RGBA。v5右上の枝を独立した透明背景に抽出。背景と葉の隙間のアルファを確認しました。生成結果では枝の占有面積が大きくなったため、CSSで全キャンバス幅をシーンの60%にして配置しています。
+
+背景の最終生成元: `C:/Users/funadapd/.codex/generated_images/01a09d8d-5b5f-7c02-971c-8ea1daf97c73/exec-ff146254-7557-4e63-8c8a-3aca971aeb17.png`
+背景の初稿: 同ディレクトリの `exec-fa173c1e-c825-4d66-9637-5b080b3c30dd.png`
+枝の生成元: 同ディレクトリの `exec-74112377-e086-4df6-85f0-56123a49df97.png`
+
+枝元を画面右上に置き、9秒周期で−1.8〜2.4度回転させます。少量の位置変化を添え、スマホで葉先が数px動く程度にしています。背景に同じ枝がないため、葉の間から空が見えます。遠景の木・ひさし・ベンチ・天板・カップは静止。動き軽減、画面外停止、デコード待ちを維持し、枝の読み込み失敗ではカップを隠しません。
+
+カップの素材・大きさ・接地影と、承認済みのメイン画面は維持しています。旧v5も比較用に残しています。
+
+## 背景の編集プロンプト
+
+入力: `assets/terrace-airy-courtyard-v5.png`
+
+```text
+Use case: precise-object-edit.
+Asset: photographic background plate for the existing VANILLA ISN'T BAD. app detail screen, 1536 x 1024, 3:2.
+
+The attached image is the EDIT TARGET. Preserve the composition and airy ivory / pale-blue / sage palette: the striped awning at upper left, sky, low plaster wall, small distant trees at left and right, paving, and empty foreground white table. Keep the tabletop's rear edge at approximately 73% image height, with its right rounded corner. Do not move or enlarge the table or change the camera framing.
+
+Make these specific changes:
+1. The ivory metal bench at the left should have a believable subtle three-quarter orientation toward the open center of the terrace, about 15–20 degrees from its present frontal orientation. Keep it about the same size and in the same place. Make the depth of its seat, back, armrests and legs physically consistent with the ground plane and seated camera viewpoint. Natural grounded contact shadows under the feet, no stretched proportions or extra legs. The bench remains simple slim powder-coated metal.
+2. Refine the FOREGROUND TABLE material into real satin white powder-coated metal: very fine delicate orange-peel paint microtexture, a broad soft directional light reflection, and a barely visible thin rolled edge / soft highlight at the far rim. Crisp material texture at the future cup contact point near x52%, y88%, gradually less crisp farther away. Do not make it grainy, dirty, scratched, concrete, marble, plastic, shiny mirror or heavily textured. Preserve the white clean appearance, with modest realistic tonal variation and no dramatic shadows or dapple pattern on the tabletop. It should look tactile when viewed closely, not noisy.
+3. REMOVE ONLY the nearby overhanging foreground branch and leaves entering from the upper-right corner. Restore the sky naturally behind them. This branch will be supplied as a SEPARATE transparent animated layer, so it must not remain baked into the background. Keep the softly defocused small distant tree beyond the wall at the right. Keep the distant tree at the left as well.
+
+Preserve the existing soft background dapple on the paving. Keep the frame airy, understated and photorealistic, matching the main kiosk's quiet material quality. No food, ice cream, cup, tray, dishes, people, lettering or UI. Do not invent furniture or scenery. Return just the refined empty scene.
+```
+
+## ベンチの追加編集プロンプト
+
+入力: 初稿 `exec-fa173c1e-c825-4d66-9637-5b080b3c30dd.png`
+
+```text
+Use case: precise-object-edit.
+Edit ONLY the ivory metal bench in the left middle ground of the attached photograph. All other pixels and composition should remain as faithful as possible, including the refined white tabletop texture and the clean upper-right sky.
+
+The bench is still too front-on and parallel to the wall. Turn the entire bench visibly on the ground plane to a natural three-quarter view, approximately 30 degrees from the image plane: its LEFT END is closer to the camera, its RIGHT END recedes toward the low wall. Its long backrest and front seat edge therefore visibly recede diagonally to the right. Show clear believable depth in the nearer left armrest, the seat slats and the rear legs. This must be a real change of the furniture's 3D orientation, not a tilted or skewed flat cutout. Keep the bench's approximate overall position, understated scale and cream-white powder-coated slim metal construction. Ground each foot naturally with subtle contact shadows; no extra legs or warped slats.
+
+Preserve the pale blue sky, peripheral distant trees, original awning, wall, pavement and foreground table exactly in their existing positions and quiet colors. Keep the foreground table empty and sharply tactile. Do NOT reintroduce the foreground leaves at upper right, which will be an independently animated layer. No people, ice cream, text or added props. 1536 x 1024, 3:2 full image.
+```
+
+## 独立した枝の抽出プロンプト
+
+入力: `assets/terrace-airy-courtyard-v5.png`
+
+```text
+Use case: background-extraction.
+Asset: genuine transparent PNG layer for a gently animated foreground branch in a website photograph.
+
+The attached photograph is the EDIT / EXTRACTION SOURCE. Extract ONLY the nearby foreground leafy branch that enters from the UPPER-RIGHT CORNER. Preserve its slender branches, muted olive/sage leaves, warm daylight, natural leaf detail and its recognizable original shape.
+
+Return a 1536 x 1024 transparent PNG. Keep the extracted branch in the SAME UPPER-RIGHT POSITION and approximately the same footprint it has in the original source: primarily x=73–100% and y=0–29%. All the rest of the canvas must have real alpha transparency, including the gaps between individual leaves and slender twigs. The attached photograph's awning, sky, clouds, distant trees, wall, bench, floor and table must be completely absent.
+
+This is a foreground leafy branch CUTOUT, not a new scene and not a screenshot with a checkerboard. The small blurred tree beyond the wall on the right is background and must NOT be included. Include only the sharper nearby overhanging leaves along the upper-right border. Leaf and twig edges should be clean photographic alpha without white fringes or cast shadows. Preserve the reference's soft sunlight and restrained leaf color so it can be placed back over a matching sky seamlessly. No new leaves elsewhere, no rectangular opaque patch, no painted background, no text, no frame. True transparent alpha background is essential.
+```
+
+# 白い中庭と空（以前のv5）
 
 2026-09-18。ユーザー指定の画像を `assets/terrace-airy-courtyard-v5.png`（1536×1024、1,916,924 bytes）として加工せず採用しました。入力は添付の `codex-clipboard-89fcb9ac-374c-411b-b1ae-876ecf2646ca.png`。既に出力済みの背景比較案2「白い中庭」と同じ画像です。今回のサイト反映では画像生成・色調補正・切り抜きは行っていません。
 
