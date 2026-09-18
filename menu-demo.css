@@ -66,22 +66,18 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
 }
 .demo-cup > .demo-flavor { position: relative; isolation: isolate; width: 100%; height: 100%; }
 .demo-cup > .demo-flavor::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 39% 78%,#f4f3e93b,transparent 34%),linear-gradient(135deg,#fff4d322,transparent 54%); mix-blend-mode: soft-light; mask: url("./assets/flavor-cutouts-v2.png") var(--flavor-x,0%) var(--flavor-y,0%) / 300% 200% no-repeat; }
-/* Reuse two small parts of the original photograph at exactly the same
-   scale. Fixed, feathered masks confine motion to the left tree crown and
-   upper-right leaves, keeping the awning outside the moving areas;
-   the kiosk, bench, table and product stay in the untransformed base.
-   This is a CSS crop, not another image download or a moving full backdrop. */
+/* A real alpha cutout moves over a photograph with the foreground branch
+   removed. Pivot at its attachment beyond the top-right frame; the sky is
+   revealed between leaves instead of doubling a static set of leaves. */
 .demo-breeze { position: absolute; z-index: 1; inset: 0; pointer-events: none; visibility: hidden; }
-.demo-table[data-scene-ready="true"] .demo-breeze { visibility: visible; }
-.demo-foliage-mask { position: absolute; inset: 0; --breeze-distance: clamp(1px,.35cqw,2px); }
-.demo-foliage-mask[data-edge="left"] { mask-image: radial-gradient(ellipse 6.5% 10% at 3% 30%,#000 55%,transparent 100%); --breeze-duration: 18s; --breeze-direction: -1; }
-.demo-foliage-mask[data-edge="right"] { mask-image: radial-gradient(ellipse 12% 14% at 88% 0%,#000 55%,transparent 100%); --breeze-duration: 15.5s; --breeze-direction: 1; --breeze-delay: -4s; }
-.demo-foliage-pattern { position: absolute; inset: 0; background: url("./assets/terrace-airy-courtyard-v5.png") center / 100% 100% no-repeat; animation: terrace-foliage-breeze var(--breeze-duration) ease-in-out var(--breeze-delay,0s) infinite paused; }
-.demo-table[data-ambient="running"] .demo-foliage-pattern { animation-play-state: running; }
-@keyframes terrace-foliage-breeze {
-  0%,18%,100% { transform: translate(0,0); }
-  43%,55% { transform: translate(calc(var(--breeze-distance) * var(--breeze-direction)),calc(var(--breeze-distance) * -.25)); }
-  76% { transform: translate(calc(var(--breeze-distance) * var(--breeze-direction) * -.2),calc(var(--breeze-distance) * .1)); }
+.demo-table[data-scene-ready="true"][data-breeze-ready="true"] .demo-breeze { visibility: visible; }
+.demo-branch { position: absolute; display: block; width: 60%; height: auto; max-width: none; right: -1%; top: -1.5%; transform-origin: 100% 0%; animation: terrace-branch-breeze 9s ease-in-out -1.2s infinite paused; }
+.demo-table[data-ambient="running"] .demo-branch { animation-play-state: running; }
+@keyframes terrace-branch-breeze {
+  0%,100% { transform: rotate(-1.8deg); }
+  36% { transform: translate(-.35cqw,.2cqw) rotate(2.4deg); }
+  68% { transform: translate(.1cqw,0) rotate(-.8deg); }
+  83% { transform: rotate(.5deg); }
 }
 .demo-app-copy { padding: 25px 6px 0; }
 .demo-app-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; }
@@ -194,7 +190,7 @@ html:has(.menu-demo) { scroll-behavior: auto; scroll-padding-top: 84px; backgrou
   .demo-specs { gap: 12px; }
   .demo-footer { width: min(620px,calc(100% - 44px)); margin-top: 32px; }
 }
-@media (prefers-reduced-motion:reduce) { .demo-menu-visual { transition: none; } .demo-foliage-pattern { animation: none; } }
+@media (prefers-reduced-motion:reduce) { .demo-menu-visual { transition: none; } .demo-branch { animation: none; } }
 html[data-reduced-motion="true"] .demo-menu-visual { transition: none; }
-html[data-reduced-motion="true"] .demo-foliage-pattern { animation: none; }
+html[data-reduced-motion="true"] .demo-branch { animation: none; }
 @media (max-width:360px) { .demo-header { padding-inline: 14px; gap: 5px; } .demo-brand img { width: 117px; } .demo-return a,.demo-return button { font-size: 11px; gap: 5px; } .demo-language button { min-width: 29px; } .demo-spec span { font-size: 11px; } .demo-launch { align-items: flex-start; flex-direction: column; gap: 7px; } .demo-mockup-art { padding: 18px 10px; } .mock-ui { padding: 18px 16px; } .mock-title { font-size: 18px; } }
