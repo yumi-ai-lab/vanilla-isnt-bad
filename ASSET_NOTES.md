@@ -1,4 +1,51 @@
-# 清潔な天板と葉先の風（現在の詳細画面）
+# お店の脇の小さな休憩スペース（現在の詳細画面）
+
+2026-09-18。保存先: `assets/terrace-nearby-v3.png`（1536×1024、約1.8MB）。内蔵 `image_gen` で編集し、生成結果のPNGを加工せずコピーしています。CLIやAPIでの生成は使用していません。
+
+編集対象は `assets/terrace-foreground-v2.png`、場所・素材の参照は承認済みメインの `assets/storefront-blank-placards-v6.png`。天板の位置・曲線・明るさを参照し、背景を近くの店の一部、淡い舗装、小さな白いベンチへ変更しました。一度目の結果には中央の植栽が多く残ったため、二度目の編集で緑の帯を除き、周辺の葉先と少量の植栽に整理しました。メインの画像、カップPNG、カップの表示サイズ・位置・接地影のコードは変更していません。
+
+風は同じ背景の葉先をCSSマスク内で再利用します。左の領域を画像上端33.2%、右を91%付近へ合わせ、店やベンチに揺れがかからないようにしました。移動量1〜2px、18秒・15.5秒周期と動き軽減・画面外停止は維持しています。天板・カップ上に動く葉影や光条は足していません。
+
+最終プロンプト一式（内蔵 `image_gen`）:
+
+背景の編集:
+
+```text
+Use case: precise-object-edit.
+Asset type: production photographic background plate for an ice-cream app product-detail hero, landscape 3:2, 1536x1024. Output only the photographic plate, no website UI.
+
+Image 1 is the EDIT TARGET: the existing empty white table and distant park.
+Image 2 is a DESIGN AND LOCATION REFERENCE ONLY: the approved main-page vanilla-white kiosk, pale butter-yellow striped awning, slender satin silver trim, light warm stone paving and restrained greenery.
+
+Primary request: redesign ONLY the scenery BEHIND the table so it feels like a small, carefully kept rest spot immediately beside the kiosk in image 2. The current background is too much like a densely planted public park; the new scene should feel quiet, minimal, clean and part of the same little shop. A customer has just bought an ice cream and sat nearby, not walked to another park.
+
+PRESERVE from image 1: the entire empty white satin powder-coated metal tabletop, its precise perspective, scale, texture, brightness, far curved edge and position (middle of far edge around 43 percent of image height and ends around 50 percent). Keep the foreground extending beyond both sides and the bottom, no near rim and no table legs. Keep the focus plane sharp around x52% y83%, where an existing transparent ice-cream cup will be added in code. Leave all the table empty. Keep the 3:2 canvas and camera position.
+
+REPLACE the current scenery above the table's far edge. Remove the black fence/railings, massive tree trunk, dense green shrubs, terracotta pots, distant buildings and the small complete kiosk far away. Bring the SAME kiosk from image 2 close to the LEFT EDGE: show only a cropped modest portion of its warm-white rounded side/corner and a little pale-yellow-and-ivory striped awning, softly out of focus. This partial architecture should occupy no more than the left 20-25 percent of the background and visibly continue beyond the left frame, suggesting the table is about one or two metres to its side. Do not make a second full storefront or show any text.
+Behind the table is a quiet expanse of the SAME light cream stone paving as image 2, with soft natural depth. At the far RIGHT edge, include only a small cropped end of a simple warm-white bench with slender satin-silver supports, naturally out of focus; it is a subtle seating cue, not furniture filling the scene. The middle background is airy, light, uncluttered and softly defocused. Keep a small sense of pale open sky and a little muted sage greenery at the upper edges. A few soft real leaf tips enter the top-right corner; a second tiny cluster may enter the very top-left edge. Leaves and plants are peripheral accents, not a forest or a green wall. No prominent trunks.
+
+Light: broad, soft warm-neutral daylight consistent with image 2. Keep the tabletop and future product area steadily and cleanly lit, NO dappled leaf shadows or sunlight patches on the table, NO cup/contact shadow baked into the image. A faint suggestion of soft broken light may fall on the distant paving near the bench only. No dramatic shafts, fog, bloom, hot spots, diagonal streaks or artificial bokeh circles. Photographic realism and natural depth, with finely textured focused table and restrained blurred background. White, ivory, pale stone, small muted sage accents and a hint of soft butter yellow.
+
+Avoid: ice cream, cups, scoops, plates, trays, spoons, people, hands, cars, extra chairs, extensive furniture, black lines, black railings, dark hedges, dense park scenery, wood-brown furniture, legible signs or logos, typography, UI, frames, vignettes. Do not crop, resize, reposition or re-light the foreground table. Produce the revised single clean plate.
+```
+
+中央の植栽を減らす最終調整:
+
+```text
+Use case: precise-object-edit.
+Image 1 is the edit target, a 1536x1024 photographic background plate for a clean ice-cream product detail.
+One focused correction: drastically reduce the vegetation in the background. The current continuous horizontal band of dense shrubs and upright trees behind the open paving STILL LOOKS TOO MUCH LIKE A PUBLIC PARK.
+
+Keep the near kiosk fragment on the LEFT exactly as is, the small cropped white bench end on the RIGHT, the pale paving, the gently curved far table edge and ALL foreground tabletop pixels, texture, framing, perspective, light and sharpness unchanged. Keep the same 3:2 canvas. Keep the little leaf tips at the upper-right corner. No cup or product.
+
+REMOVE the dense green belt, all the multiple upright trees across the center, and the conspicuous potted bush immediately beside the kiosk. The background should now be a minimal, airy rest area next to the shop, with a generous pale limestone paved clearing receding gently away. Let the central background be quiet light cream and soft pale sky, with only a very faint far-away hint of muted sage, no readable trunks, no large tree silhouettes, no dense hedge or border of repeated shrubs. Keep only two or three soft peripheral patches of greenery right at the edges. Aim for roughly 75 percent LESS green area than the current image. The small white bench and kiosk fragment provide all the place cues needed. Natural believable photographic perspective and bright open-air daylight, not a studio infinity wall or empty desert. Match the existing gentle lens defocus in the background.
+
+Do not add architecture, people, ornaments, more furniture, flowers, pots, fences, railings, signage, text, harsh shadows, haze, lens flare or sunlight streaks. The tabletop stays clean and steady with NO leaf shadows. Output only the revised production background plate.
+```
+
+生成元: `C:/Users/funadapd/.codex/generated_images/01a09d8d-5b5f-7c02-971c-8ea1daf97c73/exec-1e113280-b93f-444d-b1ab-76ca88ab52a9.png`。一度目の生成は同ディレクトリの `exec-75327d7e-7f46-48b2-95cd-5ae6fa544c4c.png`。旧v2は比較用に保持しています。
+
+# 清潔な天板と葉先の風（v2背景での表示）
 
 2026-09-18。商品を明瞭に見せるため、天板の三層の葉影・五つの光の溜まり・カップの葉影を外しました。背景画像、カップPNG、カップの大きさと位置、接地影は変更していません。
 
@@ -12,7 +59,7 @@
 
 天板のマスクと奥・中・手前の帯マスクは固定し、その内側の模様だけが動きます。カップも固定したPNGのアルファマスクで切り、内側の模様を動かす構造にしました。五つの光の溜まりは個別に動かさず、手前の葉影と同じ全景サイズの層でまとめて動かします。カップ内も全景座標にそろえるため、同じ21秒周期に加えて移動距離と回転中心が一致します。背景写真・アイスPNG・接地影は維持しています。
 
-# 手元のカップを主役にする背景（詳細画面で現在使用）
+# 手元のカップを主役にする背景（以前のv2・現在はv3の参照用）
 
 保存先: `assets/terrace-foreground-v2.png`。内蔵 `image_gen` で生成し、加工せずコピーしました。1536×1024。旧 `assets/terrace-background-v1.png` を、公園・店・白い金属テーブルの参照として使用しています。
 
