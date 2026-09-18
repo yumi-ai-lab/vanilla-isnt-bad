@@ -26,32 +26,36 @@ float field(vec3 p) {
              texture2D(vapor,(tileB+xy)/vec2(272.,136.)).r,f.z);
 }
 float mist(vec3 p) {
-  return .50*field(p) + .28*field(p*2.07+vec3(7.1,3.3,5.9))
-       + .15*field(p*4.21+vec3(1.7,9.2,2.8))
-       + .07*field(p*8.31+vec3(3.2,5.3,1.2));
+  return .53*field(p) + .25*field(p*2.07+vec3(7.1,3.3,5.9))
+       + .13*field(p*4.21+vec3(1.7,9.2,2.8))
+       + .06*field(p*8.31+vec3(3.2,5.3,1.2))
+       + .03*field(p*16.63+vec3(9.3,2.5,4.6));
 }
 void main() {
   vec3 sky = mix(vec3(.88,.93,.97),vec3(.665,.815,.935),smoothstep(.37,1.,uv.y));
   // The photograph covers the lower half; avoid volume work there.
   if (uv.y < .38) { gl_FragColor=vec4(sky,1.); return; }
   float t = elapsed;
-  float scale = mix(8.8,4.7,smoothstep(.38,.96,uv.y));
+  // Keep the cloud lobes close to their natural proportions. The earlier
+  // mapping stretched them horizontally, especially at the top of the sky.
+  float scale = mix(9.3,6.9,smoothstep(.38,.96,uv.y));
   vec2 drift = vec2(t*.008+.13*sin(t*.017),.045*sin(t*.011));
   float height = uv.y-.38;
-  vec2 plane = vec2((uv.x-.5)*scale,height*10.-height*height*3.) + drift + vec2(6.4,4.1);
+  vec2 plane = vec2((uv.x-.5)*scale,height*8.-height*height*2.) + drift + vec2(6.4,4.1);
   float weather = field(vec3(plane*.37,t*.0016+11.));
   float threshold = .655-.028*weather;
   float horizon = smoothstep(.38,.51,uv.y);
   vec3 lightDirection = normalize(vec3(-.65,1.,-.8));
   vec3 color = vec3(0.);
   float transmission = 1.;
-  for (int step=0; step<24; step++) {
-    float z = -.9+float(step)*.108;
+  for (int step=0; step<28; step++) {
+    float z = -.9+float(step)*.093;
     vec3 p = vec3(plane,z+t*.0028);
-    float density = max(mist(p)-threshold,0.)*10.*horizon;
+    float density = max(mist(p)-threshold,0.)*14.*horizon;
     if (density > .005) {
-      float towardSun = max(mist(p+lightDirection*.22)-threshold,0.)*10.*horizon;
-      float lighting = clamp(.94+(density-towardSun)*.4,.85,1.);
+      float towardSun = max(mist(p+lightDirection*.22)-threshold,0.)*14.*horizon;
+      // Fine edges transmit light, while denser parts shade themselves.
+      float lighting = clamp(.85+.15*exp(-towardSun*.7)+(density-towardSun)*.2,.84,1.);
       // Shade neutral, warm-white vapor within the sky itself: no blue matte.
       vec3 white = vec3(1.,.993,.973)*lighting;
       float opacity = 1.-exp(-density*.38);

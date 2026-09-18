@@ -42,10 +42,13 @@
     </section>
     <section id="demo-selection" class="demo-selection" aria-labelledby="demo-app-name">
       <div class="demo-table" aria-hidden="true">
-        <img class="demo-landscape" src="./assets/terrace-open-park-v8.png" width="1536" height="1024" alt="" fetchpriority="high">
+        <div class="demo-landscape-layer">
+          <img class="demo-landscape" src="./assets/terrace-open-park-v8.png" width="1536" height="1024" alt="" fetchpriority="high">
+          <span class="demo-distance-soften"></span>
+        </div>
         <div class="demo-atmosphere">
           <canvas id="demo-cloud-sky" class="demo-cloud-sky" width="420" height="280"></canvas>
-          <div class="demo-park-foreground"><img id="demo-park-image" src="./assets/terrace-park-foreground-v1.png" width="1536" height="1024" alt="" decoding="async" loading="lazy" fetchpriority="low" draggable="false"></div>
+          <div class="demo-park-foreground"><img id="demo-park-image" src="./assets/terrace-park-foreground-v1.png" width="1536" height="1024" alt="" decoding="async" loading="lazy" fetchpriority="low" draggable="false"><span class="demo-distance-soften"></span></div>
         </div>
         <span id="demo-cup" class="demo-cup"><span class="demo-flavor"><img id="demo-cup-image" src="./assets/flavor-cutouts-v2.png" width="1536" height="1024" alt="" decoding="async" draggable="false"></span></span>
       </div>
