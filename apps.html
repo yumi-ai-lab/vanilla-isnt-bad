@@ -8,7 +8,6 @@
   <title>All flavors. — VANILLA ISN’T BAD.</title>
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="./assets/fonts/inter/inter-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="./assets/flavor-scoops-top-v2.png" as="image" fetchpriority="high">
   <link rel="stylesheet" href="./assets/fonts/fonts.css">
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./menu-demo.css">
@@ -36,21 +35,21 @@
         <div class="demo-results"><p id="demo-results" role="status" aria-live="polite" aria-atomic="true"></p><button id="demo-reset" type="button" data-copy="reset" hidden>絞り込みを解除</button></div>
       </div>
       <ul id="demo-list" class="demo-list"></ul>
-      <p id="demo-empty" class="demo-empty" data-copy="empty" hidden>見つかりませんでした。別の言葉で探すか、絞り込みを解除してください。</p>
+      <div id="demo-empty" class="demo-empty" hidden><p data-copy="empty">見つかりませんでした。別の言葉で探すか、絞り込みを解除してください。</p><button id="demo-clear-category" type="button" hidden></button></div>
       <button id="demo-more" class="demo-more" type="button" data-copy="more" hidden>もっと見る</button>
       <p class="demo-disclaimer" data-copy="sample">アプリ名・仕様・説明は、確認用のサンプルです。</p>
     </section>
     <section id="demo-selection" class="demo-selection" aria-labelledby="demo-app-name">
       <div class="demo-table" aria-hidden="true">
         <div class="demo-landscape-layer">
-          <img class="demo-landscape" src="./assets/terrace-open-park-v8.png" width="1536" height="1024" alt="" fetchpriority="high">
+          <img class="demo-landscape" data-src="./assets/terrace-open-park-v8.webp" width="1536" height="1024" alt="" decoding="async" fetchpriority="high">
           <span class="demo-distance-soften"></span>
         </div>
         <div class="demo-atmosphere">
           <canvas id="demo-cloud-sky" class="demo-cloud-sky" width="420" height="280"></canvas>
-          <div class="demo-park-foreground"><img id="demo-park-image" src="./assets/terrace-park-foreground-v1.png" width="1536" height="1024" alt="" decoding="async" loading="lazy" fetchpriority="low" draggable="false"><span class="demo-distance-soften"></span></div>
+          <div class="demo-park-foreground"><img id="demo-park-image" data-src="./assets/terrace-park-mask-v1.webp" width="1536" height="1024" alt="" decoding="async" fetchpriority="low" draggable="false"><span class="demo-distance-soften"></span></div>
         </div>
-        <span id="demo-cup" class="demo-cup"><span class="demo-flavor"><img id="demo-cup-image" src="./assets/flavor-cutouts-v2.png" width="1536" height="1024" alt="" decoding="async" draggable="false"></span></span>
+        <span id="demo-cup" class="demo-cup"><span class="demo-flavor"><img id="demo-cup-image" data-src="./assets/flavor-cutouts-v2.webp" width="1536" height="1024" alt="" decoding="async" fetchpriority="high" draggable="false"></span></span>
       </div>
       <div class="demo-app-copy">
         <div class="demo-app-heading"><h2 id="demo-app-name" tabindex="-1"></h2><span class="demo-sample-label" data-copy="sampleBadge">サンプル</span></div>
